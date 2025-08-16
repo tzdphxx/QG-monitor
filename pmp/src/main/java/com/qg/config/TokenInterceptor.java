@@ -1,6 +1,8 @@
 package com.qg.config;
 
 import cn.hutool.json.JSONUtil;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qg.domain.Result;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,6 +13,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import static com.qg.domain.Code.CONFLICT;
@@ -37,11 +40,7 @@ public class TokenInterceptor implements HandlerInterceptor {
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             return true;
         }
-        // 1. 放行登录/注册等白名单
-        String uri = request.getRequestURI();
-        /*if (uri.startsWith("/auth/login") || uri.startsWith("/auth/register")) {
-            return true;
-        }*/
+
 
         // 2. 验证 Token
         String token = request.getHeader("Authorization");
@@ -63,8 +62,10 @@ public class TokenInterceptor implements HandlerInterceptor {
         }
 
         log.info("token解密前" + token);
-        //System.out.println(token);
         token = decryptWithAESAndRSA(token, Rsakey, rsaPrivateKey);
+
+
+        log.info("redis中的缓存：{}",stringRedisTemplate.hasKey("login:user:" + token));
 
         log.info("解密后的token：{}", token);
         log.info("redis中查询的key：{}" + stringRedisTemplate.hasKey("login:user:" + token));
@@ -80,4 +81,5 @@ public class TokenInterceptor implements HandlerInterceptor {
         log.info("token刷新成功");
         return true;
     }
+
 }
