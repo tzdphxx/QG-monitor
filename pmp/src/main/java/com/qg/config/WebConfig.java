@@ -19,7 +19,8 @@ public class WebConfig implements WebMvcConfigurer {
                         "/users/sendCodeByEmail",
                         "/backend/*",
                         "/frontend/*",
-                        "/mobile/*"
+                        "/mobile/*",
+                        "/users/findPassword"
                 ); // 排除路径
     }
 }
