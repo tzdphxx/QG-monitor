@@ -199,6 +199,8 @@ public class ProjectServiceImpl implements ProjectService {
             // 复制属性
         }
         if(personalProjectVOList.isEmpty())  return new Result(Code.NOT_FOUND, "没有项目");
+
+
         return new Result(SUCCESS, personalProjectVOList,"获取用户个人参与项目成功！");
     }
 
