@@ -49,6 +49,8 @@ public class UsersServiceImpl implements UsersService {
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
+    private final static String DEFAULT_AVATAR_URL = "http://47.113.224.195:30420/uploads/images/bb6af913-f710-4fdb-81ba-38a3cefeec77.png";
+
     @Override
     public Map<String, Object> loginByPassword(String email, String password) {
 
@@ -143,7 +145,7 @@ public class UsersServiceImpl implements UsersService {
         if(user.getUsername() == null || user.getUsername().trim().equals("")){
             user.setUsername("用户：" + RandomUtil.randomString(6));
         }
-
+        user.setAvatar(DEFAULT_AVATAR_URL);
         // 向数据库中添加数据
         if (usersMapper.insert(user) != 1) {
             System.out.println("注册失败，请稍后重试");

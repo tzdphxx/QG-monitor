@@ -6,6 +6,7 @@ import com.qg.domain.Result;
 import com.qg.mapper.MessageMapper;
 import com.qg.service.MessageService;
 import io.swagger.v3.oas.annotations.servers.Server;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import static com.qg.domain.Code.*;
  * @Version: 1.0     // 版本
  */
 @Service
+@Slf4j
 public class MessageServiceImpl implements MessageService {
 
     @Autowired
@@ -55,9 +57,10 @@ public class MessageServiceImpl implements MessageService {
         queryWrapper.eq(Message::getSendId, userId)
                 .or()
                 .eq(Message::getReceiverId, userId)
-                .orderByDesc(Message::getTimestamp); // 按时间降序排列
+                .orderByAsc(Message::getTimestamp); // 按时间降序排列
 
         List<Message> messages = messageMapper.selectList(queryWrapper);
+        log.info("Messages: {}", messages);
         if (messages != null && !messages.isEmpty()) {
             return new Result(SUCCESS, messages, "查询成功");
         } else {
