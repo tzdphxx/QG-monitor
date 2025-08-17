@@ -96,6 +96,8 @@ public class BackendLogServiceImpl implements BackendLogService {
             queryWrapper.eq(BackendLog::getLevel, logLevel);
         }
 
+        queryWrapper.orderByDesc(BackendLog::getTimestamp); // 按创建时间降序排列
+
         return backendLogMapper.selectList(queryWrapper);
     }
 
