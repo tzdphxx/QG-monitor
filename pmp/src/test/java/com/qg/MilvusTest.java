@@ -196,7 +196,7 @@ public class MilvusTest {
 
 
         // 6. 批量插入示例
-        List<BackendError> errorList = backendErrorMapper.selectList();
+//        List<BackendError> errorList = backendErrorMapper.selectList();
 
     }
 }
