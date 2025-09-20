@@ -46,4 +46,14 @@ public interface AlertRuleMapper extends BaseMapper<AlertRule> {
             @Param("projectId") String projectId,
             @Param("errorType") String errorType,
             @Param("environment") String environment);
+
+    @Select("SELECT ar.threshold " +
+            "FROM alert_rule ar " +
+            "WHERE project_id = #{projectId} " +
+            "AND platform = #{platform} "+
+            "AND error_type = #{errorType}")
+    Integer selectThresholdByProjectAndErrorType(
+            @Param("projectId") String projectId,
+            @Param("errorType") String errorType,
+            @Param("platform") String platform);
 }

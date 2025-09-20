@@ -2,11 +2,12 @@ package com.qg.service;
 
 import com.qg.domain.Result;
 import com.qg.domain.Role;
+import com.qg.vo.RoleVO;
 
 public interface RoleService {
     Result addRole(Role role);
 
-    Result updateRole(Role role);
+    Result updateRole(RoleVO roleVO);
 
     Result deleteRole(String projectId, Long userId);
 
