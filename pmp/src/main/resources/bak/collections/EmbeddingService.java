@@ -1,4 +1,4 @@
-package com.qg.milvus;
+package collections;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.qg.milvus;
+package collections;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qg.domain.*;

@@ -2,20 +2,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.5.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>com.yeqian</groupId>
     <artifactId>pmp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>pmp</name>
     <description>pmp</description>
+    <packaging>pom</packaging>
 
     <modules>
         <module>milvus-service</module>
+        <module>backend-service</module>
     </modules>
 
     <properties>
@@ -23,21 +27,31 @@
         <spring-cloud.version>2021.0.3</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.0.4.0</spring-cloud-alibaba.version>
     </properties>
+
     <dependencies>
 
-<!--        <dependency>-->
-<!--            <groupId>com.google.javascript</groupId>-->
-<!--            <artifactId>closure-compiler</artifactId>-->
-<!--            <version>v20230802</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
 
-<!--        &lt;!&ndash; Jackson (Spring Boot 默认) &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.fasterxml.jackson.core</groupId>-->
-<!--            <artifactId>jackson-databind</artifactId>-->
-<!--            <version>2.15.2</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
 
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
 
         <!--apifox使用的依赖-->
         <dependency>
@@ -118,7 +132,6 @@
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
 
-
         <!--hutool-->
         <dependency>
             <groupId>cn.hutool</groupId>
@@ -158,6 +171,7 @@
         </dependency>
 
     </dependencies>
+
     <dependencyManagement>
         <dependencies>
             <!--spring cloud-->
@@ -193,6 +207,7 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -207,5 +222,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

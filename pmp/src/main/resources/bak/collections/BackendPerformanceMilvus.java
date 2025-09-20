@@ -1,8 +1,6 @@
-package com.qg.milvus;
+package collections;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-
 import com.qg.domain.BackendPerformance;
 import io.milvus.client.MilvusServiceClient;
 import io.milvus.param.dml.InsertParam;
