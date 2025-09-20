@@ -11,6 +11,7 @@
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/Responsibity-service/pom.xml" />
         <option value="$PROJECT_DIR$/SDK-service/pom.xml" />
         <option value="$PROJECT_DIR$/sdk-service/pom.xml" />
       </set>

@@ -2,10 +2,10 @@ package com.qg.backend.service.impl;
 
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.qg.aggregator.BackendErrorAggregator;
+import com.qg.backend.aggregator.BackendErrorAggregator;
 import com.qg.backend.mapper.BackendErrorMapper;
 import com.qg.domain.BackendError;
-import com.qg.domain.Module;
+import com.qg.backend.domain.po.Module;
 import com.qg.domain.Result;
 
 

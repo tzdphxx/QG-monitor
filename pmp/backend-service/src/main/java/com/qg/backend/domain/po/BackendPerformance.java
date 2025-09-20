@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import com.qg.common.handler.MapHandler;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
@@ -30,7 +31,7 @@ public class BackendPerformance {
     private String api;
     private Integer duration;
     private Boolean slow;
-    @TableField(typeHandler = com.qg.backend.handler.MapHandler.class)
+    @TableField(typeHandler = MapHandler.class)
     private Map<String, Object> environmentSnapshot;
     private Integer event;
 }

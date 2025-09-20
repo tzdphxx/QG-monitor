@@ -2,7 +2,6 @@ package com.qg.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qg.domain.*;
-import com.qg.domain.Module;
 import com.qg.mapper.BackendPerformanceMapper;
 import com.qg.mapper.FrontendPerformanceMapper;
 import com.qg.mapper.MobilePerformanceMapper;

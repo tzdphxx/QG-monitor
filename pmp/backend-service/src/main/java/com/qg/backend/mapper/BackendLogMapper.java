@@ -1,7 +1,8 @@
 package com.qg.backend.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.qg.domain.BackendLog;
+
+import com.qg.backend.domain.po.BackendLog;
 import com.qg.vo.EarthVO;
 import com.qg.vo.IllegalAttackVO;
 import org.apache.ibatis.annotations.Mapper;

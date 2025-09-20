@@ -11,6 +11,7 @@ import org.apache.ibatis.type.JdbcType;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+import com.qg.common.handler.MapHandler;
 
 /**
  * @Description: 后端错误类  // 类说明
@@ -31,7 +32,7 @@ public class BackendError {
     private String environment;
     private String errorType;
     private String stack;
-    @TableField(value = "environment_snapshot", typeHandler = com.qg.backend.handler.MapHandler.class,jdbcType = JdbcType.OTHER)
+    @TableField(value = "environment_snapshot", typeHandler = MapHandler.class,jdbcType = JdbcType.OTHER)
     private Map<String, Object> environmentSnapshot;
     private Integer event = 1;
 

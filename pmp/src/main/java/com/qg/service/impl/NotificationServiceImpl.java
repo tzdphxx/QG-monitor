@@ -17,9 +17,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.qg.utils.Constants.*;
-import static com.qg.utils.RedisConstants.*;
-
 @Slf4j
 @Service
 public class NotificationServiceImpl implements NotificationService {
