@@ -1,4 +1,4 @@
-package com.qg.collections;
+package com.qg.milvus;
 
 import java.util.ArrayList;
 import java.util.List;

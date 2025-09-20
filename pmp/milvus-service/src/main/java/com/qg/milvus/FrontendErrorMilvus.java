@@ -1,4 +1,4 @@
-package com.qg.collections;
+package com.qg.milvus;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qg.domain.FrontendError;

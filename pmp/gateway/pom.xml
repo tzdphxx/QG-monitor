@@ -11,10 +11,10 @@
     </parent>
 
     <groupId>com.tzdphxx</groupId>
-    <artifactId>milvus-service</artifactId>
+    <artifactId>gateway</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>milvus-service</name>
-    <description>milvus-service</description>
+    <name>gateway</name>
+    <description>gateway</description>
 
     <properties>
         <java.version>17</java.version>
