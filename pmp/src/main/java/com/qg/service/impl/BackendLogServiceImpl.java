@@ -88,13 +88,16 @@ public class BackendLogServiceImpl implements BackendLogService {
             return List.of(); // 返回空列表表示没有日志数据
         }
         LambdaQueryWrapper<BackendLog> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(BackendLog::getProjectId, projectId);
+        queryWrapper.eq(BackendLog::getProjectId, projectId)
+                .orderByDesc(BackendLog::getTimestamp);
         if (evn != null && !evn.isEmpty()) {
             queryWrapper.eq(BackendLog::getEnvironment, evn);
         }
         if (logLevel != null && !logLevel.isEmpty()) {
             queryWrapper.eq(BackendLog::getLevel, logLevel);
         }
+
+        queryWrapper.orderByDesc(BackendLog::getTimestamp); // 按创建时间降序排列
 
         return backendLogMapper.selectList(queryWrapper);
     }

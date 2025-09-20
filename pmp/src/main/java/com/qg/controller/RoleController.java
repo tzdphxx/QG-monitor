@@ -3,6 +3,7 @@ package com.qg.controller;
 import com.qg.domain.Result;
 import com.qg.domain.Role;
 import com.qg.service.RoleService;
+import com.qg.vo.RoleVO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +31,12 @@ public class RoleController {
 
     /**
      * 改变权限
-     * @param role
+     * @param roleVO
      * @return
      */
     @PutMapping
-    public Result updateRole(@RequestBody Role role) {
-        return roleService.updateRole(role);
+    public Result updateRole(@RequestBody RoleVO roleVO) {
+        return roleService.updateRole(roleVO);
     }
 
     /**

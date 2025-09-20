@@ -1,5 +1,6 @@
 package com.qg.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qg.domain.*;
 import com.qg.mapper.ProjectMapper;
@@ -8,6 +9,7 @@ import com.qg.mapper.RoleMapper;
 import com.qg.mapper.UsersMapper;
 import com.qg.service.RoleService;
 import com.qg.vo.ProjectMemberVO;
+import com.qg.vo.RoleVO;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -44,39 +46,65 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Result updateRole(Role role) {
+    public Result updateRole(RoleVO roleVO) {
         // 参数校验
-        if (role == null) {
+        if (roleVO == null) {
             return new Result(Code.BAD_REQUEST, "参数错误");
         }
 
-        if (role.getUserId() == null || role.getProjectId() == null) {
+        if (roleVO.getUserId() == null || roleVO.getProjectId() == null
+                || roleVO.getProjectId().isEmpty() || roleVO.getCurrentUserId() == null) {
             return new Result(Code.BAD_REQUEST, "用户ID和项目ID不能为空");
         }
 
         try {
+            Long currentUserId = roleVO.getCurrentUserId();
+            Long userId = roleVO.getUserId();
+            String projectId = roleVO.getProjectId();
+            // 检查处于登录状态下的用户在项目中的身份
+            Integer currentUserRole = getUserRole(currentUserId, projectId);
+            Integer userRole = getUserRole(userId, projectId);
+            // 检查用户是否在
+            if (currentUserRole == null || userRole == null) {
+                return new Result(Code.FORBIDDEN, "您没有权限修改用户身份");
+            }
+            // 判断所登录用户是否有资格修改对应用户角色
+            if (userRole < currentUserRole) {
+                // 所登录用户身份低于被修改用户身份
+                return new Result(Code.FORBIDDEN, "您没有权限修改用户身份");
+            }
             // 构建更新条件
             LambdaQueryWrapper<Role> lqw = new LambdaQueryWrapper<>();
-            lqw.eq(Role::getUserId, role.getUserId())
-                    .eq(Role::getProjectId, role.getProjectId());
+            lqw.eq(Role::getUserId, roleVO.getUserId())
+                    .eq(Role::getProjectId, roleVO.getProjectId());
 
+            Role role = BeanUtil.copyProperties(roleVO, Role.class);
             // 直接执行更新操作
             int updateResult = roleMapper.update(role, lqw);
 
             if (updateResult > 0) {
                 log.info("更新用户角色成功: userId={}, projectId={}",
-                        role.getUserId(), role.getProjectId());
+                        roleVO.getUserId(), roleVO.getProjectId());
                 return new Result(Code.SUCCESS, "更新成功");
             } else {
                 log.info("更新用户角色失败，用户未加入该项目: userId={}, projectId={}",
-                        role.getUserId(), role.getProjectId());
+                        roleVO.getUserId(), roleVO.getProjectId());
                 return new Result(Code.NOT_FOUND, "该用户未加入该项目");
             }
         } catch (Exception e) {
             log.error("更新用户角色失败: userId={}, projectId={}",
-                    role.getUserId(), role.getProjectId(), e);
+                    roleVO.getUserId(), roleVO.getProjectId(), e);
             return new Result(Code.INTERNAL_ERROR, "更新失败: " + e.getMessage());
         }
+    }
+
+    private Integer getUserRole(Long userId, String projectId) {
+        LambdaQueryWrapper<Role> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Role::getUserId, userId)
+                .eq(Role::getProjectId, projectId);
+
+        Role role = roleMapper.selectOne(queryWrapper);
+        return role != null ? role.getUserRole() : null;
     }
 
 

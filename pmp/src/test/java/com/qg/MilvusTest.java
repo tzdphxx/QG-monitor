@@ -176,5 +176,27 @@ public class MilvusTest {
             mobilePerformanceMilvus.saveMobilePerformanceToMilvus(e);
         }
     }
+    @Test
+    public void test99() throws Exception {
+        // 1. 初始化 Milvus 客户端
+        MilvusServiceClient client = new MilvusServiceClient(
+                ConnectParam.newBuilder()
+                        .withDatabaseName("default")
+                        .withHost("47.113.224.195")
+                        .withPort(34530)
+                        .build()
+        );
 
+        // 2. 初始化向量化服务（示例用 Dummy）
+        EmbeddingService embeddingService = new DummyEmbeddingService();
+
+        // 3. 初始化插入服务
+        BackendErrorMilvus milvusService = new BackendErrorMilvus(client, embeddingService);
+
+
+
+        // 6. 批量插入示例
+//        List<BackendError> errorList = backendErrorMapper.selectList();
+
+    }
 }

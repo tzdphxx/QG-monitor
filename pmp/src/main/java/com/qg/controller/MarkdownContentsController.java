@@ -5,6 +5,7 @@ import com.qg.service.MarkdownContentsService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,8 +18,8 @@ public class MarkdownContentsController {
     private MarkdownContentsService markdownContentsService;
 
 
-    @GetMapping("/select")
-    public Result select() {
-        return markdownContentsService.select();
+    @GetMapping("/select/{platform}")
+    public Result select(@PathVariable String platform) {
+        return markdownContentsService.select(platform);
     }
 }

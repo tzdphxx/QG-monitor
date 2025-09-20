@@ -64,8 +64,10 @@ public class AlertRuleServiceImpl implements AlertRuleService {
     @Override
     @Transactional
     public Result updateThreshold(AlertRule alertRule) {
+
         // 参数校验
         if (alertRule == null) {
+            System.out.println("AlertRule对象不能为空");
             return new Result(Code.BAD_REQUEST, "参数不能为空");
         }
 
@@ -74,6 +76,7 @@ public class AlertRuleServiceImpl implements AlertRuleService {
         String platform = alertRule.getPlatform();
 
         if (isNullOrEmpty(errorType) || isNullOrEmpty(projectId) || isNullOrEmpty(platform)) {
+            System.out.println("错误类型、项目ID和平台不能为空");
             return new Result(Code.BAD_REQUEST, "错误类型、项目ID和平台不能为空");
         }
 
@@ -81,6 +84,7 @@ public class AlertRuleServiceImpl implements AlertRuleService {
         if ("backend".equals(platform) && isNullOrEmpty(alertRule.getEnv())) {
             alertRule.setEnv("dev");
             log.info("未指定环境，使用默认环境: dev");
+            System.out.println("未指定环境，使用默认环境: dev");
         }
 
         try {

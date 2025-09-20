@@ -34,6 +34,7 @@ public class AlertRuleController {
      */
     @PutMapping("/updateThreshold")
     public Result updateThreshold(@RequestBody AlertRule alertRule) {
+        System.out.println("Received AlertRule: " + alertRule);
         return alertRuleService.updateThreshold(alertRule);
     }
 

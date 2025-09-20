@@ -16,6 +16,7 @@ public class MarkdownContents {
     private Integer id;
     private String title;
     private String content;
+    private String platform;
     private LocalDateTime createdTime;
     private LocalDateTime updatedTime;
 }

@@ -84,11 +84,17 @@ public abstract class BackendErrorFatherRepository extends StatisticsDataReposit
         String redisKey = generateUniqueKey(error);
         String[] data = redisKey.split(":");
 
-        HashMap<String, Integer> alertRuleMap = alertRuleMapper
-                .selectByBackendRedisKeyToMap(data[2], data[3], data[4]);
+        Integer threshold =  alertRuleMapper
+                .selectThresholdByProjectAndErrorType(error.getProjectId(), error.getErrorType(), "backend");
+
+
+        if(threshold == null){
+            log.info("没有设置阈值");
+            threshold = DEFAULT_THRESHOLD.getAsInt();
+        }
 
         int currentCount = error.getEvent();
-        int threshold = alertRuleMap.getOrDefault(redisKey, DEFAULT_THRESHOLD.getAsInt());
+
         if(currentCount >= threshold) {
             log.info("发送后端告警");
 
@@ -152,11 +158,7 @@ public abstract class BackendErrorFatherRepository extends StatisticsDataReposit
             error = backendErrorMapper.selectOne(queryWrapper2);
             log.info("errorId:{}",error.getId());
 
-            String webhookUrl = getWebhookUrl(error.getProjectId());
-            if (StrUtil.isBlank(webhookUrl)) {
-                log.warn("未找到对应的企业微信群机器人Webhook地址, 告警失败");
-                return;
-            }
+
 
             if (shouldAlert(generateUniqueKey(error), error)) {
                 String message = generateAlertMessage(error);
@@ -193,6 +195,12 @@ public abstract class BackendErrorFatherRepository extends StatisticsDataReposit
                         log.error("保存通知进数据库失败！");
                     }
 
+                    String webhookUrl = getWebhookUrl(error.getProjectId());
+                    if (StrUtil.isBlank(webhookUrl)) {
+                        log.warn("未找到对应的企业微信群机器人Webhook地址, 告警失败");
+                        return;
+                    }
+
                     //获取负责人手机号码
                     LambdaQueryWrapper<Users> queryWrapper1 = new LambdaQueryWrapper<>();
                     queryWrapper1.eq(Users::getId,responsibility.getResponsibleId());
@@ -223,6 +231,12 @@ public abstract class BackendErrorFatherRepository extends StatisticsDataReposit
                     boolean success = saveNotification(userIds,error);
                     if(!success){
                         log.error("保存通知进数据库失败！");
+                    }
+
+                    String webhookUrl = getWebhookUrl(error.getProjectId());
+                    if (StrUtil.isBlank(webhookUrl)) {
+                        log.warn("未找到对应的企业微信群机器人Webhook地址, 告警失败");
+                        return;
                     }
 
                     //4、获取电话号码 发送警告
