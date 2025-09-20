@@ -13,5 +13,4 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface MobilePerformanceMapper extends BaseMapper<MobilePerformance> {
-    // 这里可以添加特定于移动性能的查询方法
 }
