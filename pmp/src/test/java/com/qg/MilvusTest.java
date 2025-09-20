@@ -1,11 +1,9 @@
 package com.qg;
 
-import com.qg.collections.*;
 import com.qg.domain.*;
 import com.qg.mapper.*;
 import io.milvus.client.MilvusServiceClient;
 import io.milvus.param.ConnectParam;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
