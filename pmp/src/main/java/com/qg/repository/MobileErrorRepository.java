@@ -1,7 +1,7 @@
 package com.qg.repository;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.qg.domain.MobileError;
+
 import com.qg.domain.Notification;
 import com.qg.domain.Responsibility;
 import com.qg.mapper.NotificationMapper;

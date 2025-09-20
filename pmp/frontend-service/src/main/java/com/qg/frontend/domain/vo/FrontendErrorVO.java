@@ -1,0 +1,15 @@
+package com.qg.frontend.domain.vo;
+
+
+import com.qg.frontend.domain.po.FrontendError;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Data
+public class FrontendErrorVO {
+    private String projectId;
+    private LocalDateTime timestamp;
+    private List<FrontendError> data;
+}

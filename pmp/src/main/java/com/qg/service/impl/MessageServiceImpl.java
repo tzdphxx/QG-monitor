@@ -5,9 +5,7 @@ import com.qg.domain.Message;
 import com.qg.domain.Result;
 import com.qg.mapper.MessageMapper;
 import com.qg.service.MessageService;
-import io.swagger.v3.oas.annotations.servers.Server;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

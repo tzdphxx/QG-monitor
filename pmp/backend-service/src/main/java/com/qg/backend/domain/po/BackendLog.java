@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+import com.qg.common.handler.MapHandler;
 
 
 /**
@@ -35,7 +36,7 @@ public class BackendLog {
     private String projectId;
     private String environment;
     private String logMessage;
-    @TableField(typeHandler = com.qg.backend.handler.MapHandler.class)
+    @TableField(typeHandler = MapHandler.class)
     private Map<String, Object> environmentSnapshot;
 
     private Integer event = 0;
