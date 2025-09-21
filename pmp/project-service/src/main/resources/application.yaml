@@ -1,5 +1,6 @@
-spring:
-  application:
-    name: project-service
 server:
-  port: 8086
+  port: 8089
+feign:
+  okhttp:
+    enabled: true
+
