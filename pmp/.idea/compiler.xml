@@ -14,7 +14,6 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$PROJECT_DIR$/../../java/Apache/apache-maven-3.9.9-bin/apache-maven-3.9.9/mvn_resp/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
-          <entry name="$PROJECT_DIR$/../../java/Apache/apache-maven-3.9.9-bin/apache-maven-3.9.9/mvn_resp/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
         <module name="milvus-service" />
         <module name="qg-common" />
@@ -24,6 +23,7 @@
         <module name="backend-service" />
         <module name="frontend-service" />
         <module name="project-service" />
+        <module name="message-service" />
         <module name="feign-api" />
         <module name="gateway" />
       </profile>
@@ -42,6 +42,7 @@
       <module name="feign-api" options="-parameters" />
       <module name="frontend-service" options="-parameters" />
       <module name="gateway" options="-parameters" />
+      <module name="message-service" options="-parameters" />
       <module name="milvus-service" options="-parameters" />
       <module name="mobile-service" options="-parameters" />
       <module name="pmp" options="-parameters" />

@@ -1,7 +1,8 @@
-package com.qg.mapper;
+package com.qg.message.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.qg.domain.Message;
+
+import com.qg.message.domain.po.Message;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

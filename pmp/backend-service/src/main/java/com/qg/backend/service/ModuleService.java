@@ -1,7 +1,7 @@
-package com.qg.service;
+package com.qg.backend.service;
 
-import com.qg.domain.Module;
-import com.qg.domain.Result;
+
+import com.qg.common.domain.po.Result;
 
 public interface ModuleService {
     Result addModule(Module module);

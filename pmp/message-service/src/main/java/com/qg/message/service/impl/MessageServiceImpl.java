@@ -1,17 +1,19 @@
-package com.qg.service.impl;
+package com.qg.message.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.qg.domain.Message;
-import com.qg.domain.Result;
-import com.qg.mapper.MessageMapper;
-import com.qg.service.MessageService;
+
+import com.qg.common.domain.po.Result;
+import com.qg.message.domain.po.Message;
+import com.qg.message.mapper.MessageMapper;
+import com.qg.message.service.MessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.qg.domain.Code.*;
+import static com.qg.common.domain.po.Code.*;
+
 
 /**
  * @Description: // 类说明
@@ -25,7 +27,7 @@ import static com.qg.domain.Code.*;
 public class MessageServiceImpl implements MessageService {
 
     @Autowired
-    private MessageMapper   messageMapper;
+    private MessageMapper messageMapper;
 
 
     @Override

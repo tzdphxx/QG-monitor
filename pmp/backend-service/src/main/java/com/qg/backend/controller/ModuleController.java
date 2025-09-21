@@ -1,8 +1,8 @@
-package com.qg.controller;
+package com.qg.backend.controller;
 
-import com.qg.domain.Module;
-import com.qg.domain.Result;
-import com.qg.service.ModuleService;
+
+import com.qg.backend.service.ModuleService;
+import com.qg.common.domain.po.Result;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
