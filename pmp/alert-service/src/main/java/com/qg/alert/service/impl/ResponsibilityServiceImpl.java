@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 
 
-import com.qg.alert.domain.po.Notification;
-import com.qg.alert.domain.po.Responsibility;
+import com.qg.common.domain.po.Notification;
+import com.qg.common.domain.po.Responsibility;
 import com.qg.alert.domain.vo.ResponsibilityVO;
 import com.qg.alert.mapper.ResponsibilityMapper;
 import com.qg.alert.service.NotificationService;

@@ -2,7 +2,7 @@ package com.qg.backend.aggregator;
 
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.qg.backend.domain.po.BackendError;
+import com.qg.common.domain.po.BackendError;
 import com.qg.backend.mapper.BackendErrorMapper;
 
 import com.qg.backend.repository.BackendErrorFatherRepository;

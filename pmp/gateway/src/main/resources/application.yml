@@ -1,25 +1,77 @@
 server:
   port: 10010
-logging:
-  level:
-    cn.itcast: debug
-  pattern:
-    dateformat: MM-dd HH:mm:ss:SSS
 spring:
   application:
     name: gateway
   cloud:
     nacos:
-      server-addr: nacos:8848 # nacos地址
+      server-addr: http://47.113.224.195:8848 # nacos地址
     gateway:
       routes:
-        - id: user-service # 路由标示，必须唯一
-          uri: lb://userservice # 路由的目标地址
-          predicates: # 路由断言，判断请求是否符合规则
-            - Path=/user/** # 路径断言，判断路径是否是以/user开头，如果是则符合
-        - id: order-service
-          uri: lb://orderservice
+        # 告警服务
+        - id: alert-service # 路由标示，必须唯一
+          uri: lb://alert-service # 这里填spring.application.name的值
           predicates:
-            - Path=/order/**
+            - Path=/alert/** # 路径断言
+        # 后端服务
+        - id: backend-service
+          uri: lb://backend-service
+          predicates:
+            - Path=/backend/**
+        # 前端服务
+        - id: frontend-service
+          uri: lb://frontend-service
+          predicates:
+            - Path=/frontend/**
+        # 图表服务
+        - id: graph-service
+          uri: lb://graph-service
+          predicates:
+            - Path=/graph/**
+        # 消息服务
+        - id: message-service
+          uri: lb://message-service
+          predicates:
+            - Path=/message/**
+        # ai服务
+        - id: milvus-service
+          uri: lb://milvus-service
+          predicates:
+            - Path=/milvus/**
+        # 移动服务
+        - id: mobile-service
+          uri: lb://mobile-service
+          predicates:
+            - Path=/mobile/**
+        # 项目服务
+        - id: project-service
+          uri: lb://project-service
+          predicates:
+            - Path=/project/**
+        # 角色服务
+        - id: role-service
+          uri: lb://role-service
+          predicates:
+            - Path=/role/**
+        # 用户服务
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/user/**
       default-filters:
         - AddRequestHeader=Truth,Itcast is freaking awesome!
+      globalcors: # 全局的跨域处理
+        add-to-simple-url-handler-mapping: true # 解决options请求被拦截问题
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: # 允许哪些网站的跨域请求
+              - "http://47.113.224.195:30422"
+            allowedMethods: # 允许的跨域ajax的请求方式
+              - "GET"
+              - "POST"
+              - "DELETE"
+              - "PUT"
+              - "OPTIONS"
+            allowedHeaders: "*" # 允许在请求中携带的头信息
+            allowCredentials: true # 是否允许携带cookie
+            maxAge: 360000 # 这次跨域检测的有效期

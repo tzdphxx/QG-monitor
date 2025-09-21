@@ -2,7 +2,7 @@ package com.qg.backend.repository;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
-import com.qg.backend.domain.po.BackendError;
+import com.qg.common.domain.po.BackendError;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

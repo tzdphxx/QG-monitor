@@ -6,7 +6,7 @@ import com.qg.domain.Code;
 import com.qg.domain.Responsibility;
 import com.qg.domain.Result;
 import com.qg.domain.Users;
-import com.qg.domain.po.MobileError;
+import com.qg.common.domain.po.MobileError;
 import com.qg.mapper.MobileErrorMapper;
 import com.qg.mapper.ResponsibilityMapper;
 import com.qg.mapper.UsersMapper;

@@ -1,7 +1,7 @@
 package com.qg.alert.service;
 
 
-import com.qg.alert.domain.po.Responsibility;
+import com.qg.common.domain.po.Responsibility;
 import com.qg.common.domain.po.Result;
 
 public interface ResponsibilityService {

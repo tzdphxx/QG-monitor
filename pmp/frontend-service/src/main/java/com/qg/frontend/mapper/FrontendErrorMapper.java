@@ -3,7 +3,7 @@ package com.qg.frontend.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 
-import com.qg.frontend.domain.po.FrontendError;
+import com.qg.common.domain.po.FrontendError;
 
 import org.apache.ibatis.annotations.*;
 

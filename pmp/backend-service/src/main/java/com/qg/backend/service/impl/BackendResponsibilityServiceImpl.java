@@ -1,7 +1,7 @@
 package com.qg.backend.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.qg.backend.domain.po.BackendError;
+import com.qg.common.domain.po.BackendError;
 import com.qg.backend.mapper.BackendErrorMapper;
 
 import com.qg.backend.mapper.ModuleMapper;

@@ -1,7 +1,7 @@
 package com.qg.alert.controller;
 
 
-import com.qg.alert.domain.po.Notification;
+import com.qg.common.domain.po.Notification;
 import com.qg.alert.service.NotificationService;
 import com.qg.common.domain.po.Result;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -1,7 +1,7 @@
 package com.qg.backend.service;
 
 
-import com.qg.backend.domain.po.BackendError;
+import com.qg.common.domain.po.BackendError;
 import com.qg.common.domain.po.Result;
 
 

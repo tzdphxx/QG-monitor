@@ -2,7 +2,7 @@ package com.qg.alert.service;
 
 
 
-import com.qg.alert.domain.po.Notification;
+import com.qg.common.domain.po.Notification;
 import com.qg.common.domain.po.Result;
 
 import java.util.List;

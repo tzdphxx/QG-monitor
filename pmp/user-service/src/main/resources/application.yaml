@@ -1,6 +1,18 @@
 server:
-  port: 8085
+  port: 8094
 feign:
   okhttp:
     enabled: true
-
+spring:
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: 2864201368@qq.com
+    password: onehhunksqknddfc
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true

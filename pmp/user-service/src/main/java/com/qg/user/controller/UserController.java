@@ -3,18 +3,20 @@ package com.qg.user.controller;
 import cn.hutool.core.bean.BeanUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.qg.domain.Code;
-import com.qg.domain.Result;
 
-import com.qg.dto.EncryptedRequestDTO;
-import com.qg.dto.EncryptionResultDTO;
+
+import com.qg.common.domain.dto.EncryptedRequestDTO;
+import com.qg.common.domain.dto.EncryptionResultDTO;
+import com.qg.common.domain.po.Code;
+import com.qg.common.domain.po.Result;
+import com.qg.common.utils.CryptoUtils;
+import com.qg.common.utils.FileUploadHandler;
 import com.qg.user.domain.dto.RegisterDTO;
 import com.qg.user.domain.dto.UsersDTO;
 
 import com.qg.user.domain.po.Users;
 import com.qg.user.service.UsersService;
-import com.qg.utils.CryptoUtils;
-import com.qg.utils.FileUploadHandler;
+
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

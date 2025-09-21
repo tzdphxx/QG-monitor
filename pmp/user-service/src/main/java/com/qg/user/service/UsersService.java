@@ -1,10 +1,8 @@
 package com.qg.user.service;
 
 
-import com.qg.domain.Result;
+import com.qg.common.domain.po.Result;
 import com.qg.user.domain.po.Users;
-
-
 import java.util.Map;
 
 public interface UsersService {

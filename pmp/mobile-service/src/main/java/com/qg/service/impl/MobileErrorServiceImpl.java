@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qg.domain.Code;
 
 import com.qg.domain.Result;
-import com.qg.domain.po.MobileError;
+import com.qg.common.domain.po.MobileError;
 import com.qg.mapper.MobileErrorMapper;
 import com.qg.repository.MobileErrorRepository;
 import com.qg.service.MobileErrorService;

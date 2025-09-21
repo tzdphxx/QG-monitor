@@ -1,6 +1,7 @@
 package com.qg.common.repository;
 
 
+import com.qg.common.utils.WechatAlertUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -46,6 +47,8 @@ public abstract class StatisticsDataRepository<T> {
 
     @Autowired
     protected StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    protected WechatAlertUtil wechatAlertUtil;
 
     protected final ConcurrentHashMap<String, T> cacheMap = new ConcurrentHashMap<>();
 
@@ -56,6 +59,8 @@ public abstract class StatisticsDataRepository<T> {
     protected abstract String generateUniqueKey(T entity);
 
     protected abstract void incrementEvent(T entity);
+
+    protected abstract void checkIfAlert(T entity);
 
     /**
      * 统计并缓存数据
@@ -75,19 +80,8 @@ public abstract class StatisticsDataRepository<T> {
         T cached = cacheMap.computeIfAbsent(key, k -> entity);
         incrementEvent(cached);
 
-        if (entity instanceof MobileError) {
-            MobileErrorFatherRepository repository = (MobileErrorFatherRepository) this;
-            repository.sendWechatAlert((MobileError) cached);
-        }
-        if (entity instanceof FrontendError) {
-            FrontendErrorFatherRepository repository = (FrontendErrorFatherRepository) this;
-            repository.sendWechatAlert((FrontendError) cached);
-        }
-        if (entity instanceof BackendError) {
-            BackendErrorFatherRepository repository = (BackendErrorFatherRepository) this;
-            repository.sendWechatAlert((BackendError) cached);
-        }
-
+        // 判断是否需要告警
+        checkIfAlert(cached);
     }
 
 

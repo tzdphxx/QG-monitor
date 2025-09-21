@@ -2,7 +2,7 @@ package com.qg.frontend.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qg.domain.*;
-import com.qg.frontend.domain.po.FrontendError;
+import com.qg.common.domain.po.FrontendError;
 import com.qg.frontend.mapper.FrontendErrorMapper;
 import com.qg.frontend.service.FrontendResponsibilityService;
 

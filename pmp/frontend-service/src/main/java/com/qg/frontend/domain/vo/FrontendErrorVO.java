@@ -1,7 +1,7 @@
 package com.qg.frontend.domain.vo;
 
 
-import com.qg.frontend.domain.po.FrontendError;
+import com.qg.common.domain.po.FrontendError;
 import lombok.Data;
 
 import java.time.LocalDateTime;

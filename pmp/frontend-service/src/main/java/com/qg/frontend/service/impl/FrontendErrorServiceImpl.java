@@ -9,7 +9,7 @@ import com.qg.common.utils.MathUtil;
 import com.qg.frontend.aggregator.FrontendErrorAggregator;
 
 
-import com.qg.frontend.domain.po.FrontendError;
+import com.qg.common.domain.po.FrontendError;
 import com.qg.frontend.mapper.FrontendErrorMapper;
 import com.qg.frontend.service.FrontendErrorService;
 

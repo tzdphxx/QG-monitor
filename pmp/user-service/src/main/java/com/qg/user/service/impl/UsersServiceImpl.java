@@ -8,15 +8,19 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.qg.domain.Code;
-import com.qg.domain.Result;
-
-import com.qg.dto.EncryptionResultDTO;
+import com.qg.common.domain.dto.EncryptionResultDTO;
+import com.qg.common.domain.po.Code;
+import com.qg.common.domain.po.Result;
+import com.qg.common.utils.CryptoUtils;
+import com.qg.common.utils.RedisConstants;
+import com.qg.common.utils.RegexUtils;
+import com.qg.user.utils.EmailService;
 import com.qg.user.domain.dto.UsersDTO;
 
 import com.qg.user.domain.po.Users;
 import com.qg.user.mapper.UsersMapper;
 import com.qg.user.service.UsersService;
+import com.qg.user.utils.HashSaltUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;

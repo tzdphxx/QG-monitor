@@ -3,11 +3,11 @@ package com.qg.alert.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 
-import com.qg.alert.domain.po.Notification;
+import com.qg.common.domain.po.Notification;
 import com.qg.alert.domain.vo.NotificationVO;
 import com.qg.alert.mapper.NotificationMapper;
 import com.qg.alert.service.NotificationService;
-import com.qg.alert.websocket.UnifiedWebSocketHandler;
+import com.qg.common.websocket.UnifiedWebSocketHandler;
 import com.qg.common.domain.po.Code;
 import com.qg.common.domain.po.Result;
 import lombok.extern.slf4j.Slf4j;
