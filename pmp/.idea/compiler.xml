@@ -8,14 +8,24 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
       </profile>
+      <profile name="Annotation profile for message-service" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+        </processorPath>
+        <module name="message-service" />
+      </profile>
       <profile name="Annotation profile for pmp" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$PROJECT_DIR$/../../java/Apache/apache-maven-3.9.9-bin/apache-maven-3.9.9/mvn_resp/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
         <module name="milvus-service" />
+        <module name="alert-service" />
         <module name="qg-common" />
         <module name="role-service" />
         <module name="user-service" />
@@ -23,7 +33,6 @@
         <module name="backend-service" />
         <module name="frontend-service" />
         <module name="project-service" />
-        <module name="message-service" />
         <module name="feign-api" />
         <module name="gateway" />
       </profile>
@@ -38,6 +47,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Responsibity-service" options="-parameters" />
       <module name="SDK-service" options="-parameters" />
+      <module name="alert-service" options="-parameters" />
       <module name="backend-service" options="-parameters" />
       <module name="feign-api" options="-parameters" />
       <module name="frontend-service" options="-parameters" />

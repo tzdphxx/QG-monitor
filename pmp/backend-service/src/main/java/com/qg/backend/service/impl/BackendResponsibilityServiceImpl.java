@@ -3,14 +3,12 @@ package com.qg.backend.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qg.backend.domain.po.BackendError;
 import com.qg.backend.mapper.BackendErrorMapper;
-import com.qg.domain.*;
 
-import com.qg.mapper.ModuleMapper;
-import com.qg.mapper.ResponsibilityMapper;
-import com.qg.mapper.UsersMapper;
-
+import com.qg.backend.mapper.ModuleMapper;
 import com.qg.backend.service.BackendResponsibilityService;
-import com.qg.vo.BackendResponsibilityVO;
+
+import com.qg.common.domain.po.Code;
+import com.qg.common.domain.po.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

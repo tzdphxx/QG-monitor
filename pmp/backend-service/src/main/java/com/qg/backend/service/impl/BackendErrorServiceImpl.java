@@ -3,19 +3,16 @@ package com.qg.backend.service.impl;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qg.backend.aggregator.BackendErrorAggregator;
+import com.qg.backend.domain.po.BackendError;
 import com.qg.backend.mapper.BackendErrorMapper;
-import com.qg.domain.BackendError;
+
 import com.qg.backend.domain.po.Module;
-import com.qg.domain.Result;
 
 
-import com.qg.mapper.ModuleMapper;
-import com.qg.service.BackendErrorService;
-import com.qg.service.ModuleService;
-import com.qg.service.ProjectService;
-import com.qg.utils.MathUtil;
-import com.qg.vo.TransformDataVO;
-import com.qg.vo.UvBillDataVO;
+import com.qg.backend.mapper.ModuleMapper;
+import com.qg.backend.service.BackendErrorService;
+import com.qg.backend.service.ModuleService;
+import com.qg.common.domain.po.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,7 +23,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.qg.domain.Code.*;
+import static com.qg.common.domain.po.Code.BAD_REQUEST;
+import static com.qg.common.domain.po.Code.SUCCESS;
+
 
 /**
  * @Description: 后端错误应用  // 类说明

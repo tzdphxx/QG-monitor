@@ -1,6 +1,7 @@
 package com.qg.backend.service;
 
-import com.qg.domain.Result;
+
+import com.qg.common.domain.po.Result;
 
 /**
  * @Description: // 类说明

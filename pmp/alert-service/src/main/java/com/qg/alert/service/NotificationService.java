@@ -1,0 +1,22 @@
+package com.qg.alert.service;
+
+
+
+import com.qg.alert.domain.po.Notification;
+import com.qg.common.domain.po.Result;
+
+import java.util.List;
+
+public interface NotificationService {
+    Result selectByReceiverId(Long receiverId, Integer isSenderExist);
+
+    Result updateIsRead(Long receiverId);
+
+    Result add(List<Notification> notificationList);
+
+    Result updateIsReadById(Long id);
+
+    Result deleteById(Long id);
+
+    Result deleteByReceiverId(Long receiverId, Integer isSenderExist);
+}

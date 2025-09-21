@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
 import com.qg.frontend.domain.po.FrontendError;
 import com.qg.frontend.mapper.FrontendErrorMapper;
-import com.qg.mapper.ProjectMapper;
-import com.qg.repository.FrontendErrorFatherRepository;
+
+import com.qg.frontend.repository.FrontendErrorFatherRepository;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

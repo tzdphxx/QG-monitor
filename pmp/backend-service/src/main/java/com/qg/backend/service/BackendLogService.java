@@ -1,9 +1,7 @@
 package com.qg.backend.service;
 
 
-
 import com.qg.backend.domain.po.BackendLog;
-
 import java.util.List;
 
 /**

@@ -2,12 +2,11 @@ package com.qg.backend.service.impl;
 
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.qg.domain.BackendPerformance;
-import com.qg.domain.Result;
-import com.qg.mapper.BackendPerformanceMapper;
-import com.qg.service.BackendPerformanceService;
-import com.qg.service.ModuleService;
-import com.qg.service.ProjectService;
+import com.qg.backend.domain.po.BackendPerformance;
+import com.qg.backend.mapper.BackendPerformanceMapper;
+import com.qg.backend.service.BackendPerformanceService;
+import com.qg.backend.service.ModuleService;
+import com.qg.common.domain.po.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.qg.domain.Code.*;
+import static com.qg.common.domain.po.Code.*;
+
 
 /**
  * @Description: 后端性能应用  // 类说明
