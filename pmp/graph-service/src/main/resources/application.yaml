@@ -1,5 +1,6 @@
 server:
-  port: 8101
-spring:
-  application:
-    name: graph-service
+  port: 8085
+feign:
+  okhttp:
+    enabled: true
+

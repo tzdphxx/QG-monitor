@@ -1,5 +1,6 @@
 server:
-  port: 8087
-spring:
-  application:
-    name: role-service
+  port: 8088
+feign:
+  okhttp:
+    enabled: true
+

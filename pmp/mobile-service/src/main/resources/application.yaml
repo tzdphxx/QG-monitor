@@ -1,5 +1,6 @@
-spring:
-  application:
-    name: mobile-service
 server:
-  port: 8083
+  port: 8085
+feign:
+  okhttp:
+    enabled: true
+

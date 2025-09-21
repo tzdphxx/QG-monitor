@@ -1,5 +1,6 @@
 server:
-  port: 8081
-spring:
-  application:
-    name: backend-service
+  port: 8085
+feign:
+  okhttp:
+    enabled: true
+

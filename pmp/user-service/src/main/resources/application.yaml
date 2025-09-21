@@ -1,9 +1,6 @@
 server:
   port: 8085
-spring:
-  application:
-    name: user-service
-  cloud:
-    nacos:
-      discovery:
-        server-addr: ${qg.nacos.host}:8848
+feign:
+  okhttp:
+    enabled: true
+

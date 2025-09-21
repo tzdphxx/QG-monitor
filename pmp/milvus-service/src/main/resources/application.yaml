@@ -1,5 +1,6 @@
 server:
-  port: 8090
-spring:
-    application:
-        name: milvus-service
+  port: 8085
+feign:
+  okhttp:
+    enabled: true
+
