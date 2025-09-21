@@ -1,7 +1,7 @@
-package com.qg.mapper;
+package com.qg.backend.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.qg.domain.Module;
+
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

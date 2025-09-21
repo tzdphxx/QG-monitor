@@ -1,7 +1,9 @@
-package com.qg.service;
+package com.qg.message.service;
 
-import com.qg.domain.Message;
-import com.qg.domain.Result;
+
+
+import com.qg.common.domain.po.Result;
+import com.qg.message.domain.po.Message;
 
 import java.util.List;
 

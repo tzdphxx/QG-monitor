@@ -3,3 +3,7 @@ server:
 spring:
   application:
     name: user-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${qg.nacos.host}:8848

@@ -1,14 +1,13 @@
-package com.qg.service.impl;
+package com.qg.backend.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.qg.domain.Code;
-import com.qg.domain.Module;
-import com.qg.domain.Project;
-import com.qg.domain.Result;
-import com.qg.mapper.ModuleMapper;
-import com.qg.mapper.ProjectMapper;
-import com.qg.service.ModuleService;
+
+import com.google.javascript.jscomp.jarjar.org.apache.tools.ant.Project;
+import com.qg.backend.mapper.ModuleMapper;
+import com.qg.backend.service.ModuleService;
+import com.qg.common.domain.po.Code;
+import com.qg.common.domain.po.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;

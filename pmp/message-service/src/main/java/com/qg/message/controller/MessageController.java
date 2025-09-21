@@ -1,9 +1,10 @@
-package com.qg.controller;
+package com.qg.message.controller;
 
-import com.qg.domain.Message;
-import com.qg.domain.Result;
-import com.qg.service.MessageService;
 
+
+import com.qg.common.domain.po.Result;
+import com.qg.message.domain.po.Message;
+import com.qg.message.service.MessageService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
