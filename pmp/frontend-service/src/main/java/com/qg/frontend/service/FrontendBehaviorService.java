@@ -1,9 +1,8 @@
 package com.qg.frontend.service;
 
 
-
 import com.qg.common.domain.po.Result;
-import com.qg.frontend.domain.vo.FrontendBehaviorVO;
+import com.qg.common.domain.vo.FrontendBehaviorVO;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.qg.graph.domain.dto;
+package com.qg.common.domain.dto;
 
 import lombok.Data;
 

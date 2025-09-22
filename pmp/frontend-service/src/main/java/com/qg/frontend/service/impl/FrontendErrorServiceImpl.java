@@ -5,6 +5,10 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qg.common.domain.po.Result;
+import com.qg.common.domain.vo.ErrorTrendVO;
+import com.qg.common.domain.vo.ManualTrackingVO;
+import com.qg.common.domain.vo.TransformDataVO;
+import com.qg.common.domain.vo.UvBillDataVO;
 import com.qg.common.utils.MathUtil;
 import com.qg.frontend.aggregator.FrontendErrorAggregator;
 
@@ -15,6 +19,7 @@ import com.qg.frontend.service.FrontendErrorService;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -90,8 +95,8 @@ public class FrontendErrorServiceImpl implements FrontendErrorService {
             log.debug("前端错误信息list长度： {}", frontendErrorList.size());
             for (FrontendError frontendError : frontendErrorList) {
                 if (frontendError.getProjectId() == null ||
-                        frontendError.getErrorType() == null ||
-                        frontendError.getSessionId() == null
+                    frontendError.getErrorType() == null ||
+                    frontendError.getSessionId() == null
                 ) {
                     log.error("参数错误");
                     return new Result(BAD_REQUEST, "参数错误");
@@ -115,8 +120,8 @@ public class FrontendErrorServiceImpl implements FrontendErrorService {
     /**
      * 获取两种前端错误信息
      *
-     * @param projectId
-     * @return
+     * @param projectId 项目id
+     * @return  结果
      */
     @Override
     public Object[] getErrorStats(String projectId) {
@@ -186,5 +191,34 @@ public class FrontendErrorServiceImpl implements FrontendErrorService {
                         )));
 
         return new Result(SUCCESS, averageTimeMap, "查询成功");
+    }
+
+    /**
+     * 按时间（允许按照时间筛选）以及错误类别（前端/后端/移动）展示错误量
+     *
+     * @param projectId 项目id
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @return 结果
+     */
+    @Override
+    public List<ErrorTrendVO> getErrorTrend
+    (String projectId, LocalDateTime startTime, LocalDateTime endTime) {
+        return frontendErrorMapper.queryErrorTrend(projectId, startTime, endTime);
+    }
+
+    /**
+     * 获取埋点错误统计
+     * @param projectId 项目id
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @return  结果
+     */
+    @Override
+    public List<ManualTrackingVO> queryManualTrackingStats(
+            @Param("projectId") String projectId,
+            @Param("startTime") LocalDateTime startTime,
+            @Param("endTime") LocalDateTime endTime) {
+        return frontendErrorMapper.queryManualTrackingStats(projectId, startTime, endTime);
     }
 }

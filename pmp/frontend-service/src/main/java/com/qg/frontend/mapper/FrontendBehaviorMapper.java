@@ -2,6 +2,8 @@ package com.qg.frontend.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import com.qg.common.domain.vo.ButtonVO;
+import com.qg.common.domain.vo.FrontendBehaviorVO;
 import com.qg.frontend.domain.po.FrontendBehavior;
 
 import org.apache.ibatis.annotations.Mapper;

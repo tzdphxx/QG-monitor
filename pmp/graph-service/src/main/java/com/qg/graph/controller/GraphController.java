@@ -2,9 +2,13 @@ package com.qg.graph.controller;
 
 import cn.hutool.core.util.StrUtil;
 
-
+import com.qg.common.domain.vo.ErrorTrendVO;
+import com.qg.common.domain.vo.FrontendBehaviorVO;
+import com.qg.common.domain.vo.ManualTrackingVO;
+import com.qg.graph.domain.vo.*;
 import com.qg.common.domain.po.Code;
 import com.qg.common.domain.po.Result;
+import com.qg.graph.domain.vo.EarthVO;
 import com.qg.graph.service.GraphService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -27,30 +31,6 @@ public class GraphController {
 
     @Autowired
     private GraphService graphService;
-    @Autowired
-    private FrontendErrorService frontendErrorService;
-
-
-    @Autowired
-    private FrontendPerformanceService frontendPerformanceService;
-    @Autowired
-    private FrontendPerformanceMapper frontendPerformanceMapper;
-
-    @Autowired
-    private BackendPerformanceService backendPerformanceService;
-
-    @Autowired
-    private MobilePerformanceService mobilePerformanceService;
-
-    @Autowired
-    private BackendErrorService backendErrorService;
-
-    @Autowired
-    private MobileErrorService mobileErrorService;
-
-    @Autowired
-    private FrontendBehaviorService frontendBehaviorService;
-
 
     /**
      * 页面停留时间，页面进入次数

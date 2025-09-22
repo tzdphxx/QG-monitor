@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class UvBillDataVO {
-    private String errorType;
-    private Integer count;
+public class IllegalAttackVO {
+    private Integer event;
+    private String ip;
 }

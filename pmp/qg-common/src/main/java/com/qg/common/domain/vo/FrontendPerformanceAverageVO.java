@@ -1,4 +1,4 @@
-package com.qg.frontend.domain.vo;
+package com.qg.common.domain.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

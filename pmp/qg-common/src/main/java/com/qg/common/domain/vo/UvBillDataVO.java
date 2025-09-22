@@ -1,13 +1,13 @@
-package com.qg.backend.domain.vo;
+package com.qg.common.domain.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class IllegalAttackVO {
-    private Integer event;
-    private String ip;
+@Data
+public class UvBillDataVO {
+    private String errorType;
+    private Integer count;
 }

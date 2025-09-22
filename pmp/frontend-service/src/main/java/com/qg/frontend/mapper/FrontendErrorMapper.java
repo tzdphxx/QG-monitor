@@ -3,8 +3,11 @@ package com.qg.frontend.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 
+import com.qg.common.domain.dto.ErrorStatsDTO;
 import com.qg.common.domain.po.FrontendError;
 
+import com.qg.common.domain.vo.ErrorTrendVO;
+import com.qg.common.domain.vo.ManualTrackingVO;
 import org.apache.ibatis.annotations.*;
 
 import java.time.LocalDateTime;

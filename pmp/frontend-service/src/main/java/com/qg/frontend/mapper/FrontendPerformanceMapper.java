@@ -2,6 +2,7 @@ package com.qg.frontend.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import com.qg.common.domain.vo.FrontendPerformanceAverageVO;
 import com.qg.frontend.domain.po.FrontendPerformance;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 public interface FrontendPerformanceMapper extends BaseMapper<FrontendPerformance> {
 
     /**
-     * 获取前端性能，加载时间数据
+     * 获取前端性能，加载时间平均数据
      * @param projectId
      * @param startTime
      * @param endTime

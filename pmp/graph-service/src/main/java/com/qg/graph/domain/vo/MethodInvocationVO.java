@@ -1,4 +1,4 @@
-package com.qg.backend.domain.vo;
+package com.qg.graph.domain.vo;
 
 
 import lombok.AllArgsConstructor;

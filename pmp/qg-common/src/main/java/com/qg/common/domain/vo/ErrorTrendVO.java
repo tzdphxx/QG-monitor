@@ -1,4 +1,4 @@
-package com.qg.graph.domain.vo;
+package com.qg.common.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;

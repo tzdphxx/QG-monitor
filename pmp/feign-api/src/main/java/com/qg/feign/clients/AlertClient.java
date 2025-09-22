@@ -1,9 +1,5 @@
 package com.qg.feign.clients;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.qg.common.domain.po.Notification;
-import com.qg.common.domain.po.Responsibility;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
