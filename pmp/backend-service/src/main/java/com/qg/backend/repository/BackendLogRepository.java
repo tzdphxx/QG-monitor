@@ -2,7 +2,6 @@ package com.qg.backend.repository;
 
 
 import com.qg.backend.domain.po.BackendLog;
-import com.qg.backend.domain.vo.BackendLogMapper;
 import com.qg.common.repository.StatisticsDataRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

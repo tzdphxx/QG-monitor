@@ -18,8 +18,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.qg.common.utils.Constants.*;
-
 @Slf4j
 @Service
 public class NotificationServiceImpl implements NotificationService {

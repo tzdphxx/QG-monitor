@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.qg.common.domain.po.Code.*;
-
 
 /**
  * @Description: 前端行为应用  // 类说明
@@ -103,12 +101,17 @@ public class FrontendBehaviorServiceImpl implements FrontendBehaviorService {
     }
 
 
+    /**
+     * 获取前端按钮数据
+     *
+     * @param projectId 项目id
+     * @return 结果
+     */
     @Override
     public Result getFrontendButton(String projectId) {
         if (projectId == null || projectId.isEmpty()) {
             return new Result(BAD_REQUEST, "项目ID不能为空");
         }
-
         return new Result(SUCCESS, frontendBehaviorMapper.queryFrontendButton(projectId), "查询成功");
     }
 

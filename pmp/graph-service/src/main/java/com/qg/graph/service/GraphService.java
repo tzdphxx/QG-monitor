@@ -1,10 +1,7 @@
 package com.qg.graph.service;
 
-import com.qg.common.domain.vo.ErrorTrendVO;
-import com.qg.common.domain.vo.FrontendBehaviorVO;
-import com.qg.common.domain.vo.FrontendPerformanceAverageVO;
-import com.qg.common.domain.vo.ManualTrackingVO;
-import com.qg.graph.domain.vo.*;
+import com.qg.common.domain.po.Result;
+import com.qg.common.domain.vo.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -37,4 +34,24 @@ public interface GraphService {
 
     List<EarthVO> getForeignIpInterception
             (String projectId, LocalDateTime startTime, LocalDateTime endTime);
+
+    Result getVisits(String projectId, String timeType);
+
+    Result getFrontendButton(String projectId);
+
+    Result getFrontApiAverageTime(String projectId, String timeType);
+
+    Object[] getBackendErrorStats(String projectId);
+
+    Object[] getBackendErrorStatsPro(String projectId);
+
+    Result getBackendApiAverageTime(String projectId, String timeType);
+
+    Result getMobileApiAverageTime(String projectId, String timeType);
+
+    Result getMobileOperation(String projectId, String timeType);
+
+    Object[] getMobileErrorStats(String projectId);
+
+    Object[] getMobileErrorStatsPro(String projectId);
 }

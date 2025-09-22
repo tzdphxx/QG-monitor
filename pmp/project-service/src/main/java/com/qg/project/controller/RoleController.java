@@ -2,7 +2,6 @@ package com.qg.project.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.qg.common.domain.po.Result;
 
 import com.qg.common.domain.po.Role;

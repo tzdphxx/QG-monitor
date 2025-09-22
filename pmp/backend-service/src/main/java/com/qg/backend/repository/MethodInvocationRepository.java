@@ -1,6 +1,6 @@
 package com.qg.backend.repository;
 
-import com.qg.backend.domain.dto.MethodInvocationDTO;
+import com.qg.common.domain.dto.MethodInvocationDTO;
 import com.qg.backend.domain.po.MethodInvocation;
 import com.qg.backend.mapper.MethodInvocationMapper;
 import com.qg.common.repository.RepositoryConstants;

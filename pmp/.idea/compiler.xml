@@ -2,13 +2,12 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
-      <profile default="true" name="Default" enabled="true" />
       <profile name="Annotation profile for pmp" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <processorPath>
-          <entry name="$PROJECT_DIR$/../../java/Apache/apache-maven-3.9.9-bin/apache-maven-3.9.9/mvn_resp/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
         <module name="milvus-service" />
         <module name="graph-service" />
@@ -16,32 +15,12 @@
         <module name="qg-common" />
         <module name="user-service" />
         <module name="mobile-service" />
-        <module name="project-service" />
+        <module name="backend-service" />
         <module name="frontend-service" />
         <module name="message-service" />
         <module name="project-service" />
         <module name="feign-api" />
-      </profile>
-      <profile name="Annotation profile for gateway" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
-        </processorPath>
         <module name="gateway" />
-      </profile>
-      <profile name="Annotation profile for milvus-service" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
-        </processorPath>
-        <module name="milvus-service" />
-        <module name="backend-service" />
       </profile>
     </annotationProcessing>
   </component>

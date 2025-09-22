@@ -1,7 +1,6 @@
 package com.qg.feign.clients;
 
 
-import com.qg.common.domain.po.Result;
 import com.qg.feign.dto.UsersDto;
 
 import org.springframework.cloud.openfeign.FeignClient;

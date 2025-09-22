@@ -24,8 +24,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.qg.common.utils.Constants.*;
-
 @Slf4j
 @Component
 @RequiredArgsConstructor

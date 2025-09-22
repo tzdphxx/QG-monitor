@@ -1,11 +1,7 @@
 package com.qg.user;
 
-import com.alibaba.nacos.api.NacosFactory;
-import com.alibaba.nacos.api.config.ConfigService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import java.util.Properties;
 
 /**
  * @Description: // 类说明
