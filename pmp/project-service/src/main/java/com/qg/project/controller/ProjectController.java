@@ -126,4 +126,15 @@ public class ProjectController {
     public Result selectProjectByName(@RequestParam String name){
         return projectService.selectProjectByName(name);
     }
+
+
+    @GetMapping("/checkProjectIdExist")
+    public boolean checkProjectIdExist(@RequestParam String projectId) {
+        return projectService.checkProjectIdExist(projectId);
+    }
+
+    @GetMapping("/selectWebhookByProjectId")
+    public String selectWebhookByProjectId(@RequestParam String projectId) {
+        return projectService.selectWebhookByProjectId(projectId);
+    }
 }

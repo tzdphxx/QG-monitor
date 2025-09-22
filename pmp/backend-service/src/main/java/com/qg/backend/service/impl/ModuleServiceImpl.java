@@ -4,10 +4,13 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
 import com.google.javascript.jscomp.jarjar.org.apache.tools.ant.Project;
+import com.qg.backend.domain.po.Module;
 import com.qg.backend.mapper.ModuleMapper;
 import com.qg.backend.service.ModuleService;
 import com.qg.common.domain.po.Code;
 import com.qg.common.domain.po.Result;
+import com.qg.feign.clients.ProjectClient;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -17,16 +20,19 @@ import java.util.List;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class ModuleServiceImpl implements ModuleService {
 
     @Autowired
     private ModuleMapper moduleMapper;
 
+    /*
     @Autowired
     private ProjectMapper projectMapper;
-
+    */
+    private final ProjectClient projectClient;
     @Override
-    public Result addModule(Module module) {
+    public Result addModule(com.qg.backend.domain.po.Module module) {
         log.info("添加模块: {}", module);
         if (module == null) {
             log.error("添加模块失败，模块参数为空");
@@ -39,8 +45,10 @@ public class ModuleServiceImpl implements ModuleService {
         }
 
         // 判断项目id是否存在
-        Project project = projectMapper.selectOne(new LambdaQueryWrapper<Project>()
-                .eq(Project::getUuid, module.getProjectId()));
+        /*Project project = projectMapper.selectOne(new LambdaQueryWrapper<Project>()
+                .eq(Project::getUuid, module.getProjectId()));*/
+        Result projectResult = projectClient.getProjectList(module.getProjectId());
+        Project project = (Project) projectResult.getData();
         if (project == null) {
             log.error("添加模块失败，项目id不存在");
             return new Result(Code.NOT_FOUND, "添加模块失败，项目id不存在");
@@ -68,16 +76,17 @@ public class ModuleServiceImpl implements ModuleService {
             return new Result(Code.BAD_REQUEST, "查询模块失败，参数为空");
         }
         // 判断项目id是否存在
-        Project project = projectMapper.selectOne(new LambdaQueryWrapper<Project>()
-                .eq(Project::getUuid, projectId));
+        /*Project project = projectMapper.selectOne(new LambdaQueryWrapper<Project>()
+                .eq(Project::getUuid, projectId));*/
+        Project project = (Project) projectClient.getProjectList(projectId).getData();
         if (project == null) {
             log.error("查询模块失败，项目id不存在");
             return new Result(Code.NOT_FOUND, "查询模块失败，项目id不存在");
         }
         try {
-            LambdaQueryWrapper<Module> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.eq(Module::getProjectId, projectId.trim());
-            List<Module> moduleList = moduleMapper.selectList(queryWrapper);
+            LambdaQueryWrapper<com.qg.backend.domain.po.Module> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(com.qg.backend.domain.po.Module::getProjectId, projectId.trim());
+            List<com.qg.backend.domain.po.Module> moduleList = moduleMapper.selectList(queryWrapper);
             log.info("成功查询模块: {}", moduleList);
             return new Result(Code.SUCCESS, moduleList, "查询成功");
         } catch (Exception e) {

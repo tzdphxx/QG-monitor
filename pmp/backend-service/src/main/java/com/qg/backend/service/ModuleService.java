@@ -1,6 +1,7 @@
 package com.qg.backend.service;
 
 
+import com.qg.backend.domain.po.Module;
 import com.qg.common.domain.po.Result;
 
 public interface ModuleService {

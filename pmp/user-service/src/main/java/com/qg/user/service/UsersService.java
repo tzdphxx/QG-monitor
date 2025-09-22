@@ -4,6 +4,9 @@ package com.qg.user.service;
 import com.qg.common.domain.po.Result;
 import com.qg.user.domain.dto.UsersDTO;
 import com.qg.user.domain.po.Users;
+
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public interface UsersService {
@@ -22,4 +25,6 @@ public interface UsersService {
     Result updateUser(Users users);
 
     UsersDTO findUserById(Long id);
+
+    List<UsersDTO> findUserByIds(Collection<Long> ids);
 }

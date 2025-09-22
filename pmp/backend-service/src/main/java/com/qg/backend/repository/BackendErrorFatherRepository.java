@@ -6,9 +6,15 @@ import com.qg.common.domain.po.BackendError;
 import com.qg.backend.mapper.BackendErrorMapper;
 
 import com.qg.common.domain.po.Responsibility;
+import com.qg.common.domain.po.Role;
 import com.qg.common.repository.StatisticsDataRepository;
 
 import com.qg.common.utils.WechatAlertUtil;
+import com.qg.feign.clients.AlertClient;
+import com.qg.feign.clients.ProjectClient;
+import com.qg.feign.clients.UserClient;
+import com.qg.feign.dto.UsersDto;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,24 +27,34 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.qg.common.repository.RepositoryConstants.*;
+import static com.qg.common.utils.Constants.USER_ROLE_ADMIN;
 
 
 @Slf4j
 @Repository
+@RequiredArgsConstructor
 public abstract class BackendErrorFatherRepository extends StatisticsDataRepository<BackendError> {
 
     @Autowired
     protected BackendErrorMapper backendErrorMapper;
+    /*
     @Autowired
     protected AlertRuleMapper alertRuleMapper;
+
     @Autowired
     protected ProjectMapper projectMapper;
     @Autowired
     protected ResponsibilityMapper responsibilityMapper;
     @Autowired
-    protected UsersMapper usersMapper;
-    @Autowired
     protected RoleMapper roleMapper;
+    @Autowired
+    protected UsersMapper usersMapper;*/
+
+    protected final AlertClient alertClient;
+    protected final UserClient userClient;
+    protected final ProjectClient projectClient;
+
+
 
 
     @Override
@@ -91,8 +107,12 @@ public abstract class BackendErrorFatherRepository extends StatisticsDataReposit
         String redisKey = generateUniqueKey(error);
         String[] data = redisKey.split(":");
 
-        Integer threshold = alertRuleMapper
-                .selectThresholdByProjectAndErrorType(error.getProjectId(), error.getErrorType(), "backend");
+        /*Integer threshold = alertRuleMapper
+                .selectThresholdByProjectAndErrorType(error.getProjectId(), error.getErrorType(), "backend");*/
+        Integer threshold = alertClient.selectThresholdByProjectAndErrorType(
+                error.getProjectId(),
+                error.getErrorType(),
+                "backend");
 
 
         if (threshold == null) {
@@ -170,28 +190,31 @@ public abstract class BackendErrorFatherRepository extends StatisticsDataReposit
                 // TODO: 需要@的成员手机号列表
 
                 //查看该错误类型是否被委派
-                LambdaQueryWrapper<Responsibility> queryWrapper = new LambdaQueryWrapper<>();
+                  LambdaQueryWrapper<Responsibility> queryWrapper = new LambdaQueryWrapper<>();
                 queryWrapper.eq(Responsibility::getErrorType, error.getErrorType())
                         .eq(Responsibility::getProjectId, error.getProjectId());
-
-                Responsibility responsibility = responsibilityMapper.selectOne(queryWrapper);
+              /*Responsibility responsibility = responsibilityMapper.selectOne(queryWrapper);*/
+                Responsibility responsibility = alertClient.getResponsibilityByQueryWrapper(queryWrapper);
 
                 if (responsibility != null) {
                     log.info("该错误已经被委派");
 
                     //更新responsibility中的errorId
-                    LambdaQueryWrapper<Responsibility> queryWrapper5 = new LambdaQueryWrapper<>();
+                   LambdaQueryWrapper<Responsibility> queryWrapper5 = new LambdaQueryWrapper<>();
                     queryWrapper5.eq(Responsibility::getProjectId, error.getProjectId())
                             .eq(Responsibility::getPlatform, "backend")
                             .eq(Responsibility::getErrorType, error.getErrorType());
-                    Responsibility responsibility1 = responsibilityMapper.selectOne(queryWrapper5);
+                    /* Responsibility responsibility1 = responsibilityMapper.selectOne(queryWrapper5);*/
+                    Responsibility responsibility1 = alertClient.getResponsibilityByQueryWrapper(queryWrapper5);
                     responsibility1.setErrorId(error.getId());
-                    responsibilityMapper.update(responsibility1, queryWrapper5);
+                    alertClient.updateResponsibilityByWrapper(responsibility1, queryWrapper5);
+                    /*responsibilityMapper.update(responsibility1, queryWrapper5);*/
 
                     //标记该错误为未解决
                     responsibility.setIsHandle(UN_HANDLED);
                     responsibility.setUpdateTime(LocalDateTime.now());
-                    responsibilityMapper.update(responsibility, queryWrapper);
+                    /*responsibilityMapper.update(responsibility, queryWrapper);*/
+                    alertClient.updateResponsibilityByWrapper(responsibility, queryWrapper);
 
                     //存储进通知表
                     List<Long> alertReceiverID = Arrays.asList(responsibility.getResponsibleId());
@@ -207,11 +230,15 @@ public abstract class BackendErrorFatherRepository extends StatisticsDataReposit
                     }
 
                     //获取负责人手机号码
-                    LambdaQueryWrapper<Users> queryWrapper1 = new LambdaQueryWrapper<>();
+/*                    LambdaQueryWrapper<Users> queryWrapper1 = new LambdaQueryWrapper<>();
                     queryWrapper1.eq(Users::getId, responsibility.getResponsibleId());
 
                     Users responsibleUser = usersMapper.selectOne(queryWrapper1);
+                    String responsiblePhone = responsibleUser.getPhone();*/
+
+                    UsersDto responsibleUser = userClient.findUserById(responsibility.getResponsibleId());
                     String responsiblePhone = responsibleUser.getPhone();
+
                     log.info("发送告警给: {}", responsiblePhone);
 
                     List<String> alertReceiver = Arrays.asList(responsiblePhone);
@@ -225,7 +252,8 @@ public abstract class BackendErrorFatherRepository extends StatisticsDataReposit
                     LambdaQueryWrapper<Role> queryWrapper3 = new LambdaQueryWrapper<>();
                     queryWrapper3.eq(Role::getProjectId, error.getProjectId())
                             .eq(Role::getUserRole, USER_ROLE_ADMIN);
-                    List<Role> roles = roleMapper.selectList(queryWrapper3);
+                    /*List<Role> roles = roleMapper.selectList(queryWrapper3);*/
+                    List<Role> roles = projectClient.getRoleListByQueryWrapper(queryWrapper3);
 
                     // 2. 提取角色中的用户ID集合
                     List<Long> userIds = roles.stream()
@@ -245,12 +273,14 @@ public abstract class BackendErrorFatherRepository extends StatisticsDataReposit
                     }
 
                     //4、获取电话号码 发送警告
-                    LambdaQueryWrapper<Users> queryWrapper1 = new LambdaQueryWrapper<>();
+                    /*LambdaQueryWrapper<Users> queryWrapper1 = new LambdaQueryWrapper<>();
                     queryWrapper1.in(Users::getId, userIds);
-                    List<Users> users = usersMapper.selectList(queryWrapper1);
+                    List<Users> users = usersMapper.selectList(queryWrapper1);*/
+
+                    List<UsersDto> users =  userClient.findUserByIds(userIds);
 
                     List<String> alertReceivers = users.stream()
-                            .map(Users::getPhone)
+                            .map(UsersDto::getPhone)
                             .collect(Collectors.toList());
                     log.info("发送告警给: {}", alertReceivers);
 
@@ -263,7 +293,8 @@ public abstract class BackendErrorFatherRepository extends StatisticsDataReposit
                 queryWrapper.eq(Responsibility::getErrorType, error.getErrorType())
                         .eq(Responsibility::getProjectId, error.getProjectId());
 
-                Responsibility responsibility = responsibilityMapper.selectOne(queryWrapper);
+                /*Responsibility responsibility = responsibilityMapper.selectOne(queryWrapper);*/
+                Responsibility responsibility = alertClient.getResponsibilityByQueryWrapper(queryWrapper);
 
                 if (responsibility != null) {
                     log.info("该错误已经被委派");
@@ -273,9 +304,11 @@ public abstract class BackendErrorFatherRepository extends StatisticsDataReposit
                     queryWrapper5.eq(Responsibility::getProjectId, error.getProjectId())
                             .eq(Responsibility::getPlatform, "backend")
                             .eq(Responsibility::getErrorType, error.getErrorType());
-                    Responsibility responsibility1 = responsibilityMapper.selectOne(queryWrapper5);
+                    /*Responsibility responsibility1 = responsibilityMapper.selectOne(queryWrapper5);*/
+                    Responsibility responsibility1 = alertClient.getResponsibilityByQueryWrapper(queryWrapper5);
                     responsibility1.setErrorId(error.getId());
-                    responsibilityMapper.update(responsibility1, queryWrapper5);
+                    /*responsibilityMapper.update(responsibility1, queryWrapper5);*/
+                    alertClient.updateResponsibilityByWrapper(responsibility1, queryWrapper5);
                 }
             }
         }
@@ -291,7 +324,8 @@ public abstract class BackendErrorFatherRepository extends StatisticsDataReposit
      */
     protected String getWebhookUrl(String projectId) {
         // 从数据库查询webhook
-        return projectMapper.selectWebhookByProjectId(projectId);
+        /*return projectMapper.selectWebhookByProjectId(projectId);*/
+        return projectClient.selectWebhookByProjectId(projectId);
     }
 
     protected void removeError(BackendError entity) {

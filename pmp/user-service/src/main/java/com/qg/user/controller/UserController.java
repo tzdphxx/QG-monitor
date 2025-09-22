@@ -24,6 +24,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -289,5 +291,10 @@ public class UserController {
     @GetMapping("/findUserById")
     public UsersDTO findUserById(@RequestParam Long id) {
         return usersService.findUserById(id);
+    }
+
+    @GetMapping("/findUserByIds")
+    public List<UsersDTO> findUserByIds(@RequestParam Collection<Long> ids) {
+        return usersService.findUserByIds(ids);
     }
 }

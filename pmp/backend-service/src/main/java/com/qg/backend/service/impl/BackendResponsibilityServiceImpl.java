@@ -1,6 +1,7 @@
 package com.qg.backend.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.qg.backend.domain.vo.BackendResponsibilityVO;
 import com.qg.common.domain.po.BackendError;
 import com.qg.backend.mapper.BackendErrorMapper;
 
@@ -8,7 +9,12 @@ import com.qg.backend.mapper.ModuleMapper;
 import com.qg.backend.service.BackendResponsibilityService;
 
 import com.qg.common.domain.po.Code;
+import com.qg.common.domain.po.Responsibility;
 import com.qg.common.domain.po.Result;
+import com.qg.feign.clients.AlertClient;
+import com.qg.feign.clients.UserClient;
+import com.qg.feign.dto.UsersDto;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +32,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class BackendResponsibilityServiceImpl implements BackendResponsibilityService {
 
 
@@ -35,11 +42,17 @@ public class BackendResponsibilityServiceImpl implements BackendResponsibilitySe
     @Autowired
     private ModuleMapper moduleMapper;
 
+    /*
     @Autowired
     private ResponsibilityMapper responsibilityMapper;
 
+
     @Autowired
     private UsersMapper usersMapper;
+*/
+    private final AlertClient alertClient;
+
+    private final UserClient userClient;
 
 
 //    @Override
@@ -132,7 +145,12 @@ public class BackendResponsibilityServiceImpl implements BackendResponsibilitySe
             }
 
             // 查询责任人信息
-            List<Responsibility> responsibilityList = responsibilityMapper.selectList(
+            /*List<Responsibility> responsibilityList = responsibilityMapper.selectList(
+                    new LambdaQueryWrapper<Responsibility>()
+                            .eq(Responsibility::getProjectId, projectId)
+                            .eq(Responsibility::getPlatform, "backend")
+            );*/
+            List<Responsibility> responsibilityList = alertClient.getResponsibilityListByWrapper(
                     new LambdaQueryWrapper<Responsibility>()
                             .eq(Responsibility::getProjectId, projectId)
                             .eq(Responsibility::getPlatform, "backend")
@@ -147,11 +165,16 @@ public class BackendResponsibilityServiceImpl implements BackendResponsibilitySe
                     .map(Responsibility::getResponsibleId)
                     .collect(Collectors.toSet());
 
-            final Map<Long, Users> userMap = new HashMap<>();
-            if (!userIds.isEmpty()) {
+            final Map<Long, UsersDto> userMap = new HashMap<>();
+            /*if (!userIds.isEmpty()) {
                 List<Users> usersList = usersMapper.selectBatchIds(userIds);
                 userMap.putAll(usersList.stream().collect(Collectors.toMap(Users::getId, u -> u)));
+            }*/
+            if (!userIds.isEmpty()) {
+                List<UsersDto> usersList = userClient.findUserByIds(new ArrayList<>(userIds));
+                userMap.putAll(usersList.stream().collect(Collectors.toMap(UsersDto::getId, u -> u)));
             }
+
 
             // 处理错误数据并关联责任人信息
             List<BackendResponsibilityVO> backendResponsibilityVOList = backendErrors.stream()
@@ -168,7 +191,7 @@ public class BackendResponsibilityServiceImpl implements BackendResponsibilitySe
 
                             vo.setDelegatorId(responsibility.getDelegatorId());
                             vo.setResponsibleId(responsibility.getResponsibleId());
-                            Users responsibleUser = userMap.get(responsibility.getResponsibleId());
+                            UsersDto responsibleUser = userMap.get(responsibility.getResponsibleId());
                             if (responsibleUser != null) {
                                 vo.setName(responsibleUser.getUsername());
                                 vo.setAvatarUrl(responsibleUser.getAvatar());

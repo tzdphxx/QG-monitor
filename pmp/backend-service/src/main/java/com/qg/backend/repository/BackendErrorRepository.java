@@ -3,6 +3,11 @@ package com.qg.backend.repository;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
 import com.qg.common.domain.po.BackendError;
+import com.qg.common.domain.po.Notification;
+import com.qg.common.domain.po.Responsibility;
+import com.qg.common.repository.RepositoryConstants;
+import com.qg.feign.clients.AlertClient;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -15,16 +20,20 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.qg.common.repository.RepositoryConstants.DEFAULT_THRESHOLD;
+import static com.qg.common.utils.Constants.ALERT_CONTENT_NEW;
 
 
 @Slf4j
 @Repository
+
 public class BackendErrorRepository extends BackendErrorFatherRepository {
 
-    @Autowired
+/*    @Autowired
     private NotificationService notificationService;
     @Autowired
-    private NotificationMapper notificationMapper;
+    private NotificationMapper notificationMapper;*/
+
+
 
     // TODO: 告警升级前先查看《前一毫秒》是否已经解决了
 
@@ -38,7 +47,7 @@ public class BackendErrorRepository extends BackendErrorFatherRepository {
     protected boolean shouldAlert(String redisKey, BackendError error) {
         String[] data = redisKey.split(":");
 
-        HashMap<String, Integer> alertRuleMap = alertRuleMapper
+        HashMap<String, Integer> alertRuleMap = alertClient
                 .selectByBackendRedisKeyToMap(data[2], data[3], data[4]);
 
         int currentCount = error.getEvent();
@@ -77,7 +86,8 @@ public class BackendErrorRepository extends BackendErrorFatherRepository {
                 .eq(Notification::getContent, ALERT_CONTENT_NEW)
                 .orderByDesc(Notification::getTimestamp)  // 按时间倒序排序
                 .last("LIMIT 1");  // 限制只取第一条记录
-        Notification notification = notificationMapper.selectOne(queryWrapper);
+        /*Notification notification = notificationMapper.selectOne(queryWrapper);*/
+        Notification notification = alertClient.getNotificationByWrapper(queryWrapper);
         log.info("notification:{}", notification);
 
         if (notification == null) {
@@ -97,7 +107,9 @@ public class BackendErrorRepository extends BackendErrorFatherRepository {
                 LambdaQueryWrapper<Responsibility> queryWrapper1 = new LambdaQueryWrapper<>();
                 queryWrapper1.eq(Responsibility::getErrorType, error.getErrorType())
                         .eq(Responsibility::getProjectId, error.getProjectId());
-                Responsibility responsibility1 = responsibilityMapper.selectOne(queryWrapper1);
+                /*Responsibility responsibility1 = responsibilityMapper.selectOne(queryWrapper1);*/
+                Responsibility responsibility1 = alertClient.getResponsibilityByQueryWrapper(queryWrapper1);
+
                 //若该错误未被指派、则发送警告
                 if (responsibility1 == null) {
                     log.info("该错误未被指派");
@@ -161,12 +173,14 @@ public class BackendErrorRepository extends BackendErrorFatherRepository {
 
         }
         if(count == alertReceiverID.size()){
-            notificationService.add(notifications);
+            /*notificationService.add(notifications);*/
+            alertClient.addNotification(notifications);
             log.info("已全部通知发送！");
             return true;
         }
         log.info("已通知{}个用户！",count);
-        notificationService.add(notifications);
+        //notificationService.add(notifications);
+        alertClient.addNotification(notifications);
         return false;
 
     }

@@ -3,7 +3,7 @@ package com.qg.project.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 
-import com.qg.project.domain.po.Role;
+import com.qg.common.domain.po.Role;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

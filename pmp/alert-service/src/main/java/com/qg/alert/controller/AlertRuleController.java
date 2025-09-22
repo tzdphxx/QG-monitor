@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+
 
 @Tag(name ="告警规则")
 @RestController
@@ -39,5 +41,18 @@ public class AlertRuleController {
         return alertRuleService.updateThreshold(alertRule);
     }
 
+    @GetMapping("/selectThresholdByProjectAndErrorType")
+    public Integer selectThresholdByProjectAndErrorType(@RequestParam String projectId,
+                                                        @RequestParam String errorType,
+                                                        @RequestParam String platform) {
+        return alertRuleService.selectThresholdByProjectAndErrorType(projectId, errorType, platform);
+    }
+
+    @GetMapping("/selectByBackendRedisKeyToMap")
+    public HashMap<String, Integer> selectByBackendRedisKeyToMap(@RequestParam String projectId,
+                                                        @RequestParam String errorType,
+                                                        @RequestParam String environment) {
+        return alertRuleService.selectByBackendRedisKeyToMap(projectId, errorType, environment);
+    }
 
 }

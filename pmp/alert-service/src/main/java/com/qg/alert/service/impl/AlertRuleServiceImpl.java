@@ -3,6 +3,7 @@ package com.qg.alert.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 
+import com.google.javascript.jscomp.jarjar.org.apache.tools.ant.Project;
 import com.qg.alert.domain.po.AlertRule;
 import com.qg.alert.mapper.AlertRuleMapper;
 import com.qg.alert.service.AlertRuleService;
@@ -12,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashMap;
 
 @Slf4j
 @Service
@@ -115,6 +118,16 @@ public class AlertRuleServiceImpl implements AlertRuleService {
             log.error("操作阈值失败，errorType: {}, projectId: {}, platform: {}", errorType, projectId, platform, e);
             return new Result(Code.INTERNAL_ERROR, "操作失败: " + e.getMessage());
         }
+    }
+
+    @Override
+    public Integer selectThresholdByProjectAndErrorType(String projectId, String errorType, String platform) {
+        return alertRuleMapper.selectThresholdByProjectAndErrorType(projectId, errorType, platform);
+    }
+
+    @Override
+    public HashMap<String, Integer> selectByBackendRedisKeyToMap(String projectId, String errorType, String environment) {
+        return alertRuleMapper.selectByBackendRedisKeyToMap(projectId, errorType, environment);
     }
 
     /**

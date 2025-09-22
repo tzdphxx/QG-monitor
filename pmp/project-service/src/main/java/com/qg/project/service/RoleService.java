@@ -1,9 +1,13 @@
 package com.qg.project.service;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.qg.common.domain.po.Result;
-import com.qg.project.domain.po.Role;
+import com.qg.common.domain.po.Role;
 import com.qg.project.domain.vo.RoleVO;
+
+import java.util.List;
 
 
 public interface RoleService {
@@ -20,4 +24,6 @@ public interface RoleService {
     Result updateUserRole(Role role);
 
     Result getBossCountByProjectId(String projectId);
+
+    List<Role> getRoleListByQueryWrapper(LambdaQueryWrapper<Role> queryWrapper);
 }

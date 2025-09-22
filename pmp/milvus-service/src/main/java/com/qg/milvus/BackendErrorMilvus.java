@@ -3,7 +3,7 @@ package com.qg.milvus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
-import com.qg.domain.BackendError;
+
 import io.milvus.client.MilvusServiceClient;
 import io.milvus.param.dml.InsertParam;
 

@@ -1,6 +1,7 @@
 package com.qg.alert.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 
 
@@ -406,6 +407,23 @@ public class ResponsibilityServiceImpl implements ResponsibilityService {
         queryWrapper.eq(Responsibility::getDelegatorId, userId)
                 .or().eq(Responsibility::getResponsibleId, userId);
         return responsibilityMapper.delete(queryWrapper);
+    }
+
+
+
+    @Override
+    public Responsibility getResponsibilityByWrapper(LambdaQueryWrapper<Responsibility> queryWrapper) {
+        return responsibilityMapper.selectOne(queryWrapper);
+    }
+
+    @Override
+    public Integer updateResponsibilityByWrapper(Responsibility responsibility, LambdaQueryWrapper<Responsibility> queryWrapper) {
+        return responsibilityMapper.update(responsibility, queryWrapper);
+    }
+
+    @Override
+    public List<Responsibility> getResponsibilityListByWrapper(LambdaQueryWrapper<Responsibility> queryWrapper) {
+        return responsibilityMapper.selectList(queryWrapper);
     }
 
     /**

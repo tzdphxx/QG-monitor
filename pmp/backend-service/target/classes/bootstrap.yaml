@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: backend-service
+  cloud:
+    nacos:
+      server-addr: 192.168.148.100:8848
+      config:
+        file-extension: yaml
+        shared-configs:
+          - data-id: shared-spring.yaml
+          - data-id: shared-mp.yaml
+          - data-id: shared-rsa.yaml

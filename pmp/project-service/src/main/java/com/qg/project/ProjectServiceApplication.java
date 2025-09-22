@@ -13,7 +13,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @Version: 1.0     // 版本
  */
 @SpringBootApplication
-@EnableFeignClients(basePackages = "com.qg.feign")
+@EnableFeignClients(basePackages = "com.qg.feign.clients")
 public class ProjectServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(ProjectServiceApplication.class, args);

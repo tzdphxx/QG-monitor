@@ -31,4 +31,6 @@ public interface ProjectService {
     Result getPrivateProjectList();
 
     boolean checkProjectIdExist(String projectId);
+
+    String selectWebhookByProjectId(String projectId);
 }

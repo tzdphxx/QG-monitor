@@ -1,6 +1,7 @@
 package com.qg.alert.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qg.common.domain.po.Notification;
 import com.qg.alert.service.NotificationService;
 import com.qg.common.domain.po.Result;
@@ -77,5 +78,15 @@ public class NotificationController {
     @DeleteMapping("/deleteByReceiverId")
     public Result deleteByReceiverId(@RequestParam Long receiverId, @RequestParam Integer isSenderExist) {
         return notificationService.deleteByReceiverId(receiverId, isSenderExist);
+    }
+
+    @GetMapping("/getNotificationByWrapper")
+    public Notification getNotificationByWrapper(@RequestParam LambdaQueryWrapper<Notification> queryWrapper) {
+        return notificationService.getNotificationByWrapper(queryWrapper);
+    }
+
+    @PostMapping("/addNotifications")
+    public void addNotifications(@RequestBody List<Notification> notifications) {
+        notificationService.add(notifications);
     }
 }

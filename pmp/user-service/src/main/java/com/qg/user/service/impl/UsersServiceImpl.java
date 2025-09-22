@@ -29,9 +29,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 
@@ -350,5 +348,11 @@ public class UsersServiceImpl implements UsersService {
             return null;
         }
         return BeanUtil.copyProperties(user, UsersDTO.class);
+    }
+
+    @Override
+    public List<UsersDTO> findUserByIds(Collection<Long> ids) {
+        List<Users> users = usersMapper.selectBatchIds(ids);
+        return BeanUtil.copyToList(users, UsersDTO.class);
     }
 }
