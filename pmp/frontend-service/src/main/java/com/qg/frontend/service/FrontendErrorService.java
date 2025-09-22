@@ -1,10 +1,13 @@
 package com.qg.frontend.service;
 
 
-
 import com.qg.common.domain.po.Result;
 import com.qg.common.domain.po.FrontendError;
+import com.qg.common.domain.vo.ErrorTrendVO;
+import com.qg.common.domain.vo.ManualTrackingVO;
+import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -25,4 +28,12 @@ public interface FrontendErrorService {
     Object[] getErrorStats(String projectId);
 
     Result getAverageTime(String projectId, String timeType);
+
+    List<ErrorTrendVO> getErrorTrend
+            (String projectId, LocalDateTime startTime, LocalDateTime endTime);
+
+    List<ManualTrackingVO> queryManualTrackingStats(
+            @Param("projectId") String projectId,
+            @Param("startTime") LocalDateTime startTime,
+            @Param("endTime") LocalDateTime endTime);
 }

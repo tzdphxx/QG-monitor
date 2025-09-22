@@ -24,6 +24,22 @@
             <artifactId>pmp</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
     </dependencies>
 
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip> <!-- 对于common模块，通常不需要打包成可执行jar -->
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

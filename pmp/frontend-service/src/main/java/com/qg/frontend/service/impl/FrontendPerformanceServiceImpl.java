@@ -4,11 +4,13 @@ import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
 
-import com.qg.domain.Result;
+import com.qg.common.domain.po.Result;
+import com.qg.common.domain.vo.FrontendPerformanceAverageVO;
 import com.qg.frontend.domain.po.FrontendPerformance;
 import com.qg.frontend.mapper.FrontendPerformanceMapper;
 import com.qg.frontend.service.FrontendPerformanceService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.qg.domain.Code.*;
+import static com.qg.common.domain.po.Code.*;
+
 
 /**
  * @Description: 前端性能应用  // 类说明
@@ -84,7 +87,7 @@ public class FrontendPerformanceServiceImpl implements FrontendPerformanceServic
 
         List<FrontendPerformance> frontendPerformances = frontendPerformanceMapper.selectList(queryWrapper);
 
-        return new Result(SUCCESS, List.of(new ArrayList<>(),frontendPerformances,new ArrayList<>()), "查询成功");
+        return new Result(SUCCESS, List.of(new ArrayList<>(), frontendPerformances, new ArrayList<>()), "查询成功");
     }
 
     @Override
@@ -113,11 +116,10 @@ public class FrontendPerformanceServiceImpl implements FrontendPerformanceServic
         }
 
 
-
         if (count != null) return count;
 
 
-        return new Result(BAD_GATEWAY,"查询失败");
+        return new Result(BAD_GATEWAY, "查询失败");
     }
 
     private Result getVisitCount(String projectId, String timeType) {
@@ -148,7 +150,7 @@ public class FrontendPerformanceServiceImpl implements FrontendPerformanceServic
             default:
                 return new Result(BAD_REQUEST, "不支持的时间类型");
         }
-        return new Result(SUCCESS, timeCount,"查询成功");
+        return new Result(SUCCESS, timeCount, "查询成功");
     }
 
     private void getCount(String projectId, int i, List<Integer> timeCount, String timeType) {
@@ -187,7 +189,22 @@ public class FrontendPerformanceServiceImpl implements FrontendPerformanceServic
 
     @Override
     public Result getAverageTime(String projectId, String timeType) {
-
         return new Result();
+    }
+
+    /**
+     * 获取前端性能，加载时间平均数据
+     *
+     * @param projectId 项目id
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @return 结果
+     */
+    @Override
+    public FrontendPerformanceAverageVO queryAverageFrontendPerformanceTime(
+            @Param("projectId") String projectId,
+            @Param("startTime") LocalDateTime startTime,
+            @Param("endTime") LocalDateTime endTime) {
+        return frontendPerformanceMapper.queryAverageFrontendPerformanceTime(projectId, startTime, endTime);
     }
 }

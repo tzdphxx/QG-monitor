@@ -2,11 +2,13 @@ package com.qg.frontend.service.impl;
 
 import cn.hutool.json.JSONUtil;
 
-import com.qg.domain.Result;
+
+import com.qg.common.domain.po.Result;
+import com.qg.common.domain.vo.FrontendBehaviorVO;
 import com.qg.frontend.domain.po.FrontendBehavior;
 import com.qg.frontend.mapper.FrontendBehaviorMapper;
 import com.qg.frontend.service.FrontendBehaviorService;
-import com.qg.vo.FrontendBehaviorVO;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +16,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.qg.domain.Code.*;
+import static com.qg.common.domain.po.Code.*;
+
 
 /**
  * @Description: 前端行为应用  // 类说明
@@ -67,14 +70,13 @@ public class FrontendBehaviorServiceImpl implements FrontendBehaviorService {
     }
 
 
-
     /**
      * 查询指定时间段内某项目中，用户页面停留《所有路由下》时间数据
      *
-     * @param projectId
-     * @param startTime
-     * @param endTime
-     * @return
+     * @param projectId 项目id
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @return 结果
      */
     @Override
     public List<FrontendBehaviorVO> queryTimeDataByProjectIdAndTimeRange
@@ -87,11 +89,11 @@ public class FrontendBehaviorServiceImpl implements FrontendBehaviorService {
     /**
      * 查询指定时间段内某项目中，用户页面停留《在某路由下》的时间数据
      *
-     * @param projectId
-     * @param route
-     * @param startTime
-     * @param endTime
-     * @return
+     * @param projectId 项目id
+     * @param route     查询的路由
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @return 结果
      */
     @Override
     public List<FrontendBehaviorVO> queryTimeDataByProjectIdAndTimeRangeAndRoute
@@ -101,15 +103,13 @@ public class FrontendBehaviorServiceImpl implements FrontendBehaviorService {
     }
 
 
-
-
     @Override
     public Result getFrontendButton(String projectId) {
         if (projectId == null || projectId.isEmpty()) {
             return new Result(BAD_REQUEST, "项目ID不能为空");
         }
 
-        return new Result(SUCCESS, frontendBehaviorMapper.queryFrontendButton(projectId),"查询成功");
+        return new Result(SUCCESS, frontendBehaviorMapper.queryFrontendButton(projectId), "查询成功");
     }
 
 

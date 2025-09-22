@@ -1,5 +1,6 @@
 package com.qg.feign.clients;
 
+
 import com.qg.common.domain.po.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

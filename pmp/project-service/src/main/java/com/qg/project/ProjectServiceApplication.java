@@ -1,7 +1,9 @@
 package com.qg.project;
 
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * @Description: // 类说明
@@ -11,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @Version: 1.0     // 版本
  */
 @SpringBootApplication
+@EnableFeignClients(basePackages = "com.qg.feign")
 public class ProjectServiceApplication {
     public static void main(String[] args) {
         SpringApplication.run(ProjectServiceApplication.class, args);
