@@ -16,3 +16,11 @@ spring:
           starttls:
             enable: true
             required: true
+
+
+#logging:
+#  level:
+#    com.alibaba.nacos: TRACE
+#    com.alibaba.cloud.nacos: TRACE
+#    org.springframework.cloud: DEBUG
+#    org.springframework.web: DEBUG
