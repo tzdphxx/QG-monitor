@@ -10,6 +10,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.qg.common.domain.dto.EncryptionResultDTO;
 import com.qg.common.domain.po.Code;
+
 import com.qg.common.domain.po.Result;
 import com.qg.common.utils.CryptoUtils;
 import com.qg.common.utils.RedisConstants;
@@ -32,6 +33,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+
+
 
 
 @Slf4j
@@ -338,5 +341,14 @@ public class UsersServiceImpl implements UsersService {
             throw new RuntimeException(e);
         }
 
+    }
+
+    @Override
+    public UsersDTO findUserById(Long id) {
+        Users user = usersMapper.selectById(id);
+        if(user == null) {
+            return null;
+        }
+        return BeanUtil.copyProperties(user, UsersDTO.class);
     }
 }

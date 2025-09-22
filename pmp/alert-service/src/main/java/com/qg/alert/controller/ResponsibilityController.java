@@ -101,4 +101,9 @@ public class ResponsibilityController {
        return responsibilityService.selectHandleStatus(projectId, errorType, platform);
    }
 
+   @DeleteMapping("/deleteUserId")
+    public int deleteUserId(@RequestParam Long userId) {
+        return responsibilityService.deleteUserId(userId);
+    }
+
 }

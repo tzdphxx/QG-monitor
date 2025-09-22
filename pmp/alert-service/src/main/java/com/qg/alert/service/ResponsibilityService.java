@@ -20,4 +20,6 @@ public interface ResponsibilityService {
     Result updateHandleStatus(Responsibility responsibility);
 
     Result selectHandleStatus(String projectId, String errorType, String platform);
+
+    int deleteUserId(Long userId);
 }

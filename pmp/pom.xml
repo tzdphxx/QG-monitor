@@ -29,10 +29,7 @@
         <module>user-service</module>
         <module>qg-common</module>
         <module>project-service</module>
-        <module>role-service</module>
         <module>message-service</module>
-        <module>alert-service</module>
-        <module>graph-service</module>
     </modules>
 
     <properties>

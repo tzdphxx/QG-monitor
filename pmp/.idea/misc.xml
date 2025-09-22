@@ -5,15 +5,11 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/milvus-service/pom.xml" />
-        <option value="$PROJECT_DIR$/SDK-service/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
-        <option value="$PROJECT_DIR$/Responsibity-service/pom.xml" />
-        <option value="$PROJECT_DIR$/SDK-service/pom.xml" />
-        <option value="$PROJECT_DIR$/sdk-service/pom.xml" />
+        <option value="$PROJECT_DIR$/role-service/pom.xml" />
       </set>
     </option>
   </component>

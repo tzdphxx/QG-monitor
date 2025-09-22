@@ -284,4 +284,10 @@ public class UserController {
         log.info("用户登录，邮箱: {}, 密码: {}", user.getEmail(), user.getPassword());
         return new Result(200,"登录成功");
     }
+
+
+    @GetMapping("/findUserById")
+    public UsersDTO findUserById(@RequestParam Long id) {
+        return usersService.findUserById(id);
+    }
 }

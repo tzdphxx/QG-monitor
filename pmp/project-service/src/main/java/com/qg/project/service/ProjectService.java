@@ -6,6 +6,7 @@ import com.qg.project.domain.dto.InviteDto;
 import com.qg.project.domain.po.Project;
 import com.qg.project.domain.vo.PersonalProjectVO;
 
+
 public interface ProjectService {
      Result addProject(PersonalProjectVO personalProjectVO);
 

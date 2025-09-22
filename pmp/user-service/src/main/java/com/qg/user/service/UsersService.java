@@ -2,6 +2,7 @@ package com.qg.user.service;
 
 
 import com.qg.common.domain.po.Result;
+import com.qg.user.domain.dto.UsersDTO;
 import com.qg.user.domain.po.Users;
 import java.util.Map;
 
@@ -19,4 +20,6 @@ public interface UsersService {
     boolean updateAvatar(Long userId, String avatarUrl);
 
     Result updateUser(Users users);
+
+    UsersDTO findUserById(Long id);
 }
