@@ -10,7 +10,7 @@ import com.qg.common.domain.po.Result;
 import com.qg.feign.clients.AlertClient;
 import com.qg.feign.clients.UserClient;
 import com.qg.feign.dto.UsersDto;
-import com.qg.project.domain.po.Project;
+import com.qg.common.domain.po.Project;
 import com.qg.common.domain.po.Role;
 import com.qg.project.domain.vo.ProjectMemberVO;
 

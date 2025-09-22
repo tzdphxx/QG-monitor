@@ -3,7 +3,7 @@ package com.qg.project.controller;
 
 import com.qg.common.domain.po.Result;
 import com.qg.project.domain.dto.InviteDto;
-import com.qg.project.domain.po.Project;
+import com.qg.common.domain.po.Project;
 import com.qg.project.domain.vo.PersonalProjectVO;
 import com.qg.project.service.ProjectService;
 import io.swagger.v3.oas.annotations.tags.Tag;

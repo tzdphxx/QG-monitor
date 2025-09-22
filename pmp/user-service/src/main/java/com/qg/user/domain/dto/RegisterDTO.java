@@ -1,7 +1,7 @@
 package com.qg.user.domain.dto;
 
 
-import com.qg.user.domain.po.Users;
+import com.qg.common.domain.po.Users;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

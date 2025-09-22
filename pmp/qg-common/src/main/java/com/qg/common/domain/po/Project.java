@@ -1,4 +1,4 @@
-package com.qg.project.domain.po;
+package com.qg.common.domain.po;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;

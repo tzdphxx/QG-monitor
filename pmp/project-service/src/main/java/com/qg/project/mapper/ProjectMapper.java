@@ -2,7 +2,7 @@ package com.qg.project.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
-import com.qg.project.domain.po.Project;
+import com.qg.common.domain.po.Project;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
