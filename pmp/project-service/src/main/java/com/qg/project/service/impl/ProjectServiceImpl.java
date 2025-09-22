@@ -7,8 +7,10 @@ import com.qg.common.domain.po.Code;
 import com.qg.common.domain.po.Result;
 import com.qg.project.domain.dto.InviteDto;
 import com.qg.project.domain.po.Project;
+import com.qg.project.domain.po.Role;
 import com.qg.project.domain.vo.PersonalProjectVO;
 import com.qg.project.mapper.ProjectMapper;
+import com.qg.project.mapper.RoleMapper;
 import com.qg.project.service.ProjectService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -23,6 +25,7 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import static com.qg.common.domain.po.Code.*;
+import static com.qg.common.utils.Constants.*;
 import static com.qg.common.utils.RedisConstants.INVITE_CODE_KEY;
 import static com.qg.common.utils.RedisConstants.INVITE_CODE_TTL;
 

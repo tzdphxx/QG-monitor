@@ -2,44 +2,45 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
-      <profile default="true" name="Default" enabled="true" />
-      <profile name="Maven default annotation processors profile" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
+      <profile default="true" name="Default" enabled="true">
+        <processorPath useClasspath="false" />
       </profile>
       <profile name="Annotation profile for pmp" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+          <entry name="$PROJECT_DIR$/../../java/Apache/apache-maven-3.9.9-bin/apache-maven-3.9.9/mvn_resp/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+          <entry name="$PROJECT_DIR$/../../java/Apache/apache-maven-3.9.9-bin/apache-maven-3.9.9/mvn_resp/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
         <module name="milvus-service" />
+        <module name="graph-service" />
         <module name="alert-service" />
         <module name="qg-common" />
-        <module name="role-service" />
         <module name="mobile-service" />
         <module name="user-service" />
         <module name="backend-service" />
+        <module name="frontend-service" />
         <module name="message-service" />
         <module name="feign-api" />
-        <module name="graph-service" />
-        <module name="frontend-service" />
-        <module name="project-service" />
         <module name="gateway" />
+      </profile>
+      <profile name="Annotation profile for project-service" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$PROJECT_DIR$/../../java/Apache/apache-maven-3.9.9-bin/apache-maven-3.9.9/mvn_resp/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+        </processorPath>
+        <module name="project-service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Responsibity-service" target="21" />
-      <module name="SDK-service" target="17" />
-      <module name="sdk-service" target="21" />
+      <module name="role-service" target="1.5" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="Responsibity-service" options="-parameters" />
-      <module name="SDK-service" options="-parameters" />
       <module name="alert-service" options="-parameters" />
       <module name="backend-service" options="-parameters" />
       <module name="feign-api" options="-parameters" />
@@ -52,8 +53,7 @@
       <module name="pmp" options="-parameters" />
       <module name="project-service" options="-parameters" />
       <module name="qg-common" options="-parameters" />
-      <module name="role-service" options="-parameters" />
-      <module name="sdk-service" options="-parameters" />
+      <module name="role-service" options="" />
       <module name="user-service" options="-parameters" />
     </option>
   </component>

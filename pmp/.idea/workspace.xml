@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="381648de-4cc2-48ec-acfc-ba1adfa4473c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/feign-api/src/main/java/com/qg/feign/clients/AlertClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/feign-api/src/main/java/com/qg/feign/clients/ProjectClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/feign-api/src/main/java/com/qg/feign/dto/UsersDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.cache/.Apifox_Helper/.toolWindow.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/ApifoxUploaderProjectSetting.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ApifoxUploaderProjectSetting.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/mybatisx/templates.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/alert-service/src/main/java/com/qg/alert/controller/ResponsibilityController.java" beforeDir="false" afterPath="$PROJECT_DIR$/alert-service/src/main/java/com/qg/alert/controller/ResponsibilityController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/alert-service/src/main/java/com/qg/alert/service/ResponsibilityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/alert-service/src/main/java/com/qg/alert/service/ResponsibilityService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/alert-service/src/main/java/com/qg/alert/service/impl/ResponsibilityServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/alert-service/src/main/java/com/qg/alert/service/impl/ResponsibilityServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/feign-api/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/feign-api/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/feign-api/src/main/java/com/qg/feign/clients/UserClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/feign-api/src/main/java/com/qg/feign/clients/UserClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/message-service/target/classes/com/qg/message/MessageServiceApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/message-service/target/classes/com/qg/message/controller/MessageController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/message-service/target/classes/com/qg/message/domain/po/Message.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/message-service/target/classes/com/qg/message/mapper/MessageMapper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/message-service/target/classes/com/qg/message/service/MessageService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/message-service/target/classes/com/qg/message/service/impl/MessageServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pmp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/pmp.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/project-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project-service/src/main/java/com/qg/project/service/ProjectService.java" beforeDir="false" afterPath="$PROJECT_DIR$/project-service/src/main/java/com/qg/project/service/ProjectService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project-service/src/main/java/com/qg/project/service/impl/ProjectServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/project-service/src/main/java/com/qg/project/service/impl/ProjectServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/role-service/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/role-service/src/main/java/com/qg/role/controller/RoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/project-service/src/main/java/com/qg/project/controller/RoleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/role-service/src/main/java/com/qg/role/domain/po/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/project-service/src/main/java/com/qg/project/domain/po/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/role-service/src/main/java/com/qg/role/domain/vo/RoleVO.java" beforeDir="false" afterPath="$PROJECT_DIR$/project-service/src/main/java/com/qg/project/domain/vo/RoleVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/role-service/src/main/java/com/qg/role/mapper/RoleMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/project-service/src/main/java/com/qg/project/mapper/RoleMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/role-service/src/main/java/com/qg/role/service/RoleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/project-service/src/main/java/com/qg/project/service/RoleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/role-service/src/main/java/com/qg/role/service/impl/RoleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/project-service/src/main/java/com/qg/project/service/impl/RoleServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/role-service/src/main/resources/application.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/role-service/src/main/resources/bootstrap.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/java/com/qg/PmpApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/java/com/qg/controller/ErrorController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/java/com/qg/controller/LogController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/java/com/qg/controller/PerformanceController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/java/com/qg/domain/Error.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/java/com/qg/domain/Log.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/java/com/qg/domain/Performance.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/java/com/qg/mapper/ErrorMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/java/com/qg/mapper/LogMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/java/com/qg/mapper/PerformanceMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/java/com/qg/service/ErrorService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/java/com/qg/service/LogService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/java/com/qg/service/PerformanceService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/java/com/qg/service/impl/ErrorServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/java/com/qg/service/impl/LogServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/java/com/qg/service/impl/PerformanceServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/resources/bak/collections/BackendErrorMilvus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/resources/bak/collections/BackendPerformanceMilvus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/resources/bak/collections/DummyEmbeddingService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/resources/bak/collections/EmbeddingService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/resources/bak/collections/FrontendErrorMilvus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/resources/bak/collections/FrontendPerformanceMilvus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/resources/bak/collections/MilvusUpload.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/resources/bak/collections/MobileErrorMilvus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/main/resources/bak/collections/MobilePerformanceMilvus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/test/java/com/qg/BackendErrorSqlTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/test/java/com/qg/CountTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/test/java/com/qg/FrontendDataTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/test/java/com/qg/MilvusTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/test/java/com/qg/PmpApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/test/java/com/qg/SourcemapParseTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/test/java/com/qg/SourcemapParseTest2.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src.bak/test/java/com/qg/test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/com/qg/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/com/qg/user/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/com/qg/user/service/UsersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/com/qg/user/service/UsersService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/com/qg/user/service/impl/UsersServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/com/qg/user/service/impl/UsersServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/target/classes/com/qg/user/controller/UserController$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/target/classes/com/qg/user/controller/UserController$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/target/classes/com/qg/user/controller/UserController$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/target/classes/com/qg/user/controller/UserController$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/target/classes/com/qg/user/controller/UserController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/target/classes/com/qg/user/service/UsersService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-service/target/classes/com/qg/user/service/impl/UsersServiceImpl.class" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="customMavenHome" value="E:\java\Apache\apache-maven-3.9.9-bin\apache-maven-3.9.9" />
+        <option name="localRepository" value="E:\java\Apache\apache-maven-3.9.9-bin\apache-maven-3.9.9\mvn_resp" />
+        <option name="mavenHomeTypeForPersistence" value="CUSTOM" />
+        <option name="userSettingsFile" value="E:\java\Apache\apache-maven-3.9.9-bin\apache-maven-3.9.9\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="332Iksm6zJ4odkxg9dQtkipaY15" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Maven.pmp [clean].executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.UserServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.projectsettings.compiler.annotationProcessors&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="KtorApplicationConfigurationType" />
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.UserServiceApplication">
+    <configuration name="BackendServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="backend-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.qg.backend.BackendServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="FrontendServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="frontend-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.qg.frontend.FrontendServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="gateway" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.qg.gateway.GatewayApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MessageServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="message-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.qg.message.MessageServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MilvusServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="milvus-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.qg.milvus.MilvusServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MobileServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="mobile-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.qg.MobileServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ProjectServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="project-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.qg.project.ProjectServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UserServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="user-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.qg.user.UserServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.26775.15" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.26775.15" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="381648de-4cc2-48ec-acfc-ba1adfa4473c" name="Changes" comment="" />
+      <created>1758508887933</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1758508887933</updated>
+      <workItem from="1758508888217" duration="2751000" />
+      <workItem from="1758511981435" duration="3671000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

@@ -1,14 +1,16 @@
 package com.qg.feign.clients;
 
 
-import com.qg.feign.pojo.User;
+import com.qg.feign.dto.UsersDto;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(value = "userservice")
+import org.springframework.web.bind.annotation.RequestParam;
+
+@FeignClient(value = "user-service")
 public interface UserClient {
 
-    @GetMapping("/user/{id}")
-    User findById(@PathVariable("id") Long id);
+    @GetMapping("/users/findUserById")
+    UsersDto findUserById(@RequestParam("id") Long id);
 }

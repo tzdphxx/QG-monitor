@@ -4,14 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 
 
-import com.qg.common.domain.po.Notification;
-import com.qg.common.domain.po.Responsibility;
+import com.google.javascript.jscomp.jarjar.org.apache.tools.ant.Project;
+import com.qg.common.domain.po.*;
 import com.qg.alert.domain.vo.ResponsibilityVO;
 import com.qg.alert.mapper.ResponsibilityMapper;
 import com.qg.alert.service.NotificationService;
 import com.qg.alert.service.ResponsibilityService;
-import com.qg.common.domain.po.Code;
-import com.qg.common.domain.po.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -400,6 +398,14 @@ public class ResponsibilityServiceImpl implements ResponsibilityService {
                     projectId, errorType, platform, e);
             return new Result(INTERNAL_ERROR, "查询处理状态失败: " + e.getMessage());
         }
+    }
+
+    @Override
+    public int deleteUserId(Long userId) {
+        LambdaQueryWrapper<Responsibility> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(Responsibility::getDelegatorId, userId)
+                .or().eq(Responsibility::getResponsibleId, userId);
+        return responsibilityMapper.delete(queryWrapper);
     }
 
     /**
