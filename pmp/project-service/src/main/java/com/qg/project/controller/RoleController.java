@@ -1,15 +1,19 @@
 package com.qg.project.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.qg.common.domain.po.Result;
 
-import com.qg.project.domain.po.Role;
+import com.qg.common.domain.po.Role;
 import com.qg.project.domain.vo.RoleVO;
 import com.qg.project.service.RoleService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @Tag(name ="权限判断")
@@ -95,6 +99,11 @@ public class RoleController {
     @GetMapping("/getBossCountByProjectId")
     public Result getBossCountByProjectId(@RequestParam String projectId) {
         return roleService.getBossCountByProjectId(projectId);
+    }
+
+    @GetMapping("/getRoleListByQueryWrapper")
+    public List<Role> getRoleListByQueryWrapper(@RequestParam LambdaQueryWrapper<Role> queryWrapper){
+        return roleService.getRoleListByQueryWrapper(queryWrapper);
     }
 
 }

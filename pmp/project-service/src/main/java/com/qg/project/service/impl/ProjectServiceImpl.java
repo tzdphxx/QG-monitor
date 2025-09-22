@@ -7,7 +7,7 @@ import com.qg.common.domain.po.Code;
 import com.qg.common.domain.po.Result;
 import com.qg.project.domain.dto.InviteDto;
 import com.qg.project.domain.po.Project;
-import com.qg.project.domain.po.Role;
+import com.qg.common.domain.po.Role;
 import com.qg.project.domain.vo.PersonalProjectVO;
 import com.qg.project.mapper.ProjectMapper;
 import com.qg.project.mapper.RoleMapper;
@@ -375,5 +375,10 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public boolean checkProjectIdExist(String projectId) {
         return projectMapper.exists(new LambdaQueryWrapper<Project>().eq(Project::getUuid, projectId));
+    }
+
+    @Override
+    public String selectWebhookByProjectId(String projectId) {
+        return projectMapper.selectWebhookByProjectId(projectId);
     }
 }

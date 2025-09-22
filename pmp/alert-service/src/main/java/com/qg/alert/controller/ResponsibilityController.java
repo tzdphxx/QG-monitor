@@ -1,12 +1,16 @@
 package com.qg.alert.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.qg.common.domain.po.Responsibility;
 import com.qg.alert.service.ResponsibilityService;
 import com.qg.common.domain.po.Result;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "责任链管理")
 @RestController
@@ -105,5 +109,21 @@ public class ResponsibilityController {
     public int deleteUserId(@RequestParam Long userId) {
         return responsibilityService.deleteUserId(userId);
     }
+
+
+    @GetMapping("/getResponsibilityByWrapper")
+    public Responsibility getResponsibilityByWrapper(@RequestParam LambdaQueryWrapper<Responsibility> queryWrapper) {
+        return responsibilityService.getResponsibilityByWrapper(queryWrapper);
+    }
+
+    @PutMapping("/updateResponsibilityByWrapper")
+    public Integer updateResponsibilityByWrapper(@RequestBody Responsibility responsibility, @RequestParam LambdaQueryWrapper<Responsibility> queryWrapper) {
+        return responsibilityService.updateResponsibilityByWrapper(responsibility, queryWrapper);
+    }
+
+
+    @GetMapping("/getResponsibilityListByWrapper")
+    public List<Responsibility> getResponsibilityListByWrapper(@RequestParam LambdaQueryWrapper<Responsibility> queryWrapper) {
+        return responsibilityService.getResponsibilityListByWrapper(queryWrapper);
 
 }

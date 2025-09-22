@@ -3,12 +3,14 @@ package com.qg.backend.service.impl;
 
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.qg.domain.BackendLog;
-import com.qg.mapper.BackendLogMapper;
-import com.qg.repository.BackendLogRepository;
-import com.qg.service.BackendLogService;
-import com.qg.service.ModuleService;
-import com.qg.service.ProjectService;
+
+import com.qg.backend.domain.po.BackendLog;
+import com.qg.backend.domain.vo.BackendLogMapper;
+import com.qg.backend.repository.BackendLogRepository;
+import com.qg.backend.service.BackendLogService;
+import com.qg.backend.service.ModuleService;
+import com.qg.feign.clients.ProjectClient;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class BackendLogServiceImpl implements BackendLogService {
 
     @Autowired
@@ -32,8 +35,9 @@ public class BackendLogServiceImpl implements BackendLogService {
     private BackendLogMapper backendLogMapper;
     @Autowired
     private ModuleService moduleService;
-    @Autowired
-    private ProjectService projectService;
+/*    @Autowired
+    private ProjectService projectService;*/
+    private final ProjectClient projectClient;
 
 
     @Override
@@ -62,7 +66,11 @@ public class BackendLogServiceImpl implements BackendLogService {
 
             // 检验项目id是否存在
             String projectId = logs.getFirst().getProjectId();
-            if (!projectService.checkProjectIdExist(projectId)) {
+            /*if (!projectService.checkProjectIdExist(projectId)) {
+                log.warn("项目ID不存在:{}", projectId);
+                return;
+            }*/
+            if (!projectClient.checkProjectIdExist(Long.valueOf(projectId))) {
                 log.warn("项目ID不存在:{}", projectId);
                 return;
             }

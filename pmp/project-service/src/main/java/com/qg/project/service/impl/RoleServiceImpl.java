@@ -2,6 +2,7 @@ package com.qg.project.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.qg.common.domain.po.Code;
 
 import com.qg.common.domain.po.Responsibility;
@@ -10,9 +11,8 @@ import com.qg.common.domain.po.Result;
 import com.qg.feign.clients.AlertClient;
 import com.qg.feign.clients.UserClient;
 import com.qg.feign.dto.UsersDto;
-import com.qg.feign.pojo.User;
 import com.qg.project.domain.po.Project;
-import com.qg.project.domain.po.Role;
+import com.qg.common.domain.po.Role;
 import com.qg.project.domain.vo.ProjectMemberVO;
 
 import com.qg.project.domain.vo.RoleVO;
@@ -320,5 +320,10 @@ public class RoleServiceImpl implements RoleService {
             log.error("查询Boss数量时发生异常: projectId={}", projectId, e);
             return new Result(Code.INTERNAL_ERROR, "查询失败: " + e.getMessage());
         }
+    }
+
+    @Override
+    public List<Role> getRoleListByQueryWrapper(LambdaQueryWrapper<Role> queryWrapper) {
+        return roleMapper.selectList(queryWrapper);
     }
 }

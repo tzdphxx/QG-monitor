@@ -1,9 +1,14 @@
 package com.qg.feign.clients;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.qg.common.domain.po.Result;
+import com.qg.common.domain.po.Role;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 /**
  * @Description: // 类说明
@@ -17,4 +22,13 @@ public interface ProjectClient {
 
     @GetMapping("/projects/getPort")
     Result getProjectList(@RequestParam String uuid);
+
+    @GetMapping("/projects/checkProjectIdExist")
+    boolean checkProjectIdExist(@RequestParam Long projectId);
+
+    @GetMapping("/projects/selectWebhookByProjectId")
+    String selectWebhookByProjectId(@RequestParam String projectId);
+
+    @GetMapping("/roles/getRoleListByQueryWrapper")
+    List<Role> getRoleListByQueryWrapper(@RequestParam LambdaQueryWrapper<Role> queryWrapper);
 }

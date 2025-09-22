@@ -30,6 +30,7 @@
         <module>qg-common</module>
         <module>project-service</module>
         <module>message-service</module>
+
     </modules>
 
     <properties>
@@ -124,7 +125,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.30</version>
+            <version>1.18.32</version>
         </dependency>
 
         <dependency>

@@ -3,13 +3,12 @@ package com.qg.alert.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 
-import com.qg.common.domain.po.Notification;
+import com.google.javascript.jscomp.jarjar.org.apache.tools.ant.Project;
+import com.qg.common.domain.po.*;
 import com.qg.alert.domain.vo.NotificationVO;
 import com.qg.alert.mapper.NotificationMapper;
 import com.qg.alert.service.NotificationService;
 import com.qg.common.websocket.UnifiedWebSocketHandler;
-import com.qg.common.domain.po.Code;
-import com.qg.common.domain.po.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -249,6 +248,26 @@ public class NotificationServiceImpl implements NotificationService {
         } catch (Exception e) {
             log.error("删除通知失败，receiverId: {}", receiverId, e);
             return new Result(Code.INTERNAL_ERROR, "删除通知失败");
+        }
+    }
+
+    @Override
+    public Notification getNotificationByWrapper(LambdaQueryWrapper<Notification> queryWrapper) {
+        if (queryWrapper == null) {
+            log.error("查询通知失败，参数为空");
+            return null;
+        }
+        try {
+            Notification notification = notificationMapper.selectOne(queryWrapper);
+            if (notification != null) {
+                log.debug("查询通知成功: {}", notification);
+            } else {
+                log.warn("未查询到符合条件的通知");
+            }
+            return notification;
+        } catch (Exception e) {
+            log.error("查询通知失败，查询条件: {}", queryWrapper, e);
+            return null;
         }
     }
 

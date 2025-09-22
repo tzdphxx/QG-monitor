@@ -13,6 +13,9 @@ import com.qg.backend.mapper.ModuleMapper;
 import com.qg.backend.service.BackendErrorService;
 import com.qg.backend.service.ModuleService;
 import com.qg.common.domain.po.Result;
+import com.qg.common.utils.MathUtil;
+import com.qg.feign.clients.ProjectClient;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,8 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.qg.common.domain.po.Code.BAD_REQUEST;
-import static com.qg.common.domain.po.Code.SUCCESS;
+import static com.qg.common.domain.po.Code.*;
 
 
 /**
@@ -36,6 +38,7 @@ import static com.qg.common.domain.po.Code.SUCCESS;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class BackendErrorServiceImpl implements BackendErrorService {
 
     @Autowired
@@ -48,8 +51,10 @@ public class BackendErrorServiceImpl implements BackendErrorService {
     private BackendErrorAggregator backendErrorAggregator;
     @Autowired
     private ModuleService moduleService;
-    @Autowired
-    private ProjectService projectService;
+    //@Autowired
+    //private ProjectService projectService;
+
+    private final ProjectClient projectClient;
 
     @Override
     public Result selectByCondition(String projectId, Long moduleId, String type) {
@@ -99,7 +104,7 @@ public class BackendErrorServiceImpl implements BackendErrorService {
         try {
             BackendError backendError = JSONUtil.toBean(errorData, BackendError.class);
             if (backendError.getProjectId() == null ||
-                !projectService.checkProjectIdExist(backendError.getProjectId()) ||
+                !projectClient.checkProjectIdExist(Long.valueOf(backendError.getProjectId())) ||
                 backendError.getErrorType() == null ||
                 backendError.getEnvironment() == null) {
                 log.error("参数错误");

@@ -1,4 +1,4 @@
-package com.qg.project.domain.po;
+package com.qg.common.domain.po;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
