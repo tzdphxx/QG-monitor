@@ -1,7 +1,7 @@
 package com.qg.common.repository;
 
 
-import com.qg.common.utils.WechatAlertUtil;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -45,10 +45,10 @@ public abstract class StatisticsDataRepository<T> {
             List.class
     );
 
+    // setter方法供子类调用
+    @Setter
     @Autowired
     protected StringRedisTemplate stringRedisTemplate;
-    @Autowired
-    protected WechatAlertUtil wechatAlertUtil;
 
     protected final ConcurrentHashMap<String, T> cacheMap = new ConcurrentHashMap<>();
 

@@ -7,29 +7,17 @@
     <list default="true" id="101c86bb-486b-41b5-994b-d61830a62385" name="更改" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-service/src/main/java/com/qg/backend/repository/BackendErrorFatherRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-service/src/main/java/com/qg/backend/repository/BackendErrorFatherRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/feign-api/src/main/java/com/qg/feign/clients/UserClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/feign-api/src/main/java/com/qg/feign/clients/UserClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/feign-api/target/classes/com/qg/feign/clients/AlertClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/feign-api/target/classes/com/qg/feign/clients/AlertClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/feign-api/target/classes/com/qg/feign/clients/ProjectClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/feign-api/target/classes/com/qg/feign/clients/ProjectClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/feign-api/target/classes/com/qg/feign/clients/UserClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/feign-api/target/classes/com/qg/feign/clients/UserClient.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/feign-api/target/classes/com/qg/feign/config/DefaultFeignConfiguration.class" beforeDir="false" afterPath="$PROJECT_DIR$/feign-api/target/classes/com/qg/feign/config/DefaultFeignConfiguration.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/feign-api/target/classes/com/qg/feign/dto/UsersDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/feign-api/target/classes/com/qg/feign/dto/UsersDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/feign-api/target/classes/com/qg/feign/pojo/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/feign-api/target/classes/com/qg/feign/pojo/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend-service/src/main/java/com/qg/frontend/controller/FrontendController.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend-service/src/main/java/com/qg/frontend/controller/FrontendController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend-service/src/main/java/com/qg/frontend/service/impl/FrontendBehaviorServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend-service/src/main/java/com/qg/frontend/service/impl/FrontendBehaviorServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend-service/src/main/java/com/qg/frontend/service/impl/FrontendErrorServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend-service/src/main/java/com/qg/frontend/service/impl/FrontendErrorServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend-service/src/main/java/com/qg/frontend/service/impl/FrontendPerformanceServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend-service/src/main/java/com/qg/frontend/service/impl/FrontendPerformanceServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend-service/src/main/java/com/qg/frontend/service/impl/FrontendResponsibilityServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend-service/src/main/java/com/qg/frontend/service/impl/FrontendResponsibilityServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend-service/src/main/java/com/qg/frontend/repository/FrontendErrorFatherRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend-service/src/main/java/com/qg/frontend/repository/FrontendErrorFatherRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend-service/src/main/java/com/qg/frontend/service/impl/SourcemapFilesServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend-service/src/main/java/com/qg/frontend/service/impl/SourcemapFilesServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project-service/src/main/java/com/qg/project/controller/ProjectController.java" beforeDir="false" afterPath="$PROJECT_DIR$/project-service/src/main/java/com/qg/project/controller/ProjectController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project-service/src/main/java/com/qg/project/domain/po/Project.java" beforeDir="false" afterPath="$PROJECT_DIR$/qg-common/src/main/java/com/qg/common/domain/po/Project.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project-service/src/main/java/com/qg/project/mapper/ProjectMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/project-service/src/main/java/com/qg/project/mapper/ProjectMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project-service/src/main/java/com/qg/project/service/ProjectService.java" beforeDir="false" afterPath="$PROJECT_DIR$/project-service/src/main/java/com/qg/project/service/ProjectService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project-service/src/main/java/com/qg/project/service/impl/ProjectServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/project-service/src/main/java/com/qg/project/service/impl/ProjectServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project-service/src/main/java/com/qg/project/service/impl/RoleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/project-service/src/main/java/com/qg/project/service/impl/RoleServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile-service/src/main/java/com/qg/mobile/repository/MobileErrorFatherRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/mobile-service/src/main/java/com/qg/mobile/repository/MobileErrorRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/mobile-service/src/main/java/com/qg/mobile/repository/MobileErrorRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qg-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/qg-common/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qg-common/src/main/java/com/qg/common/repository/StatisticsDataRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/qg-common/src/main/java/com/qg/common/repository/StatisticsDataRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qg-common/src/main/java/com/qg/common/utils/SQLUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/qg-common/src/main/java/com/qg/common/utils/WechatAlertUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/qg-common/src/main/java/com/qg/common/utils/WechatAlertUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user-service/src/main/java/com/qg/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/com/qg/user/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/com/qg/user/domain/dto/RegisterDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/com/qg/user/domain/dto/RegisterDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/com/qg/user/domain/po/Users.java" beforeDir="false" afterPath="$PROJECT_DIR$/qg-common/src/main/java/com/qg/common/domain/po/Users.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/com/qg/user/mapper/UsersMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/com/qg/user/mapper/UsersMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user-service/src/main/java/com/qg/user/service/UsersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/com/qg/user/service/UsersService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user-service/src/main/java/com/qg/user/service/impl/UsersServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/com/qg/user/service/impl/UsersServiceImpl.java" afterDir="false" />
     </list>
@@ -42,6 +30,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -132,6 +121,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MobileServiceApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="mobile-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.qg.mobile.MobileServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="MobileServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="mobile-service" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.qg.MobileServiceApplication" />
@@ -180,7 +176,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1758554335049</updated>
-      <workItem from="1758554336652" duration="6637000" />
+      <workItem from="1758554336652" duration="18791000" />
     </task>
     <servers />
   </component>

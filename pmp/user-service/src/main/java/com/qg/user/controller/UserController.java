@@ -1,6 +1,7 @@
 package com.qg.user.controller;
 
 import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -317,5 +318,15 @@ public class UserController {
     @GetMapping("/selectBatchIds")
     public List<Users> selectBatchIds(@RequestParam Set<Long> userIds) {
         return usersService.selectBatchIds(userIds);
+    }
+
+    /**
+     * 批量查询用户
+     * @param queryWrapper 查询器
+     * @return  结果
+     */
+    @GetMapping("/selectList")
+    public List<Users> selectList(LambdaQueryWrapper<Users> queryWrapper) {
+        return usersService.selectList(queryWrapper);
     }
 }

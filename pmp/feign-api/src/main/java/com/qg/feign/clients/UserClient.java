@@ -1,6 +1,7 @@
 package com.qg.feign.clients;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qg.common.domain.po.Users;
 import com.qg.feign.dto.UsersDto;
 
@@ -30,4 +31,12 @@ public interface UserClient {
      */
     @GetMapping("/selectBatchIds")
     List<Users> selectBatchIds(@RequestParam Set<Long> userIds);
+
+    /**
+     * 批量查询用户
+     * @param queryWrapper 查询器
+     * @return  结果
+     */
+    @GetMapping("/selectList")
+    List<Users> selectList(LambdaQueryWrapper<Users> queryWrapper);
 }
