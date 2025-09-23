@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qg.common.domain.po.BackendError;
 import com.qg.backend.mapper.BackendErrorMapper;
 
-import com.qg.backend.repository.BackendErrorFatherRepository;
+import com.qg.backend.repository.BackendErrorRepository;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +25,7 @@ public class BackendErrorAggregator {
     private static final String BATCH_COUNTER_KEY = "backend_error_batch_counter";
 
     @Autowired
-    private BackendErrorFatherRepository backendErrorFatherRepository;
-
+    private BackendErrorRepository backendErrorRepository;
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
@@ -127,7 +126,7 @@ public class BackendErrorAggregator {
     private void triggerImmediateAlert(BackendError error) {
         try {
             // 调用仓库的告警逻辑
-            backendErrorFatherRepository.sendWechatAlert(error);
+            backendErrorRepository.sendWechatAlert(error);
         } catch (Exception e) {
             log.error("即时告警发送失败: {}", e.getMessage());
         }

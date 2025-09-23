@@ -1,8 +1,7 @@
 package com.qg.common.repository;
 
 
-import com.qg.common.domain.po.FrontendError;
-import com.qg.common.domain.po.MobileError;
+import com.qg.feign.clients.AlertClient;
 import com.qg.feign.clients.ProjectClient;
 import com.qg.feign.clients.UserClient;
 import lombok.AllArgsConstructor;
@@ -31,6 +30,8 @@ public abstract class ErrorRepository<T> extends StatisticsDataRepository<T> {
     protected final RestTemplate restTemplate;
     protected final ProjectClient projectClient;
     protected final UserClient userClient;
+    protected final AlertClient alertClient;
+
 
     protected abstract boolean saveNotification(List<Long> alertReceiverID, T entity);
     protected abstract boolean shouldAlert(String redisKey, T entity);
@@ -39,11 +40,12 @@ public abstract class ErrorRepository<T> extends StatisticsDataRepository<T> {
     @Autowired
     public ErrorRepository(StringRedisTemplate stringRedisTemplate,
                            ProjectClient projectClient,
-                           RestTemplateBuilder restTemplateBuilder, UserClient userClient) {
+                           RestTemplateBuilder restTemplateBuilder, UserClient userClient, AlertClient alertClient) {
         // 初始化final字段
         this.projectClient = projectClient;
         this.restTemplate = restTemplateBuilder.build();
         this.userClient = userClient;
+        this.alertClient = alertClient;
 
         // 设置父类的依赖
         setStringRedisTemplate(stringRedisTemplate);
@@ -67,7 +69,7 @@ public abstract class ErrorRepository<T> extends StatisticsDataRepository<T> {
      * @param message             发送的消息
      * @param mentionedMobileList 告警接收人集合
      */
-    protected void sendAlert(String webhookUrl, String message, List<String> mentionedMobileList) {
+    public void sendAlert(String webhookUrl, String message, List<String> mentionedMobileList) {
         try {
             // 设置请求头为JSON
             HttpHeaders headers = new HttpHeaders();

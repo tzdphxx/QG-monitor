@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qg.common.domain.po.FrontendError;
 import com.qg.frontend.mapper.FrontendErrorMapper;
 
-import com.qg.frontend.repository.FrontendErrorFatherRepository;
+import com.qg.frontend.repository.FrontendErrorRepository;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class FrontendErrorAggregator {
     private static final String BATCH_COUNTER_KEY = "frontend_error_batch_counter";
 
     @Autowired
-    private FrontendErrorFatherRepository frontendErrorFatherRepository;
+    private FrontendErrorRepository frontendErrorRepository;
 
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
@@ -100,7 +100,7 @@ public class FrontendErrorAggregator {
     private void triggerImmediateAlert(FrontendError error) {
         try {
             // 调用仓库的告警逻辑
-            frontendErrorFatherRepository.sendWechatAlert(error);
+            frontendErrorRepository.sendWechatAlert(error);
         } catch (Exception e) {
             log.error("即时告警发送失败: {}", e.getMessage());
         }

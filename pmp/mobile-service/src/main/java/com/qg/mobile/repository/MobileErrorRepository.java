@@ -5,9 +5,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qg.common.domain.po.*;
 import com.qg.common.repository.ErrorRepository;
 import com.qg.common.repository.RepositoryConstants;
+import com.qg.feign.clients.AlertClient;
 import com.qg.feign.clients.ProjectClient;
 import com.qg.feign.clients.UserClient;
+import com.qg.feign.dto.UsersDto;
 import com.qg.mobile.mapper.MobileErrorMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -37,10 +40,8 @@ public abstract class MobileErrorRepository extends ErrorRepository<MobileError>
     private MobileErrorMapper mobileErrorMapper;
 
     @Autowired
-    public MobileErrorRepository(StringRedisTemplate stringRedisTemplate,
-                                 ProjectClient projectClient,
-                                 RestTemplateBuilder restTemplateBuilder, UserClient userClient) {
-        super(stringRedisTemplate, projectClient, restTemplateBuilder, userClient);
+    public MobileErrorRepository(StringRedisTemplate stringRedisTemplate, ProjectClient projectClient, RestTemplateBuilder restTemplateBuilder, UserClient userClient, AlertClient alertClient) {
+        super(stringRedisTemplate, projectClient, restTemplateBuilder, userClient, alertClient);
     }
 
     @Override
@@ -100,10 +101,9 @@ public abstract class MobileErrorRepository extends ErrorRepository<MobileError>
      */
     @Override
     protected boolean shouldAlert(String redisKey, MobileError error) {
-        log.info("判断是否应该通知");
         String[] data = redisKey.split(":");
-        HashMap<String, Integer> alertRuleMap = alertRuleMapper
-                .selectByMobileRedisKeyToMap(data[1], data[2], data[3]);
+        HashMap<String, Integer> alertRuleMap = alertClient
+                .selectByBackendRedisKeyToMap(data[2], data[3], data[4]);
 
         int currentCount = error.getEvent();
         int threshold = alertRuleMap.getOrDefault(redisKey, DEFAULT_THRESHOLD.getAsInt());
@@ -138,7 +138,7 @@ public abstract class MobileErrorRepository extends ErrorRepository<MobileError>
                 .eq(Notification::getContent, ALERT_CONTENT_NEW)
                 .orderByDesc(Notification::getTimestamp)  // 按时间倒序排序
                 .last("LIMIT 1");  // 限制只取第一条记录
-        Notification notification = notificationMapper.selectOne(queryWrapper);
+        Notification notification = alertClient.getNotificationByWrapper(queryWrapper);
         log.info("notification:{}", notification);
 
 
@@ -153,12 +153,13 @@ public abstract class MobileErrorRepository extends ErrorRepository<MobileError>
             // 判断是否超过40分钟(2400秒)
             if (duration.getSeconds() < 300) {
                 log.info("该错误40分钟内有通知记录");
-                //检测该错误是否未被解决 （未解决在该时间段内无需重发）
+                // 检测该错误是否未被解决 （未解决在该时间段内无需重发）
                 LambdaQueryWrapper<Responsibility> queryWrapper1 = new LambdaQueryWrapper<>();
                 queryWrapper1.eq(Responsibility::getErrorType, error.getErrorType())
                         .eq(Responsibility::getProjectId, error.getProjectId());
-                Responsibility responsibility1 = responsibilityMapper.selectOne(queryWrapper1);
-                //若该错误未被指派、则发送警告
+                Responsibility responsibility1 = alertClient.getResponsibilityByQueryWrapper(queryWrapper1);
+
+                // 若该错误未被指派、则发送警告
                 if (responsibility1 == null) {
                     log.info("该错误未被指派");
                     return true;
@@ -187,7 +188,12 @@ public abstract class MobileErrorRepository extends ErrorRepository<MobileError>
         log.info("判断是否达到阈值");
 
         int currentCount = error.getEvent();
-        Integer threshold = alertRuleMapper.selectThresholdByProjectAndErrorType(error.getProjectId(), error.getErrorType(), "mobile");
+//        Integer threshold = alertRuleMapper.selectThresholdByProjectAndErrorType(error.getProjectId(), error.getErrorType(), "mobile");
+
+        Integer threshold = alertClient.selectThresholdByProjectAndErrorType(
+                error.getProjectId(),
+                error.getErrorType(),
+                "mobile");
 
         if (threshold == null) {
             log.info("没有设置阈值");
@@ -267,7 +273,8 @@ public abstract class MobileErrorRepository extends ErrorRepository<MobileError>
             queryWrapper.eq(Responsibility::getErrorType, error.getErrorType())
                     .eq(Responsibility::getProjectId, error.getProjectId());
 
-            Responsibility responsibility = responsibilityMapper.selectOne(queryWrapper);
+//            Responsibility responsibility = responsibilityMapper.selectOne(queryWrapper);
+            Responsibility responsibility = alertClient.getResponsibilityByQueryWrapper(queryWrapper);
 
 
             // 如果已经被委派
@@ -279,14 +286,14 @@ public abstract class MobileErrorRepository extends ErrorRepository<MobileError>
                 queryWrapper5.eq(Responsibility::getProjectId, error.getProjectId())
                         .eq(Responsibility::getPlatform, "mobile")
                         .eq(Responsibility::getErrorType, error.getErrorType());
-                Responsibility responsibility1 = responsibilityMapper.selectOne(queryWrapper5);
+                Responsibility responsibility1 = alertClient.getResponsibilityByQueryWrapper(queryWrapper5);
                 responsibility1.setErrorId(error.getId());
-                responsibilityMapper.update(responsibility1, queryWrapper5);
+                alertClient.updateResponsibilityByWrapper(responsibility1, queryWrapper5);
 
                 // 标记该错误为未解决
                 responsibility.setIsHandle(UN_HANDLED);
                 responsibility.setUpdateTime(LocalDateTime.now());
-                responsibilityMapper.update(responsibility, queryWrapper);
+                alertClient.updateResponsibilityByWrapper(responsibility, queryWrapper);
 
                 // 存储进通知表
                 List<Long> alertReceiverID = Arrays.asList(responsibility.getResponsibleId());
@@ -318,7 +325,8 @@ public abstract class MobileErrorRepository extends ErrorRepository<MobileError>
                 LambdaQueryWrapper<Role> queryWrapper3 = new LambdaQueryWrapper<>();
                 queryWrapper3.eq(Role::getProjectId, error.getProjectId())
                         .eq(Role::getUserRole, USER_ROLE_ADMIN);
-                List<Role> roles = roleMapper.selectList(queryWrapper3);
+//                List<Role> roles = roleMapper.selectList(queryWrapper3);
+                List<Role> roles = projectClient.getRoleListByQueryWrapper(queryWrapper3);
 
                 // 2. 提取角色中的用户ID集合
                 List<Long> userIds = roles.stream()
@@ -342,9 +350,12 @@ public abstract class MobileErrorRepository extends ErrorRepository<MobileError>
 //                    queryWrapper1.in(Users::getId, userIds);
 //                    List<Users> users = usersMapper.selectList(queryWrapper1);
 
+                List<UsersDto> users = userClient.findUserByIds(userIds);
+
                 List<String> alertReceivers = users.stream()
-                        .map(Users::getPhone)
+                        .map(UsersDto::getPhone)
                         .collect(Collectors.toList());
+
                 log.info("发送告警给: {}", alertReceivers);
 
                 sendAlert(webhookUrl, message, alertReceivers);
@@ -358,7 +369,8 @@ public abstract class MobileErrorRepository extends ErrorRepository<MobileError>
             queryWrapper.eq(Responsibility::getErrorType, error.getErrorType())
                     .eq(Responsibility::getProjectId, error.getProjectId());
 
-            Responsibility responsibility = responsibilityMapper.selectOne(queryWrapper);
+//            Responsibility responsibility = responsibilityMapper.selectOne(queryWrapper);
+            Responsibility responsibility = alertClient.getResponsibilityByQueryWrapper(queryWrapper);
 
             if (responsibility != null) {
                 log.info("该错误已经被委派");
@@ -368,9 +380,9 @@ public abstract class MobileErrorRepository extends ErrorRepository<MobileError>
                 queryWrapper6.eq(Responsibility::getProjectId, error.getProjectId())
                         .eq(Responsibility::getPlatform, "mobile")
                         .eq(Responsibility::getErrorType, error.getErrorType());
-                Responsibility responsibility2 = responsibilityMapper.selectOne(queryWrapper6);
+                Responsibility responsibility2 = alertClient.getResponsibilityByQueryWrapper(queryWrapper6);
                 responsibility2.setErrorId(error.getId());
-                responsibilityMapper.update(responsibility2, queryWrapper6);
+                alertClient.updateResponsibilityByWrapper(responsibility2, queryWrapper6);
             }
         }
 
@@ -401,12 +413,12 @@ public abstract class MobileErrorRepository extends ErrorRepository<MobileError>
             notifications.add(notification);
         }
         if (count == alertReceiverID.size()) {
-            notificationService.add(notifications);
+            alertClient.addNotification(notifications);
             log.info("已全部通知发送！");
             return true;
         }
         log.info("已通知{}个用户！", count);
-        notificationService.add(notifications);
+        alertClient.addNotification(notifications);
         return false;
 
     }

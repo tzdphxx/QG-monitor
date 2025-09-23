@@ -5,21 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="101c86bb-486b-41b5-994b-d61830a62385" name="更改" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend-service/src/main/java/com/qg/backend/repository/BackendErrorFatherRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-service/src/main/java/com/qg/backend/repository/BackendErrorFatherRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/feign-api/src/main/java/com/qg/feign/clients/UserClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/feign-api/src/main/java/com/qg/feign/clients/UserClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend-service/src/main/java/com/qg/frontend/repository/FrontendErrorFatherRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend-service/src/main/java/com/qg/frontend/repository/FrontendErrorFatherRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend-service/src/main/java/com/qg/frontend/service/impl/SourcemapFilesServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/frontend-service/src/main/java/com/qg/frontend/service/impl/SourcemapFilesServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mobile-service/src/main/java/com/qg/mobile/repository/MobileErrorFatherRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-service/src/main/java/com/qg/backend/aggregator/BackendErrorAggregator.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-service/src/main/java/com/qg/backend/aggregator/BackendErrorAggregator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-service/src/main/java/com/qg/backend/repository/BackendErrorFatherRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend-service/src/main/java/com/qg/backend/repository/BackendErrorRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend-service/src/main/java/com/qg/backend/repository/BackendErrorRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mobile-service/src/main/java/com/qg/mobile/repository/MobileErrorRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/mobile-service/src/main/java/com/qg/mobile/repository/MobileErrorRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qg-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/qg-common/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/qg-common/src/main/java/com/qg/common/repository/ErrorRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/qg-common/src/main/java/com/qg/common/repository/ErrorRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/qg-common/src/main/java/com/qg/common/repository/StatisticsDataRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/qg-common/src/main/java/com/qg/common/repository/StatisticsDataRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qg-common/src/main/java/com/qg/common/utils/SQLUtil.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/qg-common/src/main/java/com/qg/common/utils/WechatAlertUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/qg-common/src/main/java/com/qg/common/utils/WechatAlertUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/com/qg/user/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/com/qg/user/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/com/qg/user/service/UsersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/com/qg/user/service/UsersService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-service/src/main/java/com/qg/user/service/impl/UsersServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-service/src/main/java/com/qg/user/service/impl/UsersServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,32 +30,32 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="333msJZd7IZGtcp2aApOknhkifh" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "Spring Boot.BackendServiceApplication.executor": "Run",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.configurations.included.in.services": "true",
-    "settings.editor.selected.configurable": "preferences.language.and.region",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Spring Boot.BackendServiceApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.language.and.region&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.qg.feign.clients" />
