@@ -14,7 +14,7 @@ import com.qg.common.utils.FileUploadHandler;
 import com.qg.user.domain.dto.RegisterDTO;
 import com.qg.user.domain.dto.UsersDTO;
 
-import com.qg.user.domain.po.Users;
+import com.qg.common.domain.po.Users;
 import com.qg.user.service.UsersService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,9 +27,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Slf4j
-@Tag(name ="用户个人信息")
+@Tag(name = "用户个人信息")
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -48,6 +49,7 @@ public class UserController {
 
     /**
      * 用户通过邮箱登录
+     *
      * @param
      * @return
      */
@@ -55,7 +57,7 @@ public class UserController {
     @PostMapping("/password")
     public Result loginByPassword(@RequestBody EncryptedRequestDTO request) {
         try {
-            log.info("接收到的参数: {}",request);
+            log.info("接收到的参数: {}", request);
             // 1. 使用CryptoUtils解密请求
             String decryptedJson = CryptoUtils.decryptWithAESAndRSA(
                     request.getEncryptedData(),
@@ -65,7 +67,8 @@ public class UserController {
             log.info("解密后的JSON: {}", decryptedJson);
             // 2. 解析JSON获取邮箱密码
             Map<String, String> params = new ObjectMapper()
-                    .readValue(decryptedJson, new TypeReference<Map<String, String>>() {});
+                    .readValue(decryptedJson, new TypeReference<Map<String, String>>() {
+                    });
             String email = params.get("email");
             String password = params.get("password");
             log.info("用户邮箱: {}, 密码: {}", email, password);
@@ -86,12 +89,12 @@ public class UserController {
 
             // 5. 使用指定方法加密（关键修改点）
 
-            String jsonData =objectMapper.writeValueAsString(map);//将map类型的数据转化为json字符串
+            String jsonData = objectMapper.writeValueAsString(map);//将map类型的数据转化为json字符串
 
             log.info("加密前的JSON: {}", jsonData);
             EncryptionResultDTO encryptionResultDTO = CryptoUtils.encryptWithAESAndRSA(jsonData, rsaPublicKey);
             log.info("加密后的JSON: {}", encryptionResultDTO.getEncryptedData());
-            return new Result(Code.SUCCESS, encryptionResultDTO , "登录成功");
+            return new Result(Code.SUCCESS, encryptionResultDTO, "登录成功");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -99,6 +102,7 @@ public class UserController {
 
     /**
      * 用户注册
+     *
      * @param request 注册信息
      * @return 注册结果
      */
@@ -106,28 +110,28 @@ public class UserController {
     public Result register(@RequestBody EncryptedRequestDTO request) {
         RegisterDTO registerDTO = new RegisterDTO();
         try {
-        log.info("开始注册用户");
-        String decryptedJson  = CryptoUtils.decryptWithAESAndRSA(
-                request.getEncryptedData(),
-                request.getEncryptedKey(),
-                rsaPrivateKey
-        );
-        log.info("解密后的JSON: {}", decryptedJson);
-        registerDTO = new ObjectMapper().readValue(decryptedJson, RegisterDTO.class);
-        log.info("RegisterDTO: {}", registerDTO);
+            log.info("开始注册用户");
+            String decryptedJson = CryptoUtils.decryptWithAESAndRSA(
+                    request.getEncryptedData(),
+                    request.getEncryptedKey(),
+                    rsaPrivateKey
+            );
+            log.info("解密后的JSON: {}", decryptedJson);
+            registerDTO = new ObjectMapper().readValue(decryptedJson, RegisterDTO.class);
+            log.info("RegisterDTO: {}", registerDTO);
 
-        // 参数校验
-        if (registerDTO == null) {
-            log.warn("注册失败，请求参数为空");
-            return new Result(Code.BAD_REQUEST, "注册信息不能为空");
-        }
+            // 参数校验
+            if (registerDTO == null) {
+                log.warn("注册失败，请求参数为空");
+                return new Result(Code.BAD_REQUEST, "注册信息不能为空");
+            }
 
-        if (registerDTO.getUsers() == null) {
-            log.warn("注册失败，用户信息为空");
-            return new Result(Code.BAD_REQUEST, "用户信息不能为空");
-        }
+            if (registerDTO.getUsers() == null) {
+                log.warn("注册失败，用户信息为空");
+                return new Result(Code.BAD_REQUEST, "用户信息不能为空");
+            }
 
-        log.info("开始注册用户，邮箱: {}", registerDTO.getUsers().getEmail());
+            log.info("开始注册用户，邮箱: {}", registerDTO.getUsers().getEmail());
 
 
             String code = registerDTO.getCode() != null ? registerDTO.getCode().trim() : "";
@@ -150,6 +154,7 @@ public class UserController {
 
     /**
      * 发送验证码到邮箱
+     *
      * @param encryptedData
      * @param encryptedKey
      * @return
@@ -157,13 +162,14 @@ public class UserController {
     @GetMapping("/sendCodeByEmail")
     public Result sendCodeByEmail(@RequestParam("encryptedData") String encryptedData, @RequestParam("encryptedKey") String encryptedKey) {
         try {
-            String decryptedJson  = CryptoUtils.decryptWithAESAndRSA(
+            String decryptedJson = CryptoUtils.decryptWithAESAndRSA(
                     encryptedData,
                     encryptedKey,
                     rsaPrivateKey
             );
             Map<String, String> params = new ObjectMapper()
-                    .readValue(decryptedJson, new TypeReference<Map<String, String>>() {});
+                    .readValue(decryptedJson, new TypeReference<Map<String, String>>() {
+                    });
             String email = params.get("email");
             log.info("发送验证码到邮箱，邮箱: {}", email);
             // 发送验证码到邮箱
@@ -175,6 +181,7 @@ public class UserController {
 
     /**
      * 获取用户信息
+     *
      * @param id
      * @return
      */
@@ -185,13 +192,14 @@ public class UserController {
 
     /**
      * 找回密码
+     *
      * @param request
      * @return
      */
     @PutMapping("/findPassword")
     public Result findPassword(@RequestBody EncryptedRequestDTO request) {
         try {
-            log.info("接收到的参数: {}",request);
+            log.info("接收到的参数: {}", request);
             // 1. 使用CryptoUtils解密请求
             String decryptedJson = CryptoUtils.decryptWithAESAndRSA(
                     request.getEncryptedData(),
@@ -201,7 +209,8 @@ public class UserController {
             log.info("解密后的JSON: {}", decryptedJson);
             // 2. 解析JSON获取邮箱密码
             Map<String, Object> params = new ObjectMapper()
-                    .readValue(decryptedJson, new TypeReference<Map<String, Object>>() {});
+                    .readValue(decryptedJson, new TypeReference<Map<String, Object>>() {
+                    });
 
             // 获取user对象并转换为Users类
             Map<String, Object> userMap = (Map<String, Object>) params.get("users");
@@ -219,6 +228,7 @@ public class UserController {
 
     /**
      * 更新头像
+     *
      * @param file
      * @param userId
      * @return
@@ -261,7 +271,7 @@ public class UserController {
 
     @PutMapping("/updateUser")
     public Result updateUser(@RequestBody EncryptedRequestDTO request) {
-        log.info("接收到的参数: {}",request);
+        log.info("接收到的参数: {}", request);
         // 1. 使用CryptoUtils解密请求
         String decryptedJson = null;
         try {
@@ -272,7 +282,8 @@ public class UserController {
             );
             log.info("解密后的JSON: {}", decryptedJson);
             Map<String, Object> params = new ObjectMapper()
-                    .readValue(decryptedJson, new TypeReference<Map<String, Object>>() {});
+                    .readValue(decryptedJson, new TypeReference<Map<String, Object>>() {
+                    });
             Users users = new ObjectMapper().convertValue(params.get("user"), Users.class);
             log.info("用户信息: {}", users);
             return usersService.updateUser(users);
@@ -284,7 +295,7 @@ public class UserController {
     @PostMapping("/password1")
     public Result loginByPassword(@RequestBody Users user) {
         log.info("用户登录，邮箱: {}, 密码: {}", user.getEmail(), user.getPassword());
-        return new Result(200,"登录成功");
+        return new Result(200, "登录成功");
     }
 
 
@@ -296,5 +307,15 @@ public class UserController {
     @GetMapping("/findUserByIds")
     public List<UsersDTO> findUserByIds(@RequestParam Collection<Long> ids) {
         return usersService.findUserByIds(ids);
+    }
+
+    /**
+     * 批量查询用户
+     * @param userIds 用户id集合
+     * @return  结果
+     */
+    @GetMapping("/selectBatchIds")
+    public List<Users> selectBatchIds(@RequestParam Set<Long> userIds) {
+        return usersService.selectBatchIds(userIds);
     }
 }

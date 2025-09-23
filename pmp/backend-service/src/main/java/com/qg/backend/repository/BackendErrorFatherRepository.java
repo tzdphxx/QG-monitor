@@ -9,7 +9,6 @@ import com.qg.common.domain.po.Responsibility;
 import com.qg.common.domain.po.Role;
 import com.qg.common.repository.StatisticsDataRepository;
 
-import com.qg.common.utils.WechatAlertUtil;
 import com.qg.feign.clients.AlertClient;
 import com.qg.feign.clients.ProjectClient;
 import com.qg.feign.clients.UserClient;
@@ -26,7 +25,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.qg.common.repository.RepositoryConstants.*;
 import static com.qg.common.utils.Constants.USER_ROLE_ADMIN;
 
 

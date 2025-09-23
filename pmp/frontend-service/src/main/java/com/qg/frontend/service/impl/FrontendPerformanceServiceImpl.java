@@ -90,6 +90,13 @@ public class FrontendPerformanceServiceImpl implements FrontendPerformanceServic
         return new Result(SUCCESS, List.of(new ArrayList<>(), frontendPerformances, new ArrayList<>()), "查询成功");
     }
 
+    /**
+     * 获取某个项目的访问量
+     *
+     * @param projectId 项目id
+     * @param timeType  时间类型
+     * @return 结果
+     */
     @Override
     public Result getVisits(String projectId, String timeType) {
         // 参数校验

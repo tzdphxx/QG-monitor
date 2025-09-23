@@ -2,7 +2,6 @@ package com.qg.alert.controller;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.qg.common.domain.po.Responsibility;
 import com.qg.alert.service.ResponsibilityService;
 import com.qg.common.domain.po.Result;

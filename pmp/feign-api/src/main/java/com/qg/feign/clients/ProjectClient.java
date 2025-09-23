@@ -1,7 +1,6 @@
 package com.qg.feign.clients;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.qg.common.domain.po.Result;
 import com.qg.common.domain.po.Role;
 import org.springframework.cloud.openfeign.FeignClient;

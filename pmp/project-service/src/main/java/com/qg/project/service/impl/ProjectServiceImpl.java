@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.qg.common.domain.po.Code;
 import com.qg.common.domain.po.Result;
 import com.qg.project.domain.dto.InviteDto;
-import com.qg.project.domain.po.Project;
+import com.qg.common.domain.po.Project;
 import com.qg.common.domain.po.Role;
 import com.qg.project.domain.vo.PersonalProjectVO;
 import com.qg.project.mapper.ProjectMapper;
@@ -24,8 +24,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import static com.qg.common.domain.po.Code.*;
-import static com.qg.common.utils.Constants.*;
 import static com.qg.common.utils.RedisConstants.INVITE_CODE_KEY;
 import static com.qg.common.utils.RedisConstants.INVITE_CODE_TTL;
 

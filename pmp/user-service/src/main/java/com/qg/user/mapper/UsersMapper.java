@@ -2,7 +2,7 @@ package com.qg.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
-import com.qg.user.domain.po.Users;
+import com.qg.common.domain.po.Users;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.data.repository.query.Param;

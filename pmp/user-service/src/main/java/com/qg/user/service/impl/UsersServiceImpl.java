@@ -18,7 +18,7 @@ import com.qg.common.utils.RegexUtils;
 import com.qg.user.utils.EmailService;
 import com.qg.user.domain.dto.UsersDTO;
 
-import com.qg.user.domain.po.Users;
+import com.qg.common.domain.po.Users;
 import com.qg.user.mapper.UsersMapper;
 import com.qg.user.service.UsersService;
 import com.qg.user.utils.HashSaltUtil;
@@ -31,8 +31,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
-
-
 
 
 @Slf4j
@@ -139,13 +137,11 @@ public class UsersServiceImpl implements UsersService {
         }
 
 
-
-
         // 对密码进行加密处理
         user.setPassword(HashSaltUtil.creatHashPassword(user.getPassword()));
 
         // 自动生成一个初始姓名
-        if(user.getUsername() == null || user.getUsername().trim().equals("")){
+        if (user.getUsername() == null || user.getUsername().trim().equals("")) {
             user.setUsername("用户：" + RandomUtil.randomString(6));
         }
         user.setAvatar(DEFAULT_AVATAR_URL);
@@ -156,7 +152,7 @@ public class UsersServiceImpl implements UsersService {
         }
         LambdaQueryWrapper<Users> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Users::getEmail, email);
-        user= usersMapper.selectOne(wrapper);
+        user = usersMapper.selectOne(wrapper);
         // 注册成功后删除验证码
         stringRedisTemplate.delete(RedisConstants.LOGIN_CODE_KEY + user.getEmail());
         // 随机生成token，作为的登录令牌
@@ -185,7 +181,7 @@ public class UsersServiceImpl implements UsersService {
             log.info("加密后的JSON: {}", encryptionResultDTO.getEncryptedData());
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -223,11 +219,11 @@ public class UsersServiceImpl implements UsersService {
     //用户获取个人信息
     @Override
     public Result getUser(Long id) {
-        if(id == null) {
+        if (id == null) {
             return new Result(Code.BAD_REQUEST, "用户ID不能为空");
         }
         Users user = usersMapper.selectById(id);
-        if(user == null) {
+        if (user == null) {
             return new Result(Code.NOT_FOUND, "用户不存在");
         }
         user.setPassword(null);
@@ -243,9 +239,9 @@ public class UsersServiceImpl implements UsersService {
 
             encryptionResultDTO = CryptoUtils.encryptWithAESAndRSA(jsonData, rsaPublicKey);
 
-        }  catch (JsonProcessingException e) {
+        } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
         log.info("加密后的JSON: {}", encryptionResultDTO.getEncryptedData());
@@ -306,7 +302,7 @@ public class UsersServiceImpl implements UsersService {
         // 1. 先查询确保用户存在
         Users existingUser = usersMapper.selectById(id);
         log.info("用户：{}", existingUser);
-        if(existingUser == null) {
+        if (existingUser == null) {
             return new Result(Code.NOT_FOUND, "用户不存在");
         }
 
@@ -320,8 +316,8 @@ public class UsersServiceImpl implements UsersService {
         LambdaQueryWrapper<Users> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(Users::getId, id);
 
-        int count = usersMapper.update(users,queryWrapper);
-        if(count == 0){
+        int count = usersMapper.update(users, queryWrapper);
+        if (count == 0) {
             return new Result(Code.NOT_FOUND, "用户数据修改失败");
         }
 
@@ -335,7 +331,7 @@ public class UsersServiceImpl implements UsersService {
             return new Result(Code.SUCCESS, encryptionResultDTO, "更新用户信息成功");
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
@@ -344,7 +340,7 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public UsersDTO findUserById(Long id) {
         Users user = usersMapper.selectById(id);
-        if(user == null) {
+        if (user == null) {
             return null;
         }
         return BeanUtil.copyProperties(user, UsersDTO.class);
@@ -354,5 +350,15 @@ public class UsersServiceImpl implements UsersService {
     public List<UsersDTO> findUserByIds(Collection<Long> ids) {
         List<Users> users = usersMapper.selectBatchIds(ids);
         return BeanUtil.copyToList(users, UsersDTO.class);
+    }
+
+    /**
+     * 批量查询用户
+     * @param userIds 用户id集合
+     * @return  结果
+     */
+    @Override
+    public List<Users> selectBatchIds(Set<Long> userIds) {
+        return usersMapper.selectBatchIds(userIds);
     }
 }

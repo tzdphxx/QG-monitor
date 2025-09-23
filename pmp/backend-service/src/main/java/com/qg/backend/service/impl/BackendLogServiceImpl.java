@@ -5,16 +5,21 @@ import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
 import com.qg.backend.domain.po.BackendLog;
-import com.qg.backend.domain.vo.BackendLogMapper;
+import com.qg.backend.mapper.BackendLogMapper;
 import com.qg.backend.repository.BackendLogRepository;
 import com.qg.backend.service.BackendLogService;
 import com.qg.backend.service.ModuleService;
+
+import com.qg.common.domain.vo.EarthVO;
+import com.qg.common.domain.vo.IllegalAttackVO;
 import com.qg.feign.clients.ProjectClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -35,8 +40,8 @@ public class BackendLogServiceImpl implements BackendLogService {
     private BackendLogMapper backendLogMapper;
     @Autowired
     private ModuleService moduleService;
-/*    @Autowired
-    private ProjectService projectService;*/
+    /*    @Autowired
+        private ProjectService projectService;*/
     private final ProjectClient projectClient;
 
 
@@ -105,4 +110,31 @@ public class BackendLogServiceImpl implements BackendLogService {
         return backendLogMapper.selectList(queryWrapper);
     }
 
+    /**
+     * 查询指定时间段内所有IP的拦截次数统计
+     *
+     * @param projectId 项目ID
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @return 拦截统计列表(IP和拦截次数)
+     */
+    @Override
+    public List<IllegalAttackVO> queryIpInterceptionCount(
+            String projectId, LocalDateTime startTime, LocalDateTime endTime) {
+        return backendLogMapper.queryIpInterceptionCount(projectId, startTime, endTime);
+    }
+
+    /**
+     * 查询指定时间段内所有境外访问的IP的拦截次数统计
+     *
+     * @param projectId 项目id
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @return 结果
+     */
+    @Override
+    public List<EarthVO> queryForeignIpInterceptions(
+            String projectId, LocalDateTime startTime, LocalDateTime endTime) {
+        return backendLogMapper.queryForeignIpInterceptions(projectId, startTime, endTime);
+    }
 }

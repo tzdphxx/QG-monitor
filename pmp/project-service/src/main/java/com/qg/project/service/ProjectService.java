@@ -3,7 +3,7 @@ package com.qg.project.service;
 
 import com.qg.common.domain.po.Result;
 import com.qg.project.domain.dto.InviteDto;
-import com.qg.project.domain.po.Project;
+import com.qg.common.domain.po.Project;
 import com.qg.project.domain.vo.PersonalProjectVO;
 
 

@@ -6,10 +6,7 @@ import com.qg.common.domain.po.BackendError;
 import com.qg.common.domain.po.Notification;
 import com.qg.common.domain.po.Responsibility;
 import com.qg.common.repository.RepositoryConstants;
-import com.qg.feign.clients.AlertClient;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.time.Duration;

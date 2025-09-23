@@ -19,8 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.qg.common.domain.po.Code.*;
-
 
 /**
  * @Description: 后端性能应用  // 类说明
@@ -133,6 +131,13 @@ public class BackendPerformanceServiceImpl implements BackendPerformanceService 
         }
     }
 
+    /**
+     * 获取后端api平均响应时间
+     *
+     * @param projectId 项目id
+     * @param timeType  时间类型
+     * @return  结果
+     */
     @Override
     public Result getAverageTime(String projectId, String timeType) {
         if (projectId == null || projectId.isEmpty()) {

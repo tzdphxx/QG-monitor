@@ -26,8 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.qg.common.domain.po.Code.*;
-
 
 /**
  * @Description: 后端错误应用  // 类说明
@@ -125,6 +123,12 @@ public class BackendErrorServiceImpl implements BackendErrorService {
         }
     }
 
+    /**
+     * web端，获取后端错误统计
+     *
+     * @param projectId 项目id
+     * @return  结果
+     */
     @Override
     public Object[] getBackendErrorStats(String projectId) {
         LambdaQueryWrapper<BackendError> queryWrapper = new LambdaQueryWrapper<>();
@@ -164,6 +168,12 @@ public class BackendErrorServiceImpl implements BackendErrorService {
         return new Object[]{transformDataVOList, uvBillDataVOList};
     }
 
+    /**
+     * app端，获取后端错误统计
+     *
+     * @param projectId 项目id
+     * @return  结果
+     */
     @Override
     public Object[] getBackendErrorStatsPro(String projectId) {
         LambdaQueryWrapper<BackendError> queryWrapper = new LambdaQueryWrapper<>();

@@ -1,5 +1,6 @@
 package com.qg.feign.clients;
 
+import com.qg.common.domain.po.Result;
 import com.qg.common.domain.vo.ErrorTrendVO;
 import com.qg.common.domain.vo.FrontendBehaviorVO;
 import com.qg.common.domain.vo.FrontendPerformanceAverageVO;
@@ -98,4 +99,33 @@ public interface FrontendClient {
             @Param("projectId") String projectId,
             @Param("startTime") LocalDateTime startTime,
             @Param("endTime") LocalDateTime endTime);
+
+    /**
+     * 获取某个项目的访问量
+     *
+     * @param projectId 项目id
+     * @param timeType  时间类型
+     * @return 结果
+     */
+    @GetMapping("/getVisits")
+    Result getVisits(@Param("projectId") String projectId, @Param("timeType") String timeType);
+
+    /**
+     * 获取前端按钮数据
+     *
+     * @param projectId 项目id
+     * @return 结果
+     */
+    @GetMapping("/getFrontendButton")
+    Result getFrontendButton(@Param("projectId") String projectId);
+
+    /**
+     * 获取前端api平均响应时间
+     *
+     * @param projectId 项目id
+     * @param timeType  时间类型
+     * @return 结果
+     */
+    @GetMapping("/getAverageTime")
+    Result getAverageTime(@Param("projectId") String projectId, @Param("timeType") String timeType);
 }

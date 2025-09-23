@@ -2,13 +2,9 @@ package com.qg.graph.controller;
 
 import cn.hutool.core.util.StrUtil;
 
-import com.qg.common.domain.vo.ErrorTrendVO;
-import com.qg.common.domain.vo.FrontendBehaviorVO;
-import com.qg.common.domain.vo.ManualTrackingVO;
-import com.qg.graph.domain.vo.*;
+import com.qg.common.domain.vo.*;
 import com.qg.common.domain.po.Code;
 import com.qg.common.domain.po.Result;
-import com.qg.graph.domain.vo.EarthVO;
 import com.qg.graph.service.GraphService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -35,11 +31,11 @@ public class GraphController {
     /**
      * 页面停留时间，页面进入次数
      *
-     * @param projectId
-     * @param route
-     * @param startTime
-     * @param endTime
-     * @return
+     * @param projectId 项目id
+     * @param route     指定路由
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @return 结果
      */
 
     @GetMapping("/pageStateAndEnterCount")
@@ -98,29 +94,25 @@ public class GraphController {
 
     }
 
-
     /**
-     * @param projectId
-     * @param timeType
-     * @return com.qg.domain.Result
-     * @Author lrt
-     * @Description //访问量
-     * @Date 17:23 2025/8/12
-     * @Param
-     **/
+     * 获取某个项目的访问量
+     *
+     * @param projectId 项目id
+     * @param timeType  时间类型
+     * @return 结果
+     */
     @GetMapping("/getVisits")
     public Result getVisits(@RequestParam String projectId, @RequestParam String timeType) {
-        return frontendPerformanceService.getVisits(projectId, timeType);
+        return graphService.getVisits(projectId, timeType);
     }
-
 
     /**
      * 按时间（允许按照时间筛选）以及错误类别（前端/后端/移动）展示错误量
      *
-     * @param projectId
-     * @param startTime
-     * @param endTime
-     * @return
+     * @param projectId 项目id
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @return 结果
      */
     @GetMapping("/getErrorTrend")
     public Result getErrorTrend(
@@ -144,12 +136,11 @@ public class GraphController {
         }
     }
 
-
     /**
      * 获取前端错误周报
      *
-     * @param projectId
-     * @return
+     * @param projectId 项目id
+     * @return 结果
      */
     @GetMapping("/getFrontendErrorStats")
     public Result getFrontendErrorStats(@RequestParam String projectId) {
@@ -166,7 +157,14 @@ public class GraphController {
         }
     }
 
-
+    /**
+     * 获取埋点错误统计
+     *
+     * @param projectId 项目id
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @return 结果
+     */
     @GetMapping("/getManualTrackingStats")
     public Result getManualTrackingStats(
             @RequestParam("projectId") String projectId,
@@ -196,15 +194,12 @@ public class GraphController {
         }
     }
 
-
     /**
-     * @param projectId
-     * @return com.qg.domain.Result
-     * @Author lrt
-     * @Description // 查询近一周后端错误
-     * @Date 17:25 2025/8/12
-     * @Param
-     **/
+     * web端，获取后端错误统计
+     *
+     * @param projectId 项目id
+     * @return 结果
+     */
     @GetMapping("/getBackendErrorStats")
     public Result getBackendErrorStats(@RequestParam String projectId) {
         if (StrUtil.isBlank(projectId)) {
@@ -212,13 +207,19 @@ public class GraphController {
         }
         try {
             return new Result(Code.SUCCESS,
-                    backendErrorService.getBackendErrorStats(projectId), "查询近一周后端错误统计成功");
+                    graphService.getBackendErrorStats(projectId), "查询近一周后端错误统计成功");
         } catch (Exception e) {
             log.error("查询后端错误统计时发生异常: projectId={}", projectId, e);
             return new Result(Code.INTERNAL_ERROR, "查询近一周后端错误统计失败");
         }
     }
 
+    /**
+     * app端，获取后端错误统计
+     *
+     * @param projectId 项目id
+     * @return 结果
+     */
     @GetMapping("/getBackendErrorStatsPro")
     public Result getBackendErrorStatsPro(@RequestParam String projectId) {
         if (StrUtil.isBlank(projectId)) {
@@ -226,13 +227,12 @@ public class GraphController {
         }
         try {
             return new Result(Code.SUCCESS,
-                    backendErrorService.getBackendErrorStatsPro(projectId), "查询近一周后端错误统计成功");
+                    graphService.getBackendErrorStatsPro(projectId), "查询近一周后端错误统计成功");
         } catch (Exception e) {
             log.error("查询后端错误统计时发生异常: projectId={}", projectId, e);
             return new Result(Code.INTERNAL_ERROR, "查询近一周后端错误统计失败");
         }
     }
-
 
     /**
      * @param projectId
@@ -249,13 +249,12 @@ public class GraphController {
         }
         try {
             return new Result(Code.SUCCESS,
-                    mobileErrorService.getMobileErrorStats(projectId), "查询近一周移动端错误统计成功");
+                    graphService.getMobileErrorStats(projectId), "查询近一周移动端错误统计成功");
         } catch (Exception e) {
             log.error("查询移动端错误统计时发生异常: projectId={}", projectId, e);
             return new Result(Code.INTERNAL_ERROR, "查询近一周移动端错误统计失败");
         }
     }
-
 
     @GetMapping("/getMobileErrorStatsPro")
     public Result getMobileErrorStatsPro(@RequestParam String projectId) {
@@ -264,13 +263,12 @@ public class GraphController {
         }
         try {
             return new Result(Code.SUCCESS,
-                    mobileErrorService.getMobileErrorStatsPro(projectId), "查询近一周移动端错误统计成功");
+                    graphService.getMobileErrorStatsPro(projectId), "查询近一周移动端错误统计成功");
         } catch (Exception e) {
             log.error("查询移动端错误统计时发生异常: projectId={}", projectId, e);
             return new Result(Code.INTERNAL_ERROR, "查询近一周移动端错误统计失败");
         }
     }
-
 
     /**
      * @param projectId
@@ -287,18 +285,18 @@ public class GraphController {
                                  @RequestParam String timeType) {
         switch (platform) {
             case "frontend":
-                return frontendErrorService.getAverageTime(projectId, timeType);
+                return graphService.getFrontApiAverageTime(projectId, timeType);
             case "backend":
-                return backendPerformanceService.getAverageTime(projectId, timeType);
+                return graphService.getBackendApiAverageTime(projectId, timeType);
             case "mobile":
-                return mobilePerformanceService.getAverageTime(projectId, timeType);
+                return graphService.getMobileApiAverageTime(projectId, timeType);
             default:
                 return new Result(Code.BAD_REQUEST, "不支持的平台类型");
         }
     }
 
     /**
-     * @param projectId
+     * @param projectId 项目id
      * @return com.qg.domain.Result
      * @Author lrt
      * @Description //TODO 获取前端按钮数据
@@ -307,16 +305,16 @@ public class GraphController {
      **/
     @GetMapping("/getFrontendButton")
     public Result getFrontendButton(@RequestParam String projectId) {
-        return frontendBehaviorService.getFrontendButton(projectId);
+        return graphService.getFrontendButton(projectId);
     }
 
     /**
-     * 查询查询前端性能数据-平均时间
+     * 获取前端性能，加载时间平均数据
      *
-     * @param projectId
-     * @param startTime
-     * @param endTime
-     * @return
+     * @param projectId 项目id
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @return 结果
      */
     @GetMapping("/getAverageFrontendPerformanceTime")
     public Result getAverageFrontendPerformanceTime(
@@ -337,8 +335,7 @@ public class GraphController {
 
         try {
             return new Result(Code.SUCCESS
-                    , frontendPerformanceMapper
-                    .queryAverageFrontendPerformanceTime(projectId, startTime, endTime)
+                    , graphService.getAverageFrontendPerformanceTime(projectId, startTime, endTime)
                     , "查询前端性能数据-平均时间,成功");
         } catch (Exception e) {
             log.error("查询查询前端性能数据-平均时间,失败:{}", e.getMessage());
@@ -348,18 +345,25 @@ public class GraphController {
     }
 
 
+    /**
+     * 获取移动端操作性能
+     *
+     * @param projectId 项目id
+     * @param timeType  时间类型
+     * @return 结果
+     */
     @GetMapping("/MobileOperationalPerformance")
-    public Result getMobileOperation(@RequestParam String projectId,@RequestParam String timeType){
-        return mobilePerformanceService.getMobileOperation(projectId,timeType);
+    public Result getMobileOperation(@RequestParam String projectId, @RequestParam String timeType) {
+        return graphService.getMobileOperation(projectId, timeType);
     }
 
     /**
-     * 获取方法调用统计
+     * 获取后端方法调用统计
      *
-     * @param projectId
-     * @param startTime
-     * @param endTime
-     * @return
+     * @param projectId 项目id
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @return 结果
      */
     @GetMapping("/getMethodInvocationStats")
     public Result getMethodInvocationStats(
@@ -383,12 +387,12 @@ public class GraphController {
     }
 
     /**
-     * 获取非法攻击统计
+     * 查询指定时间段内所有IP的拦截次数统计
      *
-     * @param projectId
-     * @param startTime
-     * @param endTime
-     * @return
+     * @param projectId 项目ID
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @return 拦截统计列表(IP和拦截次数)
      */
     @GetMapping("/getIpInterceptionCount")
     public Result getIpInterceptionCount(
@@ -412,12 +416,12 @@ public class GraphController {
     }
 
     /**
-     * 获取外网非法攻击统计
+     * 查询指定时间段内所有境外访问的IP的拦截次数统计
      *
-     * @param projectId
-     * @param startTime
-     * @param endTime
-     * @return
+     * @param projectId 项目id
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @return 结果
      */
     @GetMapping("/getForeignIpInterception")
     public Result getForeignIpInterception(
@@ -440,14 +444,13 @@ public class GraphController {
         }
     }
 
-
     /**
      * 判断项目id、时间是否为空
      *
-     * @param projectId
-     * @param startTime
-     * @param endTime
-     * @return
+     * @param projectId 项目id
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @return 结果
      */
     private boolean isProjectIdAndTimeNull(String projectId, LocalDateTime startTime, LocalDateTime endTime) {
         if (StrUtil.isBlank(projectId) || startTime == null || endTime == null) {
@@ -459,6 +462,5 @@ public class GraphController {
         }
         return false;
     }
-
 
 }

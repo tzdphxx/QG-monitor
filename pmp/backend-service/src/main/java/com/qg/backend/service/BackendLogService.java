@@ -2,6 +2,10 @@ package com.qg.backend.service;
 
 
 import com.qg.backend.domain.po.BackendLog;
+import com.qg.common.domain.vo.EarthVO;
+import com.qg.common.domain.vo.IllegalAttackVO;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -19,4 +23,11 @@ public interface BackendLogService {
 
     void receiveLogFromSDK(String logJSON);
 
+    List<IllegalAttackVO> queryIpInterceptionCount(
+            String projectId, LocalDateTime startTime, LocalDateTime endTime);
+
+    List<EarthVO> queryForeignIpInterceptions(
+            String projectId,
+            LocalDateTime startTime,
+            LocalDateTime endTime);
 }

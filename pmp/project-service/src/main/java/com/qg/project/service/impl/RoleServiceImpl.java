@@ -2,7 +2,6 @@ package com.qg.project.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.qg.common.domain.po.Code;
 
 import com.qg.common.domain.po.Responsibility;
@@ -11,7 +10,7 @@ import com.qg.common.domain.po.Result;
 import com.qg.feign.clients.AlertClient;
 import com.qg.feign.clients.UserClient;
 import com.qg.feign.dto.UsersDto;
-import com.qg.project.domain.po.Project;
+import com.qg.common.domain.po.Project;
 import com.qg.common.domain.po.Role;
 import com.qg.project.domain.vo.ProjectMemberVO;
 
@@ -29,8 +28,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.qg.common.utils.Constants.*;
 
 @Service
 @Slf4j

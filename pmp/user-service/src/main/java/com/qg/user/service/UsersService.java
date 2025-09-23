@@ -3,11 +3,12 @@ package com.qg.user.service;
 
 import com.qg.common.domain.po.Result;
 import com.qg.user.domain.dto.UsersDTO;
-import com.qg.user.domain.po.Users;
+import com.qg.common.domain.po.Users;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface UsersService {
     Map<String,Object> loginByPassword(String email, String password);
@@ -27,4 +28,6 @@ public interface UsersService {
     UsersDTO findUserById(Long id);
 
     List<UsersDTO> findUserByIds(Collection<Long> ids);
+
+    List<Users> selectBatchIds(Set<Long> userIds);
 }

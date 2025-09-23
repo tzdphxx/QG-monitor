@@ -121,7 +121,7 @@ public class FrontendErrorServiceImpl implements FrontendErrorService {
      * 获取两种前端错误信息
      *
      * @param projectId 项目id
-     * @return  结果
+     * @return 结果
      */
     @Override
     public Object[] getErrorStats(String projectId) {
@@ -138,6 +138,13 @@ public class FrontendErrorServiceImpl implements FrontendErrorService {
         return new Object[]{uvBillDataVOList, transformDataVOList};
     }
 
+    /**
+     * 获取前端api平均响应时间
+     *
+     * @param projectId 项目id
+     * @param timeType  时间类型
+     * @return 结果
+     */
     @Override
     public Result getAverageTime(String projectId, String timeType) {
         if (projectId == null || timeType == null) {
@@ -209,10 +216,11 @@ public class FrontendErrorServiceImpl implements FrontendErrorService {
 
     /**
      * 获取埋点错误统计
+     *
      * @param projectId 项目id
      * @param startTime 开始时间
      * @param endTime   结束时间
-     * @return  结果
+     * @return 结果
      */
     @Override
     public List<ManualTrackingVO> queryManualTrackingStats(

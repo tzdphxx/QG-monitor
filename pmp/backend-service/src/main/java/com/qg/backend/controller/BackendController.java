@@ -9,18 +9,21 @@ import com.qg.backend.service.BackendLogService;
 import com.qg.backend.service.BackendPerformanceService;
 
 import com.qg.backend.service.MethodInvocationService;
+
+import com.qg.common.domain.po.Result;
+import com.qg.common.domain.vo.EarthVO;
+import com.qg.common.domain.vo.IllegalAttackVO;
 import com.qg.feign.clients.ProjectClient;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -48,10 +51,6 @@ public class BackendController {
     private BackendLogService backendLogService;
     @Autowired
     private MethodInvocationService methodInvocationService;
-    /*
-    @Autowired
-    private ProjectService projectService;
-    */
 
     private final ProjectClient projectClient;
 
@@ -133,6 +132,72 @@ public class BackendController {
     @PostMapping("/log")
     public void receiveLogFromSDK(@RequestBody String logJSON) {
         backendLogService.receiveLogFromSDK(logJSON);
+    }
+
+    /**
+     * 查询指定时间段内所有IP的拦截次数统计
+     *
+     * @param projectId 项目ID
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @return 拦截统计列表(IP和拦截次数)
+     */
+    @GetMapping("/queryIpInterceptionCount")
+    public List<IllegalAttackVO> queryIpInterceptionCount(
+            @RequestParam String projectId,
+            @RequestParam LocalDateTime startTime,
+            @RequestParam LocalDateTime endTime) {
+        return backendLogService.queryIpInterceptionCount(projectId, startTime, endTime);
+    }
+
+    /**
+     * 查询指定时间段内所有境外访问的IP的拦截次数统计
+     *
+     * @param projectId 项目id
+     * @param startTime 开始时间
+     * @param endTime   结束时间
+     * @return 结果
+     */
+    @GetMapping("/queryForeignIpInterceptions")
+    public List<EarthVO> queryForeignIpInterceptions(
+            @RequestParam String projectId,
+            @RequestParam LocalDateTime startTime,
+            @RequestParam LocalDateTime endTime) {
+        return backendLogService.queryForeignIpInterceptions(projectId, startTime, endTime);
+    }
+
+    /**
+     * web端，获取后端错误统计
+     *
+     * @param projectId 项目id
+     * @return 结果
+     */
+    @GetMapping("/getBackendErrorStats")
+    public Object[] getBackendErrorStats(@RequestParam String projectId) {
+        return backendErrorService.getBackendErrorStats(projectId);
+    }
+
+    /**
+     * app端，获取后端错误统计
+     *
+     * @param projectId 项目id
+     * @return 结果
+     */
+    @GetMapping("/getBackendErrorStatsPro")
+    public Object[] getBackendErrorStatsPro(@RequestParam String projectId) {
+        return backendErrorService.getBackendErrorStatsPro(projectId);
+    }
+
+    /**
+     * 获取后端api平均响应时间
+     *
+     * @param projectId 项目id
+     * @param timeType  时间类型
+     * @return 结果
+     */
+    @GetMapping("/getAverageTime")
+    public Result getAverageTime(@RequestParam String projectId, @RequestParam String timeType) {
+        return backendPerformanceService.getAverageTime(projectId, timeType);
     }
 }
 

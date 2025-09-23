@@ -1,10 +1,12 @@
 package com.qg.frontend.controller;
 
 
-import com.qg.common.domain.po.Result;
-import com.qg.common.domain.vo.*;
-import com.qg.common.utils.MathUtil;
 import com.qg.frontend.service.*;
+import com.qg.common.domain.po.Result;
+import com.qg.common.domain.vo.ErrorTrendVO;
+import com.qg.common.domain.vo.FrontendBehaviorVO;
+import com.qg.common.domain.vo.FrontendPerformanceAverageVO;
+import com.qg.common.domain.vo.ManualTrackingVO;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
@@ -14,8 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+
+import static com.qg.common.domain.po.Code.INTERNAL_ERROR;
 
 
 /**
@@ -221,5 +224,40 @@ public class FrontendController {
             @Param("startTime") LocalDateTime startTime,
             @Param("endTime") LocalDateTime endTime) {
         return frontendPerformanceService.queryAverageFrontendPerformanceTime(projectId, startTime, endTime);
+    }
+
+    /**
+     * 获取某个项目的访问量
+     *
+     * @param projectId 项目id
+     * @param timeType  时间类型
+     * @return 结果
+     */
+    @GetMapping("/getVisits")
+    public Result getVisits(@Param("projectId") String projectId, @Param("timeType") String timeType) {
+        return frontendPerformanceService.getVisits(projectId, timeType);
+    }
+
+    /**
+     * 获取前端按钮数据
+     *
+     * @param projectId 项目id
+     * @return 结果
+     */
+    @GetMapping("/getFrontendButton")
+    public Result getFrontendButton(@Param("projectId") String projectId) {
+        return frontendBehaviorService.getFrontendButton(projectId);
+    }
+
+    /**
+     * 获取前端api平均响应时间
+     *
+     * @param projectId 项目id
+     * @param timeType  时间类型
+     * @return 结果
+     */
+    @GetMapping("/getAverageTime")
+    public Result getAverageTime(@Param("projectId") String projectId, @Param("timeType") String timeType) {
+        return frontendPerformanceService.getAverageTime(projectId, timeType);
     }
 }

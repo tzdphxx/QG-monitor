@@ -1,14 +1,16 @@
 package com.qg.frontend.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-
-import com.google.javascript.jscomp.jarjar.org.apache.tools.ant.Project;
 import com.qg.common.domain.po.Code;
+import com.qg.common.domain.po.Project;
 import com.qg.common.domain.po.Result;
+import com.qg.common.utils.SQLUtil;
+import com.qg.feign.clients.ProjectClient;
 import com.qg.frontend.domain.po.SourcemapFiles;
 
 import com.qg.frontend.mapper.SourcemapFilesMapper;
 import com.qg.frontend.service.SourcemapFilesService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,13 +27,12 @@ import static com.qg.common.utils.FileUploadHandler.*;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class SourcemapFilesServiceImpl implements SourcemapFilesService {
 
     @Autowired
     private SourcemapFilesMapper sourcemapFilesMapper;
-
-    @Autowired
-    private ProjectMapper projectMapper;
+    private final ProjectClient projectClient;
 
     /**
      * 上传文件
@@ -79,11 +80,12 @@ public class SourcemapFilesServiceImpl implements SourcemapFilesService {
         }
 
         try {
-            // 判断项目是否存在
-            LambdaQueryWrapper<Project> projectQueryWrapper = new LambdaQueryWrapper<>();
-            projectQueryWrapper.eq(Project::getUuid, projectId);
-            Project project = projectMapper.selectOne(projectQueryWrapper);
-            if (project == null) {
+//            // 判断项目是否存在
+//            LambdaQueryWrapper<Project> projectQueryWrapper = new LambdaQueryWrapper<>();
+//            projectQueryWrapper.eq(Project::getUuid, projectId);
+//            Project project = projectMapper.selectOne(projectQueryWrapper);
+
+            if (projectClient.checkProjectIdExist(projectId)) {
                 return new Result(Code.NOT_FOUND, "项目不存在");
             }
 

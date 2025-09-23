@@ -32,7 +32,7 @@ public class ModuleServiceImpl implements ModuleService {
     */
     private final ProjectClient projectClient;
     @Override
-    public Result addModule(com.qg.backend.domain.po.Module module) {
+    public Result addModule(Module module) {
         log.info("添加模块: {}", module);
         if (module == null) {
             log.error("添加模块失败，模块参数为空");
@@ -84,9 +84,9 @@ public class ModuleServiceImpl implements ModuleService {
             return new Result(Code.NOT_FOUND, "查询模块失败，项目id不存在");
         }
         try {
-            LambdaQueryWrapper<com.qg.backend.domain.po.Module> queryWrapper = new LambdaQueryWrapper<>();
-            queryWrapper.eq(com.qg.backend.domain.po.Module::getProjectId, projectId.trim());
-            List<com.qg.backend.domain.po.Module> moduleList = moduleMapper.selectList(queryWrapper);
+            LambdaQueryWrapper<Module> queryWrapper = new LambdaQueryWrapper<>();
+            queryWrapper.eq(Module::getProjectId, projectId.trim());
+            List<Module> moduleList = moduleMapper.selectList(queryWrapper);
             log.info("成功查询模块: {}", moduleList);
             return new Result(Code.SUCCESS, moduleList, "查询成功");
         } catch (Exception e) {
