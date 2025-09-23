@@ -1,66 +1,124 @@
 package com.qg.frontend.repository;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.qg.domain.FrontendError;
-import com.qg.domain.Notification;
-import com.qg.domain.Responsibility;
-import com.qg.mapper.NotificationMapper;
-import com.qg.service.NotificationService;
+
+import com.qg.common.domain.po.*;
+import com.qg.common.repository.ErrorRepository;
+
+import com.qg.common.repository.RepositoryConstants;
+import com.qg.feign.clients.AlertClient;
+import com.qg.feign.clients.ProjectClient;
+import com.qg.feign.clients.UserClient;
+import com.qg.feign.dto.UsersDto;
+import com.qg.frontend.mapper.FrontendErrorMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static com.qg.repository.RepositoryConstants.DEFAULT_THRESHOLD;
-import static com.qg.utils.Constants.ALERT_CONTENT_NEW;
+import static com.qg.common.repository.RepositoryConstants.*;
+import static com.qg.common.utils.Constants.ALERT_CONTENT_NEW;
+import static com.qg.common.utils.Constants.USER_ROLE_ADMIN;
+
 
 @Slf4j
 @Repository
-public class FrontendErrorRepository extends FrontendErrorFatherRepository {
-    @Autowired
-    protected NotificationMapper notificationMapper;
-    @Autowired
-    private NotificationService notificationService;
+public abstract class FrontendErrorRepository extends ErrorRepository<FrontendError> {
 
-    // TODO: 告警升级前先查看《前一毫秒》是否已经解决了
+    @Autowired
+    protected FrontendErrorMapper frontendErrorMapper;
+
+    @Autowired
+    public FrontendErrorRepository(StringRedisTemplate stringRedisTemplate, ProjectClient projectClient, RestTemplateBuilder restTemplateBuilder, UserClient userClient, AlertClient alertClient) {
+        super(stringRedisTemplate, projectClient, restTemplateBuilder, userClient, alertClient);
+    }
+
+    @Override
+    protected long getTtlMinutes() {
+        return TTL_MINUTES.getAsInt();
+    }
+
+    @Override
+    protected void saveToDatabase(FrontendError error) {
+        try {
+            frontendErrorMapper.insert(error);
+        } catch (Exception e) {
+            log.error("移动端错误统计失败,项目ID: {}: {}", error.getProjectId(), e.getMessage());
+        }
+    }
+
+    @Override
+    protected String generateUniqueKey(FrontendError error) {
+        return String.format("%s:%s:%s",
+                FRONTEND_ERROR_PREFIX.getAsString(),
+                error.getProjectId(),
+                error.getErrorType()
+        );
+    }
+
+    /**
+     * 发送消息模板
+     *
+     * @param error 前端错误
+     * @return 结果
+     */
+    @Override
+    protected String generateAlertMessage(FrontendError error) {
+        return String.format("【前端端错误告警】\n" +
+                             "项目ID：%s\n" +
+                             "错误类型：%s\n" +
+                             "发生次数：%d\n" +
+                             "触发时间：%s\n" +
+                             ALERT_CONTENT_NEW,
+                error.getProjectId(),
+                error.getErrorType(),
+                error.getEvent(),
+                LocalDateTime.now()
+                        .format(DateTimeFormatter
+                                .ofPattern("yyyy-MM-dd HH:mm:ss")));
+    }
+
+    @Override
+    protected void incrementEvent(FrontendError error) {
+        error.incrementEvent();
+    }
 
     /**
      * 判断是否需要启用企业机器人发送告警
-     * @param redisKey
-     * @param error
-     * @return
+     *
+     * @param redisKey 前缀
+     * @param error    前端错误
+     * @return 结果
      */
     @Override
     protected boolean shouldAlert(String redisKey, FrontendError error) {
         String[] data = redisKey.split(":");
 
-
-        HashMap<String, Integer> alertRuleMap = alertRuleMapper
-                .selectByFrontendRedisKeyToMap(data[2], data[3]);
+        HashMap<String, Integer> alertRuleMap = alertClient
+                .selectByBackendRedisKeyToMap(data[2], data[3], data[4]);
 
         int currentCount = error.getEvent();
         int threshold = alertRuleMap.getOrDefault(redisKey, DEFAULT_THRESHOLD.getAsInt());
 
-        // TODO: 如果达到阈值，先检查10分钟内是否已经有相同的告警
-        if(currentCount >= threshold) {
-            if(checkNotificationNoExist(error, LocalDateTime.now())) {
+        // 如果达到阈值，先检查10分钟内是否已经有相同的告警
+        if (currentCount >= threshold) {
+            if (checkNotificationNoExist(error, LocalDateTime.now())) {
                 log.info("消息已存在或仍未被解决！");
                 return false;
             } else {
-                // TODO: 根据项目配置设置发送人和接收人ID
-                // TODO: 问题1：先企业微信告警，同时异常发送到平台，管理员委派人去解决？
-                // TODO: 问题2：我怎么知道前端后端异常《最近的连续10分钟内》有没有相同异常
-                // TODO: 问题3：现在没有系统自带的异常，如果用户没定义，error_id将为null
-                // TODO: 问题4：密码的祖传高并发，多线程情况下会重复告警
-                // TODO: 问题5：现在发送信息是不是指定在《企业微信》中发送，如果不是，我应该怎么发
-                // TODO: 问题6：（如果不是《全》发企业微信的话跳过此问题）我怎么知道通知已读？
-                // TODO: 问题7：委派表没有逻辑删，通知表有逻辑删，以通知表逻辑删为标记解决？
                 log.info("消息不存在，可以发送！");
                 return true;
             }
@@ -79,7 +137,7 @@ public class FrontendErrorRepository extends FrontendErrorFatherRepository {
                 .eq(Notification::getPlatform,"frontend")
                 .orderByDesc(Notification::getTimestamp)  // 按时间倒序排序
                 .last("LIMIT 1");  // 限制只取第一条记录
-        Notification notification = notificationMapper.selectOne(queryWrapper);
+        Notification notification = alertClient.getNotificationByWrapper(queryWrapper);
         log.info("notification:{}",notification);
 
 
@@ -98,7 +156,7 @@ public class FrontendErrorRepository extends FrontendErrorFatherRepository {
                 LambdaQueryWrapper<Responsibility> queryWrapper1 = new LambdaQueryWrapper<>();
                 queryWrapper1.eq(Responsibility::getErrorType,error.getErrorType())
                         .eq(Responsibility::getProjectId,error.getProjectId());
-                Responsibility responsibility1 = responsibilityMapper.selectOne(queryWrapper1);
+                Responsibility responsibility1 = alertClient.getResponsibilityByQueryWrapper(queryWrapper1);
                 //若该错误未被指派、则发送警告
                 if(responsibility1 == null) {
                     log.info("该错误未被指派");
@@ -120,27 +178,198 @@ public class FrontendErrorRepository extends FrontendErrorFatherRepository {
     }
 
     /**
-     * 发送消息模板
-     * @param error
-     * @return
+     * 发送微信企业机器人告警
+     *
+     * @param error 前端错误
      */
     @Override
-    protected String generateAlertMessage(FrontendError error) {
-        /**
-         * TODO: 前端到底要发什么 未确认
-         */
-        return String.format("【前端端错误告警】\n" +
-                        "项目ID：%s\n" +
-                        "错误类型：%s\n" +
-                        "发生次数：%d\n" +
-                        "触发时间：%s\n" +
-                        ALERT_CONTENT_NEW,
+    protected void checkIfAlert(FrontendError error) {
+        log.info("判断是否达到阈值！");
+
+        Integer threshold = alertClient.selectThresholdByProjectAndErrorType(
                 error.getProjectId(),
                 error.getErrorType(),
-                error.getEvent(),
-                LocalDateTime.now()
-                        .format(DateTimeFormatter
-                                .ofPattern("yyyy-MM-dd HH:mm:ss")));
+                "frontend");
+
+        if (threshold == null) {
+            log.info("没有设置阈值");
+            threshold = DEFAULT_THRESHOLD.getAsInt();
+        }
+
+        int currentCount = error.getEvent();
+
+        if (currentCount >= threshold) {
+            log.info("发送前端告警");
+
+            //查询同类错误的最新记录
+            LambdaQueryWrapper<FrontendError> queryWrapper4 = new LambdaQueryWrapper<>();
+            queryWrapper4.eq(FrontendError::getProjectId, error.getProjectId())
+                    .eq(FrontendError::getMessage, error.getMessage())
+                    .eq(FrontendError::getStack, error.getStack())
+                    .eq(FrontendError::getErrorType, error.getErrorType())
+                    .eq(FrontendError::getSessionId, error.getSessionId())
+                    .orderByDesc(FrontendError::getTimestamp)
+                    .last("LIMIT 1");
+
+            FrontendError latestError = frontendErrorMapper.selectOne(queryWrapper4);
+            // 如果存在同类错误记录，检查时间间隔
+            if (latestError != null) {
+                log.info("最新错误：{}", latestError);
+                long timeDiff = Timestamp.valueOf(error.getTimestamp()).getTime()
+                                - Timestamp.valueOf(latestError.getTimestamp()).getTime();
+                log.info("当前错误时间: {}, 最新错误时间: {}",
+                        error.getTimestamp(),
+                        latestError.getTimestamp());
+                long minutesDiff = timeDiff / (1000 * 60);
+                log.info("计算出的时间差(ms): {}, 分钟差: {}",
+                        timeDiff,
+                        minutesDiff);// 转换为分钟
+
+                // 如果时间间隔小于40分钟，只更新event次数
+                if (minutesDiff < 40) {
+                    log.info("小于40分钟");
+                    latestError.setEvent(latestError.getEvent() + error.getEvent());
+                    //latestError.setTimestamp(error.getTimestamp()); // 更新时间戳为最新时间
+                    frontendErrorMapper.updateById(latestError);
+                    log.info("时间间隔小于40分钟，只更新错误次数，errorId:{}", latestError.getId());
+                } else {
+                    log.info("大于40分钟");
+                    //插入新的错误信息
+                    log.info("存储错误数据: {}", error);
+                    frontendErrorMapper.insert(error);
+                }
+            } else {
+                log.info("没有找到错误信息，存储错误数据: {}", error);
+                frontendErrorMapper.insert(error);
+            }
+
+            //删除缓存数据
+            removeError(error);
+
+            //查询错误id
+            LambdaQueryWrapper<FrontendError> queryWrapper2 = new LambdaQueryWrapper<>();
+            queryWrapper2.eq(FrontendError::getProjectId, error.getProjectId())
+                    .eq(FrontendError::getErrorType, error.getErrorType())
+                    .eq(FrontendError::getMessage, error.getMessage())
+                    .eq(FrontendError::getStack, error.getStack())
+                    .eq(FrontendError::getSessionId, error.getSessionId())
+                    .orderByDesc(FrontendError::getTimestamp)
+                    .last("LIMIT 1");  // 只取第一条记录
+
+            error = frontendErrorMapper.selectOne(queryWrapper2);
+            log.info("errorId:{}", error.getId());
+
+            String webhookUrl = getWebhookUrl(error.getProjectId());
+
+            if (shouldAlert(generateUniqueKey(error), error)) {
+                String message = generateAlertMessage(error);
+
+                //查看该错误类型是否被委派
+                LambdaQueryWrapper<Responsibility> queryWrapper = new LambdaQueryWrapper<>();
+                queryWrapper.eq(Responsibility::getErrorType, error.getErrorType())
+                        .eq(Responsibility::getProjectId, error.getProjectId());
+
+                Responsibility responsibility = alertClient.getResponsibilityByQueryWrapper(queryWrapper);
+
+                if (responsibility != null) {
+                    log.info("该错误已经被委派");
+
+                    //更新responsibility中的errorId
+                    LambdaQueryWrapper<Responsibility> queryWrapper5 = new LambdaQueryWrapper<>();
+                    queryWrapper5.eq(Responsibility::getProjectId, error.getProjectId())
+                            .eq(Responsibility::getPlatform, "frontend")
+                            .eq(Responsibility::getErrorType, error.getErrorType());
+                    Responsibility responsibility1 = alertClient.getResponsibilityByQueryWrapper(queryWrapper5);
+                    responsibility1.setErrorId(error.getId());
+                    alertClient.updateResponsibilityByWrapper(responsibility1, queryWrapper5);
+
+                    //标记该错误为未解决
+                    responsibility.setIsHandle(UN_HANDLED);
+                    responsibility.setUpdateTime(LocalDateTime.now());
+                    alertClient.updateResponsibilityByWrapper(responsibility, queryWrapper);
+
+                    //存储进通知表
+                    List<Long> alertReceiverID = Arrays.asList(responsibility.getResponsibleId());
+                    boolean success = saveNotification(alertReceiverID, error);
+                    if (!success) {
+                        log.error("保存通知进数据库失败！");
+                    }
+
+                    if (StrUtil.isBlank(webhookUrl)) {
+                        log.warn("未找到对应的企业微信群机器人Webhook地址, 告警失败");
+                        return;
+                    }
+
+                    //获取负责人手机号码
+                    LambdaQueryWrapper<Users> queryWrapper1 = new LambdaQueryWrapper<>();
+                    queryWrapper1.eq(Users::getId, responsibility.getResponsibleId());
+
+                    UsersDto responsibleUser = userClient.findUserById(responsibility.getResponsibleId());
+                    String responsiblePhone = responsibleUser.getPhone();
+
+                    log.info("发送告警给: {}", responsiblePhone);
+
+                    List<String> alertReceiver = Arrays.asList(responsiblePhone);
+
+                    sendAlert(webhookUrl, message, alertReceiver);
+                } else {
+                    log.info("该错误未被委派！");
+                    //未指派的错误找到管理员
+                    LambdaQueryWrapper<Role> queryWrapper3 = new LambdaQueryWrapper<>();
+                    queryWrapper3.eq(Role::getProjectId, error.getProjectId())
+                            .eq(Role::getUserRole, USER_ROLE_ADMIN);
+                    List<Role> roles = projectClient.getRoleListByQueryWrapper(queryWrapper3);
+
+                    // 2. 提取角色中的用户ID集合
+                    List<Long> userIds = roles.stream()
+                            .map(Role::getUserId)  // 假设Role中有getUserId()
+                            .collect(Collectors.toList());
+
+                    //3、保存通知进数据库
+                    boolean success = saveNotification(userIds, error);
+                    if (!success) {
+                        log.error("保存通知进数据库失败！");
+                    }
+
+                    if (StrUtil.isBlank(webhookUrl)) {
+                        log.warn("未找到对应的企业微信群机器人Webhook地址, 告警失败");
+                        return;
+                    }
+
+                    //4、获取电话号码 发送警告
+                    List<UsersDto> users = userClient.findUserByIds(userIds);
+
+                    List<String> alertReceivers = users.stream()
+                            .map(UsersDto::getPhone)
+                            .collect(Collectors.toList());
+                    log.info("发送告警给: {}", alertReceivers);
+
+                    sendAlert(webhookUrl, message, alertReceivers);
+
+                }
+            } else {
+                //查看该错误类型是否被委派
+                LambdaQueryWrapper<Responsibility> queryWrapper = new LambdaQueryWrapper<>();
+                queryWrapper.eq(Responsibility::getErrorType, error.getErrorType())
+                        .eq(Responsibility::getProjectId, error.getProjectId());
+
+                Responsibility responsibility = alertClient.getResponsibilityByQueryWrapper(queryWrapper);
+
+                if (responsibility != null) {
+                    log.info("该错误已经被委派");
+
+                    //更新responsibility中的errorId
+                    LambdaQueryWrapper<Responsibility> queryWrapper5 = new LambdaQueryWrapper<>();
+                    queryWrapper5.eq(Responsibility::getProjectId, error.getProjectId())
+                            .eq(Responsibility::getPlatform, "frontend")
+                            .eq(Responsibility::getErrorType, error.getErrorType());
+                    Responsibility responsibility1 = alertClient.getResponsibilityByQueryWrapper(queryWrapper5);
+                    responsibility1.setErrorId(error.getId());
+                    alertClient.updateResponsibilityByWrapper(responsibility1, queryWrapper5);
+                }
+            }
+        }
+
     }
 
     @Override
@@ -162,13 +391,14 @@ public class FrontendErrorRepository extends FrontendErrorFatherRepository {
 
         }
         if(count == alertReceiverID.size()){
-            notificationService.add(notifications);
+            alertClient.addNotification(notifications);
             log.info("已全部通知发送！");
             return true;
         }
         log.info("已通知{}个用户！",count);
-        notificationService.add(notifications);
+        alertClient.addNotification(notifications);
         return false;
 
     }
+
 }

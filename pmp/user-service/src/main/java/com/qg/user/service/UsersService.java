@@ -1,6 +1,7 @@
 package com.qg.user.service;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qg.common.domain.po.Result;
 import com.qg.user.domain.dto.UsersDTO;
 import com.qg.common.domain.po.Users;
@@ -30,4 +31,6 @@ public interface UsersService {
     List<UsersDTO> findUserByIds(Collection<Long> ids);
 
     List<Users> selectBatchIds(Set<Long> userIds);
+
+    List<Users> selectList(LambdaQueryWrapper<Users> queryWrapper);
 }

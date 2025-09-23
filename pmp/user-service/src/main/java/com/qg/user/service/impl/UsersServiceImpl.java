@@ -354,11 +354,22 @@ public class UsersServiceImpl implements UsersService {
 
     /**
      * 批量查询用户
+     *
      * @param userIds 用户id集合
-     * @return  结果
+     * @return 结果
      */
     @Override
     public List<Users> selectBatchIds(Set<Long> userIds) {
         return usersMapper.selectBatchIds(userIds);
+    }
+
+    /**
+     * 批量查询用户
+     * @param queryWrapper 查询器
+     * @return  结果
+     */
+    @Override
+    public List<Users> selectList(LambdaQueryWrapper<Users> queryWrapper) {
+        return usersMapper.selectList(queryWrapper);
     }
 }
