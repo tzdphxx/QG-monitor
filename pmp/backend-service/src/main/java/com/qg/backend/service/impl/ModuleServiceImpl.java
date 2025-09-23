@@ -3,11 +3,12 @@ package com.qg.backend.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
-import com.google.javascript.jscomp.jarjar.org.apache.tools.ant.Project;
+
 import com.qg.backend.domain.po.Module;
 import com.qg.backend.mapper.ModuleMapper;
 import com.qg.backend.service.ModuleService;
 import com.qg.common.domain.po.Code;
+import com.qg.common.domain.po.Project;
 import com.qg.common.domain.po.Result;
 import com.qg.feign.clients.ProjectClient;
 import lombok.RequiredArgsConstructor;
@@ -47,8 +48,7 @@ public class ModuleServiceImpl implements ModuleService {
         // 判断项目id是否存在
         /*Project project = projectMapper.selectOne(new LambdaQueryWrapper<Project>()
                 .eq(Project::getUuid, module.getProjectId()));*/
-        Result projectResult = projectClient.getProjectList(module.getProjectId());
-        Project project = (Project) projectResult.getData();
+        Project project =  projectClient.getProjectById(module.getProjectId().toString());
         if (project == null) {
             log.error("添加模块失败，项目id不存在");
             return new Result(Code.NOT_FOUND, "添加模块失败，项目id不存在");
@@ -78,7 +78,7 @@ public class ModuleServiceImpl implements ModuleService {
         // 判断项目id是否存在
         /*Project project = projectMapper.selectOne(new LambdaQueryWrapper<Project>()
                 .eq(Project::getUuid, projectId));*/
-        Project project = (Project) projectClient.getProjectList(projectId).getData();
+        Project project =  projectClient.getProjectById(projectId.toString());
         if (project == null) {
             log.error("查询模块失败，项目id不存在");
             return new Result(Code.NOT_FOUND, "查询模块失败，项目id不存在");

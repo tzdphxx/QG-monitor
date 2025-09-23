@@ -229,4 +229,9 @@ public class FrontendErrorServiceImpl implements FrontendErrorService {
             @Param("endTime") LocalDateTime endTime) {
         return frontendErrorMapper.queryManualTrackingStats(projectId, startTime, endTime);
     }
+
+    @Override
+    public List<FrontendError> getFrontendErrorByWrapper(LambdaQueryWrapper<FrontendError> queryWrapper) {
+        return frontendErrorMapper.selectList(queryWrapper);
+    }
 }

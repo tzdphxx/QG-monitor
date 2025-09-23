@@ -1,11 +1,16 @@
 package com.qg.feign.clients;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.qg.common.domain.po.MobileError;
+import com.qg.common.domain.po.MobilePerformance;
 import com.qg.common.domain.po.Result;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 
 @FeignClient("mobile-service")
@@ -49,4 +54,10 @@ public interface MobileClient {
      */
     @GetMapping("/getMobileErrorStatsPro")
     Object[] getMobileErrorStatsPro(@RequestParam String projectId);
+
+    @GetMapping("/getMobileErrorByWrapper")
+    List<MobileError> getMobileErrorByWrapper(@RequestParam LambdaQueryWrapper<MobileError> wrapper);
+
+    @GetMapping("/getMobilePerformanceByWrapper")
+    List<MobilePerformance> getMobilePerformanceByWrapper(@RequestParam LambdaQueryWrapper<MobilePerformance> wrapper);
 }

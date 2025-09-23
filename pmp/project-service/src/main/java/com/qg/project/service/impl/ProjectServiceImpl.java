@@ -379,4 +379,16 @@ public class ProjectServiceImpl implements ProjectService {
     public String selectWebhookByProjectId(String projectId) {
         return projectMapper.selectWebhookByProjectId(projectId);
     }
+
+    @Override
+    public Project getProjectByUUId(String uuid) {
+        return projectMapper.selectOne(new LambdaQueryWrapper<Project>()
+                .eq(Project::getUuid, uuid)
+                .eq(Project::getIsDeleted, false));
+    }
+
+    @Override
+    public List<Project> getProjectByUUIds(List<String> uuids) {
+        return projectMapper.selectBatchIds(uuids);
+    }
 }

@@ -1,8 +1,12 @@
 package com.qg.feign.clients;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.qg.common.domain.po.BackendError;
+import com.qg.common.domain.po.BackendPerformance;
 import com.qg.common.domain.po.Result;
 import com.qg.common.domain.vo.EarthVO;
 import com.qg.common.domain.vo.IllegalAttackVO;
+import kotlin.jvm.internal.Lambda;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -70,4 +74,11 @@ public interface BackendClient {
      */
     @GetMapping("/getAverageTime")
     Result getAverageTime(@RequestParam String projectId, @RequestParam String timeType);
+
+
+    @GetMapping("/getBackendErrorByWrapper")
+    List<BackendError> getBackendErrorByWrapper(@RequestParam LambdaQueryWrapper<BackendError> queryWrapper);
+
+    @GetMapping("/getBackendPerformanceByWrapper")
+    List<BackendPerformance> getBackendPerformanceByWrapper(@RequestParam LambdaQueryWrapper<BackendPerformance> queryWrapper);
 }

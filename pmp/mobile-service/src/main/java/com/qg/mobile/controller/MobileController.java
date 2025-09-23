@@ -2,14 +2,18 @@ package com.qg.mobile.controller;
 
 import cn.hutool.json.JSONUtil;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.qg.common.domain.po.MobileError;
 import com.qg.common.domain.po.Result;
-import com.qg.mobile.domain.po.MobilePerformance;
+import com.qg.common.domain.po.MobilePerformance;
 import com.qg.mobile.service.MobileErrorService;
 import com.qg.mobile.service.MobilePerformanceService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Description: 移动业务类  // 类说明
@@ -93,5 +97,15 @@ public class MobileController {
     @GetMapping("/getMobileErrorStatsPro")
     public Object[] getMobileErrorStatsPro(@RequestParam String projectId) {
         return mobileErrorService.getMobileErrorStatsPro(projectId);
+    }
+
+    @GetMapping("/getMobileErrorByWrapper")
+    public List<MobileError> getMobileErrorByWrapper(@RequestParam LambdaQueryWrapper<MobileError> wrapper) {
+        return mobileErrorService.getMobileErrorByWrapper(wrapper);
+    }
+
+    @GetMapping("/getMobilePerformanceByWrapper")
+    public List<MobilePerformance> getMobilePerformanceByWrapper(@RequestParam LambdaQueryWrapper<MobilePerformance> wrapper) {
+        return mobilePerformanceService.getMobilePerformanceByWrapper(wrapper);
     }
 }

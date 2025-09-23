@@ -13,6 +13,8 @@ import com.qg.backend.mapper.ModuleMapper;
 import com.qg.backend.service.BackendErrorService;
 import com.qg.backend.service.ModuleService;
 import com.qg.common.domain.po.Result;
+import com.qg.common.domain.vo.TransformDataVO;
+import com.qg.common.domain.vo.UvBillDataVO;
 import com.qg.common.utils.MathUtil;
 import com.qg.feign.clients.ProjectClient;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.qg.common.domain.po.Code.*;
 
 
 /**
@@ -231,6 +235,11 @@ public class BackendErrorServiceImpl implements BackendErrorService {
 
 
         return new Object[]{uvBillDataVOs, transformDataVOs};
+    }
+
+    @Override
+    public List<BackendError> getBackendErrorByWrapper(LambdaQueryWrapper<BackendError> queryWrapper) {
+        return backendErrorMapper.selectList(queryWrapper);
     }
 
     private static void addToMap(BackendError backendError, Map<String, Double> transformDataVOList) {

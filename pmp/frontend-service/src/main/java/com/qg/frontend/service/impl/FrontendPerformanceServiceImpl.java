@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
 import com.qg.common.domain.po.Result;
 import com.qg.common.domain.vo.FrontendPerformanceAverageVO;
-import com.qg.frontend.domain.po.FrontendPerformance;
+import com.qg.common.domain.po.FrontendPerformance;
 import com.qg.frontend.mapper.FrontendPerformanceMapper;
 import com.qg.frontend.service.FrontendPerformanceService;
 import lombok.extern.slf4j.Slf4j;
@@ -213,5 +213,11 @@ public class FrontendPerformanceServiceImpl implements FrontendPerformanceServic
             @Param("startTime") LocalDateTime startTime,
             @Param("endTime") LocalDateTime endTime) {
         return frontendPerformanceMapper.queryAverageFrontendPerformanceTime(projectId, startTime, endTime);
+    }
+
+    @Override
+    public List<FrontendPerformance> getFrontendPerformanceByWrapper(LambdaQueryWrapper<FrontendPerformance> queryWrapper) {
+
+        return frontendPerformanceMapper.selectList(queryWrapper);
     }
 }
