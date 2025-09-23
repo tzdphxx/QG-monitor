@@ -1,8 +1,11 @@
 package com.qg.mobile.service;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qg.common.domain.po.Result;
-import com.qg.mobile.domain.po.MobilePerformance;
+import com.qg.common.domain.po.MobilePerformance;
+
+import java.util.List;
 
 /**
  * @Description: // 类说明
@@ -20,4 +23,6 @@ public interface MobilePerformanceService {
     Result getAverageTime(String projectId, String timeType);
 
     Result getMobileOperation(String projectId, String timeType);
+
+    List<MobilePerformance> getMobilePerformanceByWrapper(LambdaQueryWrapper<MobilePerformance> wrapper);
 }

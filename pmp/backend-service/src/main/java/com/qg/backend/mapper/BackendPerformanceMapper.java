@@ -2,7 +2,7 @@ package com.qg.backend.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
-import com.qg.backend.domain.po.BackendPerformance;
+import com.qg.common.domain.po.BackendPerformance;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

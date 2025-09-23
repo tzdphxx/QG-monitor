@@ -3,7 +3,7 @@ package com.qg.frontend.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import com.qg.common.domain.vo.FrontendPerformanceAverageVO;
-import com.qg.frontend.domain.po.FrontendPerformance;
+import com.qg.common.domain.po.FrontendPerformance;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

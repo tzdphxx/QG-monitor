@@ -3,12 +3,14 @@ package com.qg.alert.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 
-import com.google.javascript.jscomp.jarjar.org.apache.tools.ant.Project;
 import com.qg.alert.domain.po.AlertRule;
 import com.qg.alert.mapper.AlertRuleMapper;
 import com.qg.alert.service.AlertRuleService;
 import com.qg.common.domain.po.Code;
+import com.qg.common.domain.po.Project;
 import com.qg.common.domain.po.Result;
+import com.qg.feign.clients.ProjectClient;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,12 +20,16 @@ import java.util.HashMap;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class AlertRuleServiceImpl implements AlertRuleService {
 
     @Autowired
     private AlertRuleMapper alertRuleMapper;
+    /*
     @Autowired
     private ProjectMapper projectMapper;
+    */
+    private final ProjectClient projectClient;
 
 
     @Override
@@ -91,8 +97,11 @@ public class AlertRuleServiceImpl implements AlertRuleService {
 
         try {
             // 验证项目是否存在
+            /*
             Project project = projectMapper.selectOne(new LambdaQueryWrapper<Project>()
                     .eq(Project::getUuid, projectId));
+            */
+            Project project = projectClient.getProjectById(projectId);
             if (project == null) {
                 log.error("操作告警阈值失败，项目id不存在 id: {}", projectId);
                 return new Result(Code.NOT_FOUND, "操作告警阈值失败，项目id不存在");

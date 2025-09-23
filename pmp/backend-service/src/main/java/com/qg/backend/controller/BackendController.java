@@ -4,12 +4,15 @@ import cn.hutool.core.lang.TypeReference;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qg.backend.service.BackendErrorService;
 import com.qg.backend.service.BackendLogService;
 import com.qg.backend.service.BackendPerformanceService;
 
 import com.qg.backend.service.MethodInvocationService;
 
+import com.qg.common.domain.po.BackendError;
+import com.qg.common.domain.po.BackendPerformance;
 import com.qg.common.domain.po.Result;
 import com.qg.common.domain.vo.EarthVO;
 import com.qg.common.domain.vo.IllegalAttackVO;
@@ -198,6 +201,16 @@ public class BackendController {
     @GetMapping("/getAverageTime")
     public Result getAverageTime(@RequestParam String projectId, @RequestParam String timeType) {
         return backendPerformanceService.getAverageTime(projectId, timeType);
+    }
+
+    @GetMapping("/getBackendErrorByWrapper")
+    public List<BackendError> getBackendErrorByWrapper(@RequestParam LambdaQueryWrapper<BackendError> queryWrapper) {
+        return backendErrorService.getBackendErrorByWrapper(queryWrapper);
+    }
+
+    @GetMapping("/getBackendPerformanceByWrapper")
+    public List<BackendPerformance> getBackendPerformanceByWrapper(@RequestParam LambdaQueryWrapper<BackendPerformance> queryWrapper) {
+        return backendPerformanceService.getBackendPerformanceByWrapper(queryWrapper);
     }
 }
 

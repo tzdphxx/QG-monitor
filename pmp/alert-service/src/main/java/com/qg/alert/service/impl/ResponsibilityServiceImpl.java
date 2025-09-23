@@ -4,12 +4,18 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 
 
-import com.google.javascript.jscomp.jarjar.org.apache.tools.ant.Project;
+
 import com.qg.common.domain.po.*;
 import com.qg.alert.domain.vo.ResponsibilityVO;
 import com.qg.alert.mapper.ResponsibilityMapper;
 import com.qg.alert.service.NotificationService;
 import com.qg.alert.service.ResponsibilityService;
+import com.qg.feign.clients.*;
+import com.qg.feign.dto.UsersDto;
+import com.qg.feign.vo.BackendErrorHandleVO;
+import com.qg.feign.vo.FrontendErrorHandleVO;
+import com.qg.feign.vo.MobileErrorHandleVO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,27 +26,44 @@ import java.util.stream.Collectors;
 
 import static com.qg.common.domain.po.Code.INTERNAL_ERROR;
 import static com.qg.common.domain.po.Code.SUCCESS;
-import static com.qg.common.utils.Constants.ALERT_CONTENT_DELEGATE;
+import static com.qg.common.utils.Constants.*;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ResponsibilityServiceImpl implements ResponsibilityService {
-    @Autowired
+    /*@Autowired
     private ErrorMapper errorMapper;
-    @Autowired
-    private ResponsibilityMapper responsibilityMapper;
+
     @Autowired
     private ProjectMapper projectMapper;
     @Autowired
     private UsersMapper usersMapper;
-    @Autowired
-    private NotificationService notificationService;
+
     @Autowired
     private BackendErrorMapper backendErrorMapper;
     @Autowired
     private FrontendErrorMapper frontendErrorMapper;
     @Autowired
-    private MobileErrorMapper mobileErrorMapper;
+    private MobileErrorMapper mobileErrorMapper;*/
+
+    @Autowired
+    private NotificationService notificationService;
+    private final UserClient userClient;
+
+    private final ProjectClient projectClient;
+
+
+    @Autowired
+    private ResponsibilityMapper responsibilityMapper;
+
+    private final FrontendClient frontendClient;
+
+    private final BackendClient backendClient;
+
+    private final MobileClient mobileClient;
+
+
 
     @Override
     public Result addResponsibility(Responsibility responsibility) {
@@ -85,7 +108,8 @@ public class ResponsibilityServiceImpl implements ResponsibilityService {
         backendQueryWrapper.eq(BackendError::getProjectId, responsibility.getProjectId())
                 .eq(BackendError::getId, responsibility.getErrorId());
 
-        BackendError backendError = backendErrorMapper.selectOne(backendQueryWrapper);
+        /*BackendError backendError = backendErrorMapper.selectOne(backendQueryWrapper);*/
+        BackendError backendError = backendClient.getBackendErrorByWrapper(backendQueryWrapper).get(0);
         if (backendError == null) {
             return new Result(Code.BAD_REQUEST, "后端错误类型不存在");
         }
@@ -103,7 +127,8 @@ public class ResponsibilityServiceImpl implements ResponsibilityService {
         frontendQueryWrapper.eq(FrontendError::getProjectId, responsibility.getProjectId())
                 .eq(FrontendError::getId, responsibility.getErrorId());
 
-        FrontendError frontendError = frontendErrorMapper.selectOne(frontendQueryWrapper);
+        //FrontendError frontendError = frontendErrorMapper.selectOne(frontendQueryWrapper);
+        FrontendError frontendError = frontendClient.getFrontendErrorByWrapper(frontendQueryWrapper).get(0);
         if (frontendError == null) {
             return new Result(Code.BAD_REQUEST, "前端错误类型不存在");
         }
@@ -121,7 +146,8 @@ public class ResponsibilityServiceImpl implements ResponsibilityService {
         mobileQueryWrapper.eq(MobileError::getProjectId, responsibility.getProjectId())
                 .eq(MobileError::getId, responsibility.getErrorId());
 
-        MobileError mobileError = mobileErrorMapper.selectOne(mobileQueryWrapper);
+        //MobileError mobileError = mobileErrorMapper.selectOne(mobileQueryWrapper);
+        MobileError mobileError = mobileClient.getMobileErrorByWrapper(mobileQueryWrapper).get(0);
         if (mobileError == null) {
             return new Result(Code.BAD_REQUEST, "移动端错误类型不存在");
         }
@@ -454,7 +480,8 @@ public class ResponsibilityServiceImpl implements ResponsibilityService {
                 .eq(BackendError::getProjectId, projectId)
                 .orderByDesc(BackendError::getTimestamp);
 
-        List<BackendError> backendErrors = backendErrorMapper.selectList(backendErrorQueryWrapper);
+        //List<BackendError> backendErrors = backendErrorMapper.selectList(backendErrorQueryWrapper);
+        List<BackendError> backendErrors = backendClient.getBackendErrorByWrapper(backendErrorQueryWrapper);
 
         // 转换为BackendErrorHandleVO并设置处理状态
         return backendErrors.stream().map(backendError -> {
@@ -490,7 +517,8 @@ public class ResponsibilityServiceImpl implements ResponsibilityService {
                 .eq(FrontendError::getProjectId, projectId)
                 .orderByDesc(FrontendError::getTimestamp);
 
-        List<FrontendError> frontendErrors = frontendErrorMapper.selectList(frontendErrorQueryWrapper);
+        //List<FrontendError> frontendErrors = frontendErrorMapper.selectList(frontendErrorQueryWrapper);
+        List<FrontendError> frontendErrors = frontendClient.getFrontendErrorByWrapper(frontendErrorQueryWrapper);
 
         // 转换为FrontendErrorHandleVO并设置处理状态
         return frontendErrors.stream().map(frontendError -> {
@@ -526,7 +554,8 @@ public class ResponsibilityServiceImpl implements ResponsibilityService {
                 .eq(MobileError::getProjectId, projectId)
                 .orderByDesc(MobileError::getTimestamp);
 
-        List<MobileError> mobileErrors = mobileErrorMapper.selectList(mobileErrorQueryWrapper);
+        //List<MobileError> mobileErrors = mobileErrorMapper.selectList(mobileErrorQueryWrapper);
+        List<MobileError> mobileErrors = mobileClient.getMobileErrorByWrapper(mobileErrorQueryWrapper);
 
         // 转换为MobileErrorHandleVO并设置处理状态
         return mobileErrors.stream().map(mobileError -> {
@@ -561,7 +590,7 @@ public class ResponsibilityServiceImpl implements ResponsibilityService {
         // 批量查询
         Map<Long, Error> errorMap = getErrorMap(errorIds);
         Map<String, Project> projectMap = getProjectMap(projectIds);
-        Map<Long, Users> userMap = getUserMap(userIds);
+        Map<Long, UsersDto> userMap = getUserMap(userIds);
 
         // 填充数据
         Error error = errorMap.get(responsibilityVO.getErrorId());
@@ -574,13 +603,13 @@ public class ResponsibilityServiceImpl implements ResponsibilityService {
             BeanUtils.copyProperties(project, responsibilityVO);
         }
 
-        Users delegator = userMap.get(responsibilityVO.getDelegatorId());
+        UsersDto delegator = userMap.get(responsibilityVO.getDelegatorId());
         if (delegator != null) {
             responsibilityVO.setDelegatorName(delegator.getUsername());
             responsibilityVO.setDelegatorAvatar(delegator.getAvatar());
         }
 
-        Users responsible = userMap.get(responsibilityVO.getResponsibleId());
+        UsersDto responsible = userMap.get(responsibilityVO.getResponsibleId());
         if (responsible != null) {
             responsibilityVO.setResponsibleName(responsible.getUsername());
             responsibilityVO.setResponsibleAvatar(responsible.getAvatar());
@@ -592,26 +621,29 @@ public class ResponsibilityServiceImpl implements ResponsibilityService {
 
     //批量映射
     private Map<Long, Error> getErrorMap(Set<Long> errorIds) {
-        if (errorIds.isEmpty()) return Collections.emptyMap();
+        /*if (errorIds.isEmpty()) return Collections.emptyMap();
         LambdaQueryWrapper<Error> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(Error::getId, errorIds);
         List<Error> errors = errorMapper.selectList(queryWrapper);
-        return errors.stream().collect(Collectors.toMap(Error::getId, e -> e));
+        return errors.stream().collect(Collectors.toMap(Error::getId, e -> e));*/
+        return Collections.emptyMap();
     }
     private Map<String, Project> getProjectMap(Set<String> projectIds) {
         if (projectIds.isEmpty()) return Collections.emptyMap();
         LambdaQueryWrapper<Project> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(Project::getUuid, projectIds);
-        List<Project> projects = projectMapper.selectList(queryWrapper);
+        //List<Project> projects = projectMapper.selectList(queryWrapper);
+        List<Project> projects = projectClient.getProjectByUUIds((List<String>) projectIds);
         return projects.stream().collect(Collectors.toMap(Project::getUuid, p -> p));
     }
 
-    private Map<Long, Users> getUserMap(Set<Long> userIds) {
+    private Map<Long, UsersDto> getUserMap(Set<Long> userIds) {
         if (userIds.isEmpty()) return Collections.emptyMap();
-        LambdaQueryWrapper<Users> queryWrapper = new LambdaQueryWrapper<>();
+        /*LambdaQueryWrapper<Users> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(Users::getId, userIds);
-        List<Users> users = usersMapper.selectList(queryWrapper);
-        return users.stream().collect(Collectors.toMap(Users::getId, u -> u));
+        List<Users> users = usersMapper.selectList(queryWrapper);*/
+        List<UsersDto> users = userClient.findUserByIds(new ArrayList<>(userIds));
+        return users.stream().collect(Collectors.toMap(UsersDto::getId, u -> u));
     }
 
 }

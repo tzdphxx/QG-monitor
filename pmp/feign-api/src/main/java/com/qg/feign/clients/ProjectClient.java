@@ -1,6 +1,7 @@
 package com.qg.feign.clients;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.qg.common.domain.po.Project;
 import com.qg.common.domain.po.Result;
 import com.qg.common.domain.po.Role;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -19,8 +20,8 @@ import java.util.List;
 @FeignClient("project-service")
 public interface ProjectClient {
 
-    @GetMapping("/projects/getPort")
-    Result getProjectList(@RequestParam String uuid);
+    @GetMapping("/projects/getProjectByUUId")
+    Project getProjectById(@RequestParam String uuid);
 
     @GetMapping("/projects/checkProjectIdExist")
     boolean checkProjectIdExist(@RequestParam Long projectId);
@@ -30,4 +31,7 @@ public interface ProjectClient {
 
     @GetMapping("/roles/getRoleListByQueryWrapper")
     List<Role> getRoleListByQueryWrapper(@RequestParam LambdaQueryWrapper<Role> queryWrapper);
+
+    @GetMapping("/projects/getProjectByUUIds")
+    List<Project> getProjectByUUIds(@RequestParam List<String> uuids);
 }

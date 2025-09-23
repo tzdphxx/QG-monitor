@@ -1,7 +1,8 @@
 package com.qg.backend.service;
 
 
-import com.qg.backend.domain.po.BackendPerformance;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.qg.common.domain.po.BackendPerformance;
 import com.qg.common.domain.po.Result;
 
 
@@ -23,4 +24,5 @@ public interface BackendPerformanceService {
 
     Result getAverageTime(String projectId, String timeType);
 
+    List<BackendPerformance> getBackendPerformanceByWrapper(LambdaQueryWrapper<BackendPerformance> queryWrapper);
 }

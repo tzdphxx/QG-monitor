@@ -11,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @Tag(name ="项目")
 @RestController
@@ -136,5 +138,14 @@ public class ProjectController {
     @GetMapping("/selectWebhookByProjectId")
     public String selectWebhookByProjectId(@RequestParam String projectId) {
         return projectService.selectWebhookByProjectId(projectId);
+    }
+    @GetMapping("/getProjectByUUId")
+    public Project getProjectByUUId(@RequestParam String uuid) {
+        return projectService.getProjectByUUId(uuid);
+    }
+
+    @GetMapping("/getProjectByUUIds")
+    public List<Project> getProjectByUUIds(@RequestParam List<String> uuids) {
+        return projectService.getProjectByUUIds(uuids);
     }
 }

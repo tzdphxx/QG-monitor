@@ -168,6 +168,11 @@ public class MobileErrorServiceImpl implements MobileErrorService {
         return new Object[]{transformDataVOListPro, uvBillDataVOListPro};
     }
 
+    @Override
+    public List<MobileError> getMobileErrorByWrapper(LambdaQueryWrapper<MobileError> wrapper) {
+        return mobileErrorMapper.selectList(wrapper);
+    }
+
     private static void addToMap(MobileError mobileError, Map<String, Double> transformDataVOList) {
         if (mobileError.getErrorType() == null || mobileError.getEvent() == 0) {
             return; // 如果错误类型或事件为空，则不处理

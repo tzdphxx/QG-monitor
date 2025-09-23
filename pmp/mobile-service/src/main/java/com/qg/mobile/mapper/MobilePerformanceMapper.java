@@ -2,7 +2,7 @@ package com.qg.mobile.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
-import com.qg.mobile.domain.po.MobilePerformance;
+import com.qg.common.domain.po.MobilePerformance;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

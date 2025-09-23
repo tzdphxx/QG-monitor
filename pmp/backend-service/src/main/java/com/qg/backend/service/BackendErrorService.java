@@ -1,8 +1,11 @@
 package com.qg.backend.service;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qg.common.domain.po.BackendError;
 import com.qg.common.domain.po.Result;
+
+import java.util.List;
 
 
 /**
@@ -22,4 +25,6 @@ public interface BackendErrorService {
     Object[] getBackendErrorStats(String projectId);
 
     Object[] getBackendErrorStatsPro(String projectId);
+
+    List<BackendError> getBackendErrorByWrapper(LambdaQueryWrapper<BackendError> queryWrapper);
 }
