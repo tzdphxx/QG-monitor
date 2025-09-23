@@ -1,7 +1,11 @@
 package com.qg.mobile.service;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.qg.common.domain.po.MobileError;
 import com.qg.common.domain.po.Result;
+
+import java.util.List;
 
 /**
  * @Description: // 类说明
@@ -18,4 +22,6 @@ public interface MobileErrorService {
     Object[] getMobileErrorStats(String projectId);
 
     Object[] getMobileErrorStatsPro(String projectId);
+
+    List<MobileError> getMobileErrorByWrapper(LambdaQueryWrapper<MobileError> wrapper);
 }

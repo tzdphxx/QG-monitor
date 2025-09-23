@@ -2,7 +2,7 @@ package com.qg.backend.service.impl;
 
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.qg.backend.domain.po.BackendPerformance;
+import com.qg.common.domain.po.BackendPerformance;
 import com.qg.backend.mapper.BackendPerformanceMapper;
 import com.qg.backend.service.BackendPerformanceService;
 import com.qg.backend.service.ModuleService;
@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static com.qg.common.domain.po.Code.*;
 
 
 /**
@@ -195,6 +197,11 @@ public class BackendPerformanceServiceImpl implements BackendPerformanceService 
         }
 
         return new Result(SUCCESS, averageTimeMap, "查询成功");
+    }
+
+    @Override
+    public List<BackendPerformance> getBackendPerformanceByWrapper(LambdaQueryWrapper<BackendPerformance> queryWrapper) {
+        return backendPerformanceMapper.selectList(queryWrapper);
     }
 
 }

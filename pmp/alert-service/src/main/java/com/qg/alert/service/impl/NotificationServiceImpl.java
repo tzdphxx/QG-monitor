@@ -3,12 +3,15 @@ package com.qg.alert.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 
-import com.google.javascript.jscomp.jarjar.org.apache.tools.ant.Project;
+
 import com.qg.common.domain.po.*;
 import com.qg.alert.domain.vo.NotificationVO;
 import com.qg.alert.mapper.NotificationMapper;
 import com.qg.alert.service.NotificationService;
 import com.qg.common.websocket.UnifiedWebSocketHandler;
+import com.qg.feign.clients.*;
+import com.qg.feign.dto.UsersDto;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +21,17 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.qg.common.utils.Constants.*;
+
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class NotificationServiceImpl implements NotificationService {
 
     @Autowired
     private NotificationMapper notificationMapper;
 
-    @Autowired
+    /*@Autowired
     private BackendErrorMapper backendErrorMapper;
 
     @Autowired
@@ -38,7 +44,17 @@ public class NotificationServiceImpl implements NotificationService {
     private ProjectMapper projectMapper;
 
     @Autowired
-    private UsersMapper usersMapper;
+    private UsersMapper usersMapper;*/
+
+    private final UserClient userClient;
+
+    private final ProjectClient projectClient;
+
+    private final FrontendClient frontendClient;
+
+    private final BackendClient backendClient;
+
+    private final MobileClient mobileClient;
 
     @Autowired
     private UnifiedWebSocketHandler webSocketHandler;
@@ -362,8 +378,8 @@ public class NotificationServiceImpl implements NotificationService {
 
         // 批量查询关联数据
         Map<String, Project> projectMap = getProjectMap(projectIds);
-        Map<Long, Users> senderMap = getUserMap(senderIds);
-        Map<Long, Users> responsibleMap = getUserMap(responsibleIds);
+        Map<Long, UsersDto> senderMap = getUserMap(senderIds);
+        Map<Long, UsersDto> responsibleMap = getUserMap(responsibleIds);
         Map<String, BackendError> backendErrorMap = getBackendErrorMapByType(backendErrorTypes);
         Map<String, FrontendError> frontendErrorMap = getFrontendErrorMapByType(frontendErrorTypes);
         Map<String, MobileError> mobileErrorMap = getMobileErrorMapByType(mobileErrorTypes);
@@ -384,7 +400,7 @@ public class NotificationServiceImpl implements NotificationService {
 
             // 设置发送者信息
             if (notification.getSenderId() != null) {
-                Users sender = senderMap.get(notification.getSenderId());
+                UsersDto sender = senderMap.get(notification.getSenderId());
                 if (sender != null) {
                     notificationVO.setSenderName(sender.getUsername());
                     notificationVO.setSenderAvatar(sender.getAvatar());
@@ -393,7 +409,7 @@ public class NotificationServiceImpl implements NotificationService {
 
             // 设置负责人信息
             if (notification.getResponsibleId() != null) {
-                Users responsible = responsibleMap.get(notification.getResponsibleId());
+                UsersDto responsible = responsibleMap.get(notification.getResponsibleId());
                 if (responsible != null) {
                     notificationVO.setResponsibleName(responsible.getUsername());
                     notificationVO.setResponsibleAvatar(responsible.getAvatar());
@@ -438,33 +454,35 @@ public class NotificationServiceImpl implements NotificationService {
     /**
      * 批量获取项目信息映射
      */
-    private Map<String, Project> getProjectMap(List<String> projectIds) {
+    private Map<String, com.qg.common.domain.po.Project> getProjectMap(List<String> projectIds) {
         if (projectIds.isEmpty()) {
             return new HashMap<>();
         }
 
-        LambdaQueryWrapper<Project> queryWrapper = new LambdaQueryWrapper<>();
+        /*LambdaQueryWrapper<Project> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(Project::getUuid, projectIds);
-        List<Project> projects = projectMapper.selectList(queryWrapper);
+        List<Project> projects = projectMapper.selectList(queryWrapper);*/
+        List<com.qg.common.domain.po.Project> projects = projectClient.getProjectByUUIds(projectIds);
 
         return projects.stream()
-                .collect(Collectors.toMap(Project::getUuid, project -> project));
+                .collect(Collectors.toMap(com.qg.common.domain.po.Project::getUuid, project -> project));
     }
 
     /**
      * 批量获取用户信息映射
      */
-    private Map<Long, Users> getUserMap(List<Long> userIds) {
+    private Map<Long, UsersDto> getUserMap(List<Long> userIds) {
         if (userIds.isEmpty()) {
             return new HashMap<>();
         }
 
         LambdaQueryWrapper<Users> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(Users::getId, userIds);
-        List<Users> users = usersMapper.selectList(queryWrapper);
+        /*List<Users> users = usersMapper.selectList(queryWrapper);*/
+        List<UsersDto> users = userClient.findUserByIds(userIds);
 
         return users.stream()
-                .collect(Collectors.toMap(Users::getId, user -> user));
+                .collect(Collectors.toMap(UsersDto::getId, user -> user));
     }
 
     /**
@@ -478,7 +496,8 @@ public class NotificationServiceImpl implements NotificationService {
         // 查询所有匹配的错误记录
         LambdaQueryWrapper<BackendError> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(BackendError::getErrorType, errorTypes);
-        List<BackendError> errors = backendErrorMapper.selectList(queryWrapper);
+        /*List<BackendError> errors = backendErrorMapper.selectList(queryWrapper);*/
+        List<BackendError> errors = backendClient.getBackendErrorByWrapper(queryWrapper);
 
         // 按errorType分组，并取每组中时间最新的记录
         return errors.stream()
@@ -501,7 +520,8 @@ public class NotificationServiceImpl implements NotificationService {
 
         LambdaQueryWrapper<FrontendError> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(FrontendError::getErrorType, errorTypes);
-        List<FrontendError> errors = frontendErrorMapper.selectList(queryWrapper);
+        /*List<FrontendError> errors = frontendErrorMapper.selectList(queryWrapper);*/
+        List<FrontendError> errors = frontendClient.getFrontendErrorByWrapper(queryWrapper);
 
         return errors.stream()
                 .collect(Collectors.groupingBy(
@@ -523,7 +543,8 @@ public class NotificationServiceImpl implements NotificationService {
 
         LambdaQueryWrapper<MobileError> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.in(MobileError::getErrorType, errorTypes);
-        List<MobileError> errors = mobileErrorMapper.selectList(queryWrapper);
+        //List<MobileError> errors = mobileErrorMapper.selectList(queryWrapper);
+        List<MobileError> errors = mobileClient.getMobileErrorByWrapper(queryWrapper);
 
         return errors.stream()
                 .collect(Collectors.groupingBy(

@@ -1,5 +1,8 @@
 package com.qg.feign.clients;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.qg.common.domain.po.FrontendError;
+import com.qg.common.domain.po.FrontendPerformance;
 import com.qg.common.domain.po.Result;
 import com.qg.common.domain.vo.ErrorTrendVO;
 import com.qg.common.domain.vo.FrontendBehaviorVO;
@@ -128,4 +131,10 @@ public interface FrontendClient {
      */
     @GetMapping("/getAverageTime")
     Result getAverageTime(@Param("projectId") String projectId, @Param("timeType") String timeType);
+
+    @GetMapping("/getFrontendErrorByWrapper")
+    List<FrontendError> getFrontendErrorByWrapper( LambdaQueryWrapper<FrontendError> queryWrapper);
+
+    @GetMapping("/getFrontendPerformanceByWrapper")
+    List<FrontendPerformance> getFrontendPerformanceByWrapper( LambdaQueryWrapper<FrontendPerformance> queryWrapper);
 }

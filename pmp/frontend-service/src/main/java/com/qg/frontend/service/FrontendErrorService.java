@@ -1,6 +1,7 @@
 package com.qg.frontend.service;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.qg.common.domain.po.Result;
 import com.qg.common.domain.po.FrontendError;
 import com.qg.common.domain.vo.ErrorTrendVO;
@@ -36,4 +37,6 @@ public interface FrontendErrorService {
             @Param("projectId") String projectId,
             @Param("startTime") LocalDateTime startTime,
             @Param("endTime") LocalDateTime endTime);
+
+    List<FrontendError> getFrontendErrorByWrapper(LambdaQueryWrapper<FrontendError> queryWrapper);
 }

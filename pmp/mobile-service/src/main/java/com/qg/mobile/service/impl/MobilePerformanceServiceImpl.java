@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
 import com.qg.common.domain.po.Code;
 import com.qg.common.domain.po.Result;
-import com.qg.mobile.domain.po.MobilePerformance;
+import com.qg.common.domain.po.MobilePerformance;
 import com.qg.mobile.domain.vo.MobileOperationVO;
 import com.qg.mobile.mapper.MobilePerformanceMapper;
 import com.qg.mobile.service.MobilePerformanceService;
@@ -173,5 +173,10 @@ public class MobilePerformanceServiceImpl implements MobilePerformanceService {
         }
 
         return new Result(Code.SUCCESS, mobileOperationVOList, "查询成功");
+    }
+
+    @Override
+    public List<MobilePerformance> getMobilePerformanceByWrapper(LambdaQueryWrapper<MobilePerformance> wrapper) {
+        return mobilePerformanceMapper.selectList(wrapper);
     }
 }

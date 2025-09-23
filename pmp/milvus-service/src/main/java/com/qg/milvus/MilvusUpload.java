@@ -1,10 +1,15 @@
 package com.qg.milvus;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.qg.domain.*;
-import com.qg.mapper.*;
+
+import com.qg.common.domain.po.*;
+import com.qg.feign.clients.BackendClient;
+
+import com.qg.feign.clients.FrontendClient;
+import com.qg.feign.clients.MobileClient;
 import io.milvus.client.MilvusServiceClient;
 import io.milvus.param.ConnectParam;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -20,9 +25,10 @@ import java.util.List;
  * @Version: 1.0     // 版本
  */
 @Component
+@RequiredArgsConstructor
 public class MilvusUpload {
 
-    @Autowired
+    /*@Autowired
     private BackendErrorMapper backendErrorMapper;
 
     @Autowired
@@ -38,7 +44,12 @@ public class MilvusUpload {
     private MobileErrorMapper mobileErrorMapper;
 
     @Autowired
-    private MobilePerformanceMapper mobilePerformanceMapper;
+    private MobilePerformanceMapper mobilePerformanceMapper;*/
+
+    private final BackendClient backendClient;
+    private final FrontendClient frontendClient;
+    private final MobileClient mobileClient;
+
 
     @Scheduled(initialDelay = 1000 * 60 * 60, fixedRate = 1000 * 60 * 60) //启动1小时后开始执行，每小时执行一次
     public void uploadData()  {
@@ -65,16 +76,24 @@ public class MilvusUpload {
         LocalDateTime passHour = LocalDateTime.now().minusHours(1);
 
         // 4. 上传后端数据
-        List<BackendError> backendErrors = backendErrorMapper.selectList(new LambdaQueryWrapper<BackendError>().ge(BackendError::getTimestamp, passHour));
-        List<BackendPerformance> backendPerformances = backendPerformanceMapper.selectList(new LambdaQueryWrapper<BackendPerformance>().ge(BackendPerformance::getTimestamp, passHour));
+        /*List<BackendError> backendErrors = backendErrorMapper.selectList(new LambdaQueryWrapper<BackendError>().ge(BackendError::getTimestamp, passHour));
+        List<BackendPerformance> backendPerformances = backendPerformanceMapper.selectList(new LambdaQueryWrapper<BackendPerformance>().ge(BackendPerformance::getTimestamp, passHour));*/
+        List<BackendError> backendErrors = backendClient.getBackendErrorByWrapper(new LambdaQueryWrapper<BackendError>().ge(BackendError::getTimestamp, passHour));
+        List<BackendPerformance> backendPerformances = backendClient.getBackendPerformanceByWrapper(new LambdaQueryWrapper<BackendPerformance>().ge(BackendPerformance::getTimestamp, passHour));
+
 
         // 5. 上传前端数据
-        List<FrontendError> frontendErrors = frontendErrorMapper.selectList(new LambdaQueryWrapper<FrontendError>().ge(FrontendError::getTimestamp, passHour));
-        List<FrontendPerformance> frontendPerformances = frontendPerformanceMapper.selectList(new LambdaQueryWrapper<FrontendPerformance>().ge(FrontendPerformance::getTimestamp, passHour));
+        /*List<FrontendError> frontendErrors = frontendErrorMapper.selectList(new LambdaQueryWrapper<FrontendError>().ge(FrontendError::getTimestamp, passHour));
+        List<FrontendPerformance> frontendPerformances = frontendPerformanceMapper.selectList(new LambdaQueryWrapper<FrontendPerformance>().ge(FrontendPerformance::getTimestamp, passHour));*/
+        List<FrontendError> frontendErrors = frontendClient.getFrontendErrorByWrapper(new LambdaQueryWrapper<FrontendError>().ge(FrontendError::getTimestamp, passHour));
+        List<FrontendPerformance> frontendPerformances = frontendClient.getFrontendPerformanceByWrapper(new LambdaQueryWrapper<FrontendPerformance>().ge(FrontendPerformance::getTimestamp, passHour));
+
 
         // 6. 上传移动端数据
-        List<MobileError> mobileErrors = mobileErrorMapper.selectList(new LambdaQueryWrapper<MobileError>().ge(MobileError::getTimestamp, passHour));
-        List<MobilePerformance> mobilePerformances = mobilePerformanceMapper.selectList(new LambdaQueryWrapper<MobilePerformance>().ge(MobilePerformance::getTimestamp, passHour));
+        /*List<MobileError> mobileErrors = mobileErrorMapper.selectList(new LambdaQueryWrapper<MobileError>().ge(MobileError::getTimestamp, passHour));
+        List<MobilePerformance> mobilePerformances = mobilePerformanceMapper.selectList(new LambdaQueryWrapper<MobilePerformance>().ge(MobilePerformance::getTimestamp, passHour));*/
+        List<MobileError> mobileErrors = mobileClient.getMobileErrorByWrapper(new LambdaQueryWrapper<MobileError>().ge(MobileError::getTimestamp, passHour));
+        List<MobilePerformance> mobilePerformances = mobileClient.getMobilePerformanceByWrapper(new LambdaQueryWrapper<MobilePerformance>().ge(MobilePerformance::getTimestamp, passHour));
 
         // 7. 批量插入后端错误数据
         backendErrors.forEach(error -> {

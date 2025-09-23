@@ -124,5 +124,5 @@ public class ResponsibilityController {
     @GetMapping("/getResponsibilityListByWrapper")
     public List<Responsibility> getResponsibilityListByWrapper(@RequestParam LambdaQueryWrapper<Responsibility> queryWrapper) {
         return responsibilityService.getResponsibilityListByWrapper(queryWrapper);
-
+    }
 }

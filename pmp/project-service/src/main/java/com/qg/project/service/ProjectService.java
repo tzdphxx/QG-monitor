@@ -6,6 +6,8 @@ import com.qg.project.domain.dto.InviteDto;
 import com.qg.common.domain.po.Project;
 import com.qg.project.domain.vo.PersonalProjectVO;
 
+import java.util.List;
+
 
 public interface ProjectService {
      Result addProject(PersonalProjectVO personalProjectVO);
@@ -33,4 +35,8 @@ public interface ProjectService {
     boolean checkProjectIdExist(String projectId);
 
     String selectWebhookByProjectId(String projectId);
+
+    Project getProjectByUUId(String uuid);
+
+    List<Project> getProjectByUUIds(List<String> uuids);
 }

@@ -1,11 +1,14 @@
 package com.qg.frontend.service;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.qg.common.domain.po.FrontendPerformance;
 import com.qg.common.domain.po.Result;
 import com.qg.common.domain.vo.FrontendPerformanceAverageVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @Description: // 类说明
@@ -28,4 +31,6 @@ public interface FrontendPerformanceService {
             @Param("projectId") String projectId,
             @Param("startTime") LocalDateTime startTime,
             @Param("endTime") LocalDateTime endTime);
+
+    List<FrontendPerformance> getFrontendPerformanceByWrapper(LambdaQueryWrapper<FrontendPerformance> queryWrapper);
 }

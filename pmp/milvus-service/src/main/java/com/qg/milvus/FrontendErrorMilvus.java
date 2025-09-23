@@ -1,7 +1,8 @@
 package com.qg.milvus;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.qg.domain.FrontendError;
+
+import com.qg.common.domain.po.FrontendError;
 import io.milvus.client.MilvusServiceClient;
 import io.milvus.param.dml.InsertParam;
 
